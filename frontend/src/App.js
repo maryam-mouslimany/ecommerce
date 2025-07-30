@@ -1,14 +1,13 @@
-import logo from "./logo.svg";
-
 import "./App.css";
-import { Button } from "./components/Button/index";
-import { Caption } from "./components/Caption/index";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./routes";
 
 function App() {
   return (
     <div className="App">
-      <Button label="Primary Button" variant="primary" />
-      <Caption />
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </div>
   );
 }
