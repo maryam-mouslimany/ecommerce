@@ -5,12 +5,10 @@ import { adminRoutes } from "./adminRoutes";
 
 const allRoutes = [...authRoutes, ...userRoutes, ...adminRoutes];
 
-const AppRoutes = () => (
+export const AppRoutes = () => (
   <Routes>
     {allRoutes.map(({ path, element }, i) => (
       <Route key={i} path={path} element={element} />
     ))}
   </Routes>
 );
-
-export default AppRoutes;
