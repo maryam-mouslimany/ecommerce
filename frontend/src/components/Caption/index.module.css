@@ -1,0 +1,17 @@
+.caption {
+  color: #cccccc;
+  font-weight: 400;
+  font-family: inherit;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.caption--primary {
+  background-color: #153057;
+  color: #f5f6fa;
+}
+
+.caption--secondary {
+  background-color: #c69c6d;
+  color: #f5f6fa;
+}
