@@ -1,9 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { authRoutes } from "./authRoutes";
-import { userRoutes } from "./userRoutes";
-import { adminRoutes } from "./adminRoutes";
 
-const allRoutes = [...authRoutes, ...userRoutes, ...adminRoutes];
+const allRoutes = [...authRoutes];
 
 export const AppRoutes = () => (
   <Routes>
