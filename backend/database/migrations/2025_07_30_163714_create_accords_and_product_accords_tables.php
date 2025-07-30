@@ -34,6 +34,8 @@ return new class extends Migration {
             // Indexes for foreign key columns
             $table->index('product_id');
             $table->index('accord_id');
+
+            $table->timestamps();
         });
     }
 
