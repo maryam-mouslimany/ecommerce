@@ -1,5 +1,9 @@
-import React from "react";
+import { RegisterForm } from "../../Auth/components/RegisterForm";
 
 export const RegisterPage = () => {
-  return <div>RegisterPage</div>;
+  return (
+    <>
+      <RegisterForm />
+    </>
+  );
 };
