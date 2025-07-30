@@ -1,5 +1,5 @@
-import LoginPage from "../features/Auth/pages/LoginPage";
-import RegisterPage from "../features/Auth/pages/RegisterPage";
+import { LoginPage } from "../features/Auth/pages/LoginPage";
+import { RegisterPage } from "../features/Auth/pages/RegisterPage";
 
 const authRoutes = [
   { path: "/login", element: <LoginPage /> },
