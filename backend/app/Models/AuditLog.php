@@ -9,16 +9,9 @@ class AuditLog extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'admin_id',
-        'subject_user_id',
-        'action',
-        'subject_id',
-        'subject_type',
-        'changes',
-        'ip_address',
-        'created_at',
-    ];
+    public $timestamps = false;
+
+    protected $fillable = ['admin_id', 'subject_user_id', 'action', 'subject_id', 'subject_type', 'changes', 'ip_address', 'created_at'];
 
     public function admin()
     {

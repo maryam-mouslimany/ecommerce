@@ -9,13 +9,7 @@ class Webhook extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'order_id',
-        'payload',
-        'status',
-        'retry_count',
-        'processed_at',
-    ];
+    protected $fillable = ['order_id', 'payload', 'status', 'retry_count', 'processed_at'];
 
     public function order()
     {

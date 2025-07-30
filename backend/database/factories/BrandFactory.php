@@ -8,28 +8,7 @@ class BrandFactory extends Factory
 {
     public function definition(): array
     {
-        $brands = [
-            'Chanel',
-            'Dior',
-            'Yves Saint Laurent',
-            'Guerlain',
-            'Hermès',
-            'Tom Ford',
-            'Jo Malone',
-            'Byredo',
-            'Le Labo',
-            'Maison Margiela',
-            'Creed',
-            'Penhaligon\'s',
-            'Diptyque',
-            'Atelier Cologne',
-            'Acqua di Parma',
-            'Bvlgari',
-            'Cartier',
-            'Van Cleef & Arpels',
-            'Boucheron',
-            'Frederic Malle'
-        ];
+        $brands = ['Chanel', 'Dior', 'Guerlain', 'Hermès', 'Tom Ford', 'Jo Malone', 'Byredo', 'Le Labo', 'Maison Margiela', 'Creed', 'Penhaligon\'s', 'Diptyque', 'Atelier Cologne', 'Acqua di Parma', 'Bvlgari', 'Cartier', 'Van Cleef & Arpels', 'Boucheron'];
 
         return [
             'name' => fake()->unique()->randomElement($brands),

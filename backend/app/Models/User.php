@@ -11,24 +11,12 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
 
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'phone',
-        'role',
-    ];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $fillable = ['name', 'email', 'password', 'phone', 'role'];
+    protected $hidden = ['password', 'remember_token'];
 
     protected function casts(): array
     {
-        return [
-            'password' => 'hashed',
-        ];
+        return ['password' => 'hashed'];
     }
 
     public function roles()
@@ -44,21 +32,6 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
-    }
-
-    public function notifications()
-    {
-        return $this->morphMany(\Illuminate\Notifications\DatabaseNotification::class, 'notifiable');
-    }
-
-    public function adminAuditLogs()
-    {
-        return $this->hasMany(AuditLog::class, 'admin_id');
-    }
-
-    public function subjectAuditLogs()
-    {
-        return $this->hasMany(AuditLog::class, 'subject_user_id');
     }
 
     public function hasRole($role)

@@ -9,9 +9,7 @@ class OrdersPerHour extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'hour_bucket',
-        'order_count',
-        'revenue',
-    ];
+    protected $table = 'orders_per_hour';
+
+    protected $fillable = ['hour_bucket', 'order_count', 'revenue'];
 }

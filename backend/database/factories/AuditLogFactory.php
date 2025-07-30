@@ -18,10 +18,13 @@ class AuditLogFactory extends Factory
             'action' => fake()->randomElement($actions),
             'subject_id' => fake()->numberBetween(1, 1000),
             'subject_type' => fake()->randomElement($subjectTypes),
-            'changes' => fake()->optional(0.6)->json_encode([
-                'field' => fake()->randomElement(['name', 'email', 'status', 'price']),
-                'old_value' => fake()->word(),
-                'new_value' => fake()->word(),
+            'changes' => fake()->optional(0.6)->randomElement([
+                json_encode([
+                    'field' => fake()->randomElement(['name', 'email', 'status', 'price']),
+                    'old_value' => fake()->word(),
+                    'new_value' => fake()->word(),
+                ]),
+                null
             ]),
             'ip_address' => fake()->ipv4(),
             'created_at' => fake()->dateTimeBetween('-30 days', 'now'),
