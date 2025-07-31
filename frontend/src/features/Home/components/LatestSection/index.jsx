@@ -8,7 +8,6 @@ const LatestSection = () => {
       <div className={styles.LatestSection}>
         <h3>Latest Products</h3>
         <div className={styles.cardContainer}>
-          <p>ss</p>
           <Card />
           <Card />
           <Card />
