@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>
-      <Card />
+      {/* <Card /> */}
     </div>
   );
 }
