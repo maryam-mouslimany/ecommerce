@@ -1,7 +1,8 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
 
 const They = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className={styles.heading}>
@@ -11,12 +12,22 @@ const They = () => {
       </div>
 
       <div className={styles.they_container}>
-        <div className={styles.his_section}>
+        <div
+          className={styles.his_section}
+          onClick={() => {
+            navigate("/home");
+          }}
+        >
           <h1>His</h1>
           <p>Explore Men's Latest Perfumes</p>
         </div>
 
-        <div className={styles.hers_section}>
+        <div
+          className={styles.hers_section}
+          onClick={() => {
+            navigate("/home");
+          }}
+        >
           <h1>Hers</h1>
           <p>Explore Women's Latest Perfumes</p>
         </div>
