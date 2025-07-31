@@ -8,10 +8,8 @@ export const LoginForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    fullName: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
   const handleChange = (e) => {
     setFormData((prev) => ({

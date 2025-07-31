@@ -38,6 +38,15 @@ export const RegisterForm = () => {
           <div>Sign in to continue</div>
           <form className={styles.form}>
             <InputField
+              label="Full Name"
+              type="name"
+              name="fullName"
+              placeholder="Full Name"
+              value={formData.fullName}
+              onChange={handleChange}
+              required
+            />
+            <InputField
               label="Email"
               type="email"
               name="email"
@@ -52,6 +61,15 @@ export const RegisterForm = () => {
               name="password"
               placeholder="Password"
               value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <InputField
+              label="Confirm Password"
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
               onChange={handleChange}
               required
             />
