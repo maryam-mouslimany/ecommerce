@@ -18,6 +18,7 @@ export const Button = ({
   );
   return (
     <button className={className} onClick={onClick}>
+      {iconLeft && <div className={styles.iconLeft}>{iconLeft}</div>}
       {label}
     </button>
   );

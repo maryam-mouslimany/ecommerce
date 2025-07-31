@@ -6,12 +6,11 @@
   font-size: 0.875rem;
 }
 
-.caption--primary {
-  background-color: #153057;
-  color: #f5f6fa;
+.caption--big {
+  font-size: 1rem;
 }
 
-.caption--secondary {
+/* .caption--secondary {
   background-color: #c69c6d;
   color: #f5f6fa;
-}
+} */
