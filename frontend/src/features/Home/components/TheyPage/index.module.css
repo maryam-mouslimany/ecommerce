@@ -1,7 +1,42 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1vh 2vw;
+  background-color: var(--primary-color);
+  flex-wrap: wrap;
+}
+
+.heading {
+  font-family: inherit;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  color: white;
+  flex: 1;
+}
+
+.his {
+  color: #8c8c8c;
+}
+
+.ampersand,
+.hers {
+  color: #a68b6b;
+}
+
 .they_container {
   display: flex;
   width: 100%;
   height: 100vh;
+  overflow: hidden;
+}
+.his_section p,
+.hers_section p {
+  font-size: 3rem;
+  margin-top: 1rem;
 }
 
 .his_section,
@@ -44,6 +79,7 @@
 .hers_section:hover {
   transform: scale(1.03);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .heading {
