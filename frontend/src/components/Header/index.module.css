@@ -1,6 +1,6 @@
 .header {
   height: 3vh;
-  background-color: ;
+  background-color: var(--primary-color);
 }
 .heading {
   font-family: inherit;

@@ -4,7 +4,7 @@ import styles from "./index.module.css";
 const Header = () => {
   return (
     <>
-      <div className="header">
+      <div className={styles.header}>
         <div className={styles.heading}>
           <span className={styles.his}>His</span>
           <span className={styles.ampersand}>&amp;</span>
