@@ -111,12 +111,6 @@ jobs:
           php artisan config:clear
         env:
           APP_ENV: testing
-          DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_DATABASE: laravel_test
-          DB_USERNAME: root
-          DB_PASSWORD: password
 
       - name: Run security audit
         run: composer audit --format=json --no-interaction
@@ -147,12 +141,6 @@ jobs:
           php artisan config:clear
         env:
           APP_ENV: testing
-          DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_DATABASE: laravel_test
-          DB_USERNAME: root
-          DB_PASSWORD: password
 
       - name: Run PHP syntax check
         run: find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" -exec php -l {} \;
