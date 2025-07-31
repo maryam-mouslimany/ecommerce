@@ -1,0 +1,22 @@
+.header {
+  height: 3vh;
+  background-color: ;
+}
+.heading {
+  font-family: inherit;
+  font-size: 24px;
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.his {
+  color: #8c8c8c;
+}
+
+.ampersand,
+.hers {
+  color: #a68b6b;
+}
