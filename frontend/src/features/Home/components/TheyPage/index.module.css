@@ -1,0 +1,73 @@
+.they_container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.his_section,
+.hers_section {
+  width: 50%;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+}
+
+.his_section {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+.his_section h1 {
+  font-size: 128px;
+  font-family: "Dancing Script", cursive;
+}
+
+.his_section:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.hers_section {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+.hers_section h1 {
+  font-size: 128px;
+  font-family: "Dancing Script", cursive;
+}
+
+.hers_section:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+  font-size: 2rem;
+  display: flex;
+  gap: 0.3em;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .they_container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .his_section,
+  .hers_section {
+    width: 100%;
+    height: 50vh;
+  }
+
+  .his_section h1,
+  .hers_section h1 {
+    font-size: 72px;
+  }
+}
