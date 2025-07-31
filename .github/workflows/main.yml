@@ -39,8 +39,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "18"
-          cache: "npm"
-          cache-dependency-path: backend/package-lock.json
 
       - name: Copy .env.example to .env
         run: cp .env.example .env
@@ -49,7 +47,7 @@ jobs:
         run: composer install --prefer-dist --no-interaction --no-progress
 
       - name: Install NPM dependencies
-        run: npm ci
+        run: npm install
 
       - name: Generate application key
         run: php artisan key:generate
