@@ -60,7 +60,7 @@ export const RegisterForm = () => {
           <div className={styles.link}>
             Don't have an account ?
             <button
-              type="button" // This is important: ensures it's not a submit button
+              type="button"
               onClick={handleSignUpClick}
               className={styles.linkButton}
             >
