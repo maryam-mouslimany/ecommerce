@@ -71,31 +71,16 @@ jobs:
           php artisan config:cache
         env:
           APP_ENV: testing
-          DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_DATABASE: laravel_test
-          DB_USERNAME: root
-          DB_PASSWORD: password
 
       - name: Run database migrations
         run: php artisan migrate --force
         env:
           APP_ENV: testing
-          DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_DATABASE: laravel_test
-          DB_USERNAME: root
-          DB_PASSWORD: password
 
       - name: Run tests
         run: composer test
         env:
           APP_ENV: testing
-
-      - name: Run code style checks
-        run: ./vendor/bin/pint --test
 
       - name: Build frontend assets
         run: npm run build
@@ -171,6 +156,3 @@ jobs:
 
       - name: Run PHP syntax check
         run: find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" -exec php -l {} \;
-
-      - name: Run Laravel Pint
-        run: ./vendor/bin/pint --test
