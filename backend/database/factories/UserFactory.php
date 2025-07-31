@@ -24,4 +24,9 @@ class UserFactory extends Factory
     {
         return $this->state(['role' => 'admin']);
     }
+
+    public function customer(): static
+    {
+        return $this->state(['role' => 'customer']);
+    }
 }
