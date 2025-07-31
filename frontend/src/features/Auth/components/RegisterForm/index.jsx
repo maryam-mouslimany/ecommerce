@@ -38,6 +38,15 @@ export const RegisterForm = () => {
           <div>Sign in to continue</div>
           <form className={styles.form}>
             <InputField
+              label="Full Name"
+              type="name"
+              name="fullName"
+              placeholder="Full Name"
+              value={formData.fullName}
+              onChange={handleChange}
+              required
+            />
+            <InputField
               label="Email"
               type="email"
               name="email"
@@ -55,12 +64,21 @@ export const RegisterForm = () => {
               onChange={handleChange}
               required
             />
+            <InputField
+              label="Confirm Password"
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
             <Button variant="primary" label="Sign in" />
           </form>
           <div className={styles.link}>
             Don't have an account ?
             <button
-              type="button" // This is important: ensures it's not a submit button
+              type="button"
               onClick={handleSignUpClick}
               className={styles.linkButton}
             >
