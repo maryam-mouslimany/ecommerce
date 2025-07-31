@@ -1,15 +1,21 @@
 .header {
-  height: 3vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1vh 2vw;
   background-color: var(--primary-color);
+  flex-wrap: wrap;
 }
+
 .heading {
   font-family: inherit;
-  font-size: 24px;
+  font-size: 1.5rem;
   white-space: nowrap;
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 0.25em;
+  color: white;
+  flex: 1;
 }
 
 .his {
@@ -19,4 +25,74 @@
 .ampersand,
 .hers {
   color: #a68b6b;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 2;
+  gap: 2rem;
+}
+
+.main_menu {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.second_menu {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main_menu ul,
+.second_menu ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.main_menu a,
+.second_menu a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.main_menu a:hover,
+.second_menu a:hover {
+  color: #a68b6b;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .menu {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .main_menu,
+  .second_menu {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .main_menu ul,
+  .second_menu ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
 }
