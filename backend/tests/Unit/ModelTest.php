@@ -2,22 +2,21 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Product;
-use App\Models\ProductVariant;
-use App\Models\ProductImage;
+use App\Models\Accord;
+use App\Models\Address;
+use App\Models\AuditLog;
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\Accord;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\Address;
+use App\Models\Product;
+use App\Models\ProductImage;
+use App\Models\ProductVariant;
 use App\Models\Role;
+use App\Models\User;
 use App\Models\Webhook;
-use App\Models\AuditLog;
-use App\Models\OrdersPerHour;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ModelTest extends TestCase
 {
