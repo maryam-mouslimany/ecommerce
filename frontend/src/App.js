@@ -9,7 +9,6 @@ function App() {
       <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>
-      <Card />
     </div>
   );
 }
