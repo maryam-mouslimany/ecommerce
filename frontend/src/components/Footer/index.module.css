@@ -1,0 +1,189 @@
+.container {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0;
+  font-family: var(--font-main);
+}
+
+.footerContent {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Brand Section */
+.brandSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.his {
+  color: var(--text-secondary-color);
+}
+
+.hers {
+  color: var(--secondary-color);
+}
+
+.description {
+  color: var(--text-secondary-color);
+  line-height: 1.6;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.socialMedia {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.socialIcon:nth-child(1) {
+  background-color: #1877f2;
+}
+
+.socialIcon:nth-child(2) {
+  background-color: #1da1f2;
+}
+
+.socialIcon:nth-child(3) {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.socialIcon:nth-child(4) {
+  background-color: #0077b5;
+}
+
+.socialIcon:hover {
+  transform: scale(1.1);
+}
+
+/* Column Styles */
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.column h3 {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+  text-transform: capitalize;
+}
+
+.column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.column li {
+  margin: 0;
+}
+
+.column a {
+  color: var(--text-secondary-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.column a:hover {
+  color: white;
+}
+
+/* Copyright Section */
+.copyrightSection {
+  padding: 0 2rem 2rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.separator {
+  height: 1px;
+  background-color: var(--text-secondary-color);
+  margin-bottom: 1.5rem;
+  opacity: 0.3;
+}
+
+.copyright {
+  text-align: center;
+  color: var(--text-secondary-color);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .footerContent {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  
+  .brandSection {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .footerContent {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem 1rem;
+  }
+  
+  .brandSection {
+    grid-column: 1;
+  }
+  
+  .copyrightSection {
+    padding: 0 1rem 2rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footerContent {
+    padding: 1.5rem 1rem;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+  }
+  
+  .description {
+    font-size: 0.85rem;
+  }
+  
+  .socialIcon {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+}
