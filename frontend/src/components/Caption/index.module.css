@@ -1,0 +1,16 @@
+.caption {
+  color: #cccccc;
+  font-weight: 400;
+  font-family: inherit;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.caption--big {
+  font-size: 1rem;
+}
+
+/* .caption--secondary {
+  background-color: #c69c6d;
+  color: #f5f6fa;
+} */

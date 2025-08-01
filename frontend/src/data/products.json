@@ -1,0 +1,208 @@
+[
+  {
+    "id": 1,
+    "name": "Ocean Breeze",
+    "brand": { "id": 1, "name": "AquaScents" },
+    "category": { "id": 1, "name": "Perfume" },
+    "gender": "unisex",
+    "images": [
+      {
+        "id": 1,
+        "url": "https://example.com/ocean-breeze-1.jpg",
+        "thumbnail": null,
+        "sort_order": 1
+      }
+    ],
+    "variants": [
+      { "id": 1, "size_ml": 50, "price": 59.99, "stock": 20 },
+      { "id": 2, "size_ml": 100, "price": 89.99, "stock": 15 }
+    ],
+    "accords": [
+      { "id": 1, "name": "Citrus", "sort_order": 1 },
+      { "id": 2, "name": "Aquatic", "sort_order": 2 }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Rose Elegance",
+    "brand": { "id": 2, "name": "Floral Essence" },
+    "category": { "id": 1, "name": "Perfume" },
+    "gender": "female",
+    "images": [
+      {
+        "id": 2,
+        "url": "https://example.com/rose-elegance-1.jpg",
+        "thumbnail": null,
+        "sort_order": 1
+      }
+    ],
+    "variants": [{ "id": 3, "size_ml": 50, "price": 69.99, "stock": 25 }],
+    "accords": [
+      { "id": 3, "name": "Rose", "sort_order": 1 },
+      { "id": 4, "name": "Floral", "sort_order": 2 }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Midnight Oud",
+    "brand": { "id": 3, "name": "Luxury Scents" },
+    "category": { "id": 1, "name": "Perfume" },
+    "gender": "male",
+    "images": [
+      {
+        "id": 3,
+        "url": "https://example.com/midnight-oud-1.jpg",
+        "thumbnail": null,
+        "sort_order": 1
+      }
+    ],
+    "variants": [{ "id": 4, "size_ml": 75, "price": 120.0, "stock": 10 }],
+    "accords": [
+      { "id": 5, "name": "Oud", "sort_order": 1 },
+      { "id": 6, "name": "Woody", "sort_order": 2 }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Citrus Sunrise",
+    "brand": { "id": 1, "name": "AquaScents" },
+    "category": { "id": 1, "name": "Perfume" },
+    "gender": "unisex",
+    "images": [
+      {
+        "id": 4,
+        "url": "https://example.com/citrus-sunrise.jpg",
+        "thumbnail": null,
+        "sort_order": 1
+      }
+    ],
+    "variants": [{ "id": 5, "size_ml": 100, "price": 75.5, "stock": 18 }],
+    "accords": [
+      { "id": 1, "name": "Citrus", "sort_order": 1 },
+      { "id": 7, "name": "Fresh", "sort_order": 2 }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Vanilla Sky",
+    "brand": { "id": 4, "name": "Sweet Aroma" },
+    "category": { "id": 1, "name": "Perfume" },
+    "gender": "female",
+    "images": [
+      {
+        "id": 5,
+        "url": "https://example.com/vanilla-sky.jpg",
+        "thumbnail": null,
+        "sort_order": 1
+      }
+    ],
+    "variants": [{ "id": 6, "size_ml": 50, "price": 49.99, "stock": 30 }],
+    "accords": [
+      { "id": 8, "name": "Vanilla", "sort_order": 1 },
+      { "id": 9, "name": "Sweet", "sort_order": 2 }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Forest Whisper",
+    "brand": { "id": 5, "name": "Nature Essence" },
+    "category": { "id": 1, "name": "Perfume" },
+    "gender": "male",
+    "images": [
+      {
+        "id": 6,
+        "url": "https://example.com/forest-whisper.jpg",
+        "thumbnail": null,
+        "sort_order": 1
+      }
+    ],
+    "variants": [{ "id": 7, "size_ml": 100, "price": 85.0, "stock": 12 }],
+    "accords": [
+      { "id": 10, "name": "Woody", "sort_order": 1 },
+      { "id": 11, "name": "Earthy", "sort_order": 2 }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Amber Glow",
+    "brand": { "id": 3, "name": "Luxury Scents" },
+    "category": { "id": 1, "name": "Perfume" },
+    "gender": "female",
+    "images": [
+      {
+        "id": 7,
+        "url": "https://example.com/amber-glow.jpg",
+        "thumbnail": null,
+        "sort_order": 1
+      }
+    ],
+    "variants": [{ "id": 8, "size_ml": 50, "price": 95.0, "stock": 8 }],
+    "accords": [
+      { "id": 12, "name": "Amber", "sort_order": 1 },
+      { "id": 9, "name": "Sweet", "sort_order": 2 }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Lavender Dreams",
+    "brand": { "id": 6, "name": "Relax Scents" },
+    "category": { "id": 1, "name": "Perfume" },
+    "gender": "unisex",
+    "images": [
+      {
+        "id": 8,
+        "url": "https://example.com/lavender-dreams.jpg",
+        "thumbnail": null,
+        "sort_order": 1
+      }
+    ],
+    "variants": [
+      { "id": 9, "size_ml": 30, "price": 35.5, "stock": 40 },
+      { "id": 10, "size_ml": 100, "price": 85.0, "stock": 15 }
+    ],
+    "accords": [
+      { "id": 13, "name": "Lavender", "sort_order": 1 },
+      { "id": 7, "name": "Fresh", "sort_order": 2 }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Spiced Horizon",
+    "brand": { "id": 7, "name": "Exotic Fragrances" },
+    "category": { "id": 1, "name": "Perfume" },
+    "gender": "male",
+    "images": [
+      {
+        "id": 9,
+        "url": "https://example.com/spiced-horizon.jpg",
+        "thumbnail": null,
+        "sort_order": 1
+      }
+    ],
+    "variants": [{ "id": 11, "size_ml": 75, "price": 79.0, "stock": 10 }],
+    "accords": [
+      { "id": 14, "name": "Spicy", "sort_order": 1 },
+      { "id": 15, "name": "Warm", "sort_order": 2 }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Coconut Paradise",
+    "brand": { "id": 4, "name": "Sweet Aroma" },
+    "category": { "id": 1, "name": "Perfume" },
+    "gender": "female",
+    "images": [
+      {
+        "id": 10,
+        "url": "https://example.com/coconut-paradise.jpg",
+        "thumbnail": null,
+        "sort_order": 1
+      }
+    ],
+    "variants": [{ "id": 12, "size_ml": 50, "price": 55.0, "stock": 22 }],
+    "accords": [
+      { "id": 16, "name": "Coconut", "sort_order": 1 },
+      { "id": 9, "name": "Sweet", "sort_order": 2 }
+    ]
+  }
+]
