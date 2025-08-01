@@ -1,4 +1,4 @@
-import CreateProduct from "../features/AdminProductManagement/CreateProduct";
+import CreateProduct from "../features/AdminProductManagement/pages/CreateProduct";
 import ViewProducts from "../features/AdminProductManagement/pages/Viewproducts";
 import { LoginPage } from "../features/Auth/pages/LoginPage";
 import { RegisterPage } from "../features/Auth/pages/RegisterPage";

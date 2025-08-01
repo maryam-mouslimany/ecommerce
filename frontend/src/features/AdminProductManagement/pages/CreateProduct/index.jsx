@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./styles.module.css";
 import  {InputField}  from "../../../components/InputField";
-import { Button } from "../../../components/Button";
+import { Button } from "../../../../components/Button";
 
 const CreateProduct = () => {
   // Example static data for dropdowns
