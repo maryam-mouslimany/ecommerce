@@ -2,6 +2,7 @@ name: Backend CI/CD
 
 on:
   push:
+=======
     branches: [backend, dev]
   pull_request:
     branches: [backend, dev]
