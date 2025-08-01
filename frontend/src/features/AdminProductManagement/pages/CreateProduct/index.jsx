@@ -1,143 +1,140 @@
-import { useState } from "react";
-import styles from "./styles.module.css";
-import  {InputField}  from "../../../components/InputField";
+import React, { useState } from "react";
+import { InputField } from "../../../../components/InputField";
 import { Button } from "../../../../components/Button";
+import SelectInput from "../../../../components/SelectInput";
+import data from "../../../../data/productsAttachments.json";
+import styles from "./styles.module.css"
 
-const CreateProduct = () => {
-  // Example static data for dropdowns
-  const brands = ["Sweet Aroma", "Ocean Breeze", "Luxury Scents"];
-  const categories = ["Perfume", "Body Spray", "Cologne"];
+function CreateProduct() {
+  const [name, setName] = useState("");
+  const [gender, setGender] = useState("");
+  const [brandId, setBrandId] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [selectedAccords, setSelectedAccords] = useState([]);
+  const [imageUrl, setImageUrl] = useState("");
+  const [variant, setVariant] = useState({ size_ml: "", price: "", stock: "" });
 
-  const [formData, setFormData] = useState({
-    name: "",
-    brand: brands[0],
-    category: categories[0],
-    gender: "",
-    size_ml: "",
-    price: "",
-    stock: "",
-    image: "",
-    accords: "",
-  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const newProduct = {
+      name,
+      gender,
+      brand: { id: brandId },
+      category: { id: categoryId },
+      accords: selectedAccords,
+      variants: variant,
+    };
+
+    console.log("Submitting Product:", newProduct);
+
   };
 
   return (
-    <div className={styles.pageContainer}>
-      <h1 className={styles.pageTitle}>Create Product</h1>
+    <div className={styles.container}>
+      <div className={styles.formWrapper}>
+        <form className={styles.form}>
+          <h2 className={styles.title}>Create Product</h2>
 
-      <form className={styles.form}>
-        <InputField
-          label="Product Name"
-          type="text"
-          name="name"
-          placeholder="Enter product name"
-          value={formData.name}
-          onChange={handleChange}
-        />
+          <InputField
+            label="Product Name"
+            type="text"
+            name="name"
+            placeholder="Enter product name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
 
-        <label className={styles.label}>
-          Brand
-          <select
-            name="brand"
-            value={formData.brand}
-            onChange={handleChange}
-            className={styles.select}
-          >
-            {brands.map((b, idx) => (
-              <option key={idx} value={b}>
-                {b}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className={styles.label}>
-          Category
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            className={styles.select}
-          >
-            {categories.map((c, idx) => (
-              <option key={idx} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className={styles.label}>
-          Gender
-          <select
+          <SelectInput
             name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            className={styles.select}
-          >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="unisex">Unisex</option>
-          </select>
-        </label>
+            label="Gender"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            options={[
+              { value: "female", label: "Female" },
+              { value: "male", label: "Male" },
+              { value: "unisex", label: "Unisex" },
+            ]}
+            required
+          />
 
-        <InputField
-          label="Size (ml)"
-          type="number"
-          name="size_ml"
-          placeholder="Enter size in ml"
-          value={formData.size_ml}
-          onChange={handleChange}
-        />
+          <SelectInput
+            name="brand"
+            label="Brand"
+            value={brandId}
+            onChange={(e) => setBrandId(e.target.value)}
+            options={data.brands.map((b) => ({ value: b.id, label: b.name }))}
+            required
+          />
 
-        <InputField
-          label="Price ($)"
-          type="number"
-          name="price"
-          placeholder="Enter price"
-          value={formData.price}
-          onChange={handleChange}
-        />
+          <SelectInput
+            name="category"
+            label="Category"
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+            options={data.categories.map((c) => ({ value: c.id, label: c.name }))}
+            required
+          />
 
-        <InputField
-          label="Stock Quantity"
-          type="number"
-          name="stock"
-          placeholder="Enter stock quantity"
-          value={formData.stock}
-          onChange={handleChange}
-        />
+          <InputField
+            label="Size (ml)"
+            type="number"
+            name="size_ml"
+            placeholder="50"
+            value={variant.size_ml}
+            onChange={(e) => setVariant({ ...variant, size_ml: e.target.value })}
+          />
+          <InputField
+            label="Price ($)"
+            type="number"
+            name="price"
+            placeholder="55.00"
+            value={variant.price}
+            onChange={(e) => setVariant({ ...variant, price: e.target.value })}
+          />
+          <InputField
+            label="Stock"
+            type="number"
+            name="stock"
+            placeholder="22"
+            value={variant.stock}
+            onChange={(e) => setVariant({ ...variant, stock: e.target.value })}
+          />
 
-        <InputField
-          label="Image URL"
-          type="text"
-          name="image"
-          placeholder="Enter product image URL"
-          value={formData.image}
-          onChange={handleChange}
-        />
+          <SelectInput
+            name="accords"
+            label="Accords"
+            value={selectedAccords}
+            onChange={(e) =>
+              setSelectedAccords(
+                Array.from(e.target.selectedOptions, (opt) => parseInt(opt.value))
+              )
+            }
+            options={data.accordsList.map((a) => ({ value: a.id, label: a.name }))}
+            multiple={true}
+          />
 
-        <InputField
-          label="Accords"
-          type="text"
-          name="accords"
-          placeholder="Comma separated (e.g. Sweet, Floral)"
-          value={formData.accords}
-          onChange={handleChange}
-        />
+          <InputField
+            label="Image URL"
+            type="text"
+            name="image"
+            placeholder="https://example.com/image.jpg"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+          />
+        </form>
 
-        <div className={styles.buttonRow}>
-          <Button label="Create Product" variant="primary" onClick={() => {}} />
-          <Button label="Cancel" variant="secondary" outline onClick={() => {}} />
+        <div className={styles.buttonWrapper}>
+          <Button
+            label="Create Product"
+            onClick={handleSubmit}
+            variant="primary"
+            size="large"
+          />
         </div>
-      </form>
+      </div>
     </div>
   );
-};
+}
 
 export default CreateProduct;
