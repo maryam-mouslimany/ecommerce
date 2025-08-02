@@ -23,9 +23,9 @@ class ProductsController extends Controller
         }
     }
 
-    public function addOrCreate( StoreProductRequest $request, $id = null)
+    public function addOrUpdate(StoreProductRequest $request, $id = null)
     {
-        $result = ProductService::addOrCreate($id, $request->validated());
+        $result = ProductService::addOrUpdate($id, $request->validated());
 
         return $result['success']
             ? $this->responseJSON($result['data'], $result['message'], $result['status'])

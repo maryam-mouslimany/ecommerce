@@ -20,6 +20,5 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/view-products', [ProductsController::class, 'getProducts'])->middleware('auth:api');
-    Route::post('/add-update-product/add', [ProductsController::class, 'addOrUpdate'])->middleware('auth:api');
-    Route::post('/add-update-product/{id}', [ProductsController::class, 'addOrUpdate'])->middleware('auth:api');;
+    Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate'])->middleware('auth:api');
 });

@@ -56,12 +56,23 @@ class ProductService
         ];
     }
 
-    static function addOrCreate(?int $id, array $data): array
+    static function addOrUpdate(?int $id, array $data): array
     {
-        if ($id) {
-            $product = Product::with(['variants', 'images'])->findOrFail($id);
-            $product->update($data);
-            $message = 'Product updated successfully';
+        $action = $data['action'] ?? 'create';
+
+        if ($action === 'update') {
+            if (!$id)
+                return [
+                    'success' => false,
+                    'message' => 'Product ID is required for update.',
+                    'data' => null,
+                    'status' => 422
+                ];
+            else {
+                $product = Product::with(['variants', 'images'])->findOrFail($id);
+                $product->update($data);
+                $message = 'Product updated successfully';
+            }
         } else {
             $product = Product::create($data);
             $message = 'Product created successfully';
@@ -82,9 +93,8 @@ class ProductService
         }
 
         if (isset($data['accords'])) {
-            $product->accords()->sync($data['accords']); 
+            $product->accords()->sync($data['accords']);
         }
-
 
         return [
             'success' => true,
