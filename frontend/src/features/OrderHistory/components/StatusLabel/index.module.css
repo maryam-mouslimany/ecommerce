@@ -1,0 +1,22 @@
+.label {
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.pending {
+  border: 1px solid #f7b90f;
+  color: #f7b90f;
+}
+
+.delivered {
+  border: 1px solid #59af59;
+  color: #59af59;
+}
+
+.cancelled {
+  border: 1px solid #fb2448;
+  color: #fb2448;
+}
