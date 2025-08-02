@@ -20,6 +20,7 @@ class User extends Authenticatable implements JWTSubject
         return ['password' => 'hashed'];
     }
 
+    // JWTSubject interface methods
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -30,6 +31,7 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    // Relationships
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'user_roles');
@@ -45,6 +47,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Order::class);
     }
 
+    // Helper methods
     public function hasRole($role)
     {
         return $this->roles()->where('name', $role)->exists();
