@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ProductFilterController;
 
+use App\Http\Controllers\Admin\ProductsController;
+
 
 // API Version 1
 Route::prefix('v1')->group(function () {
@@ -33,4 +35,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/products', [ProductFilterController::class, 'filter']);
     Route::get('/products/filter-options', [ProductFilterController::class, 'getFilterOptions']);
     Route::get('/products/{id}', [ProductFilterController::class, 'show']);
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('/view-products', [ProductsController::class, 'getProducts'])->middleware('auth:api');
+    Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate'])->middleware('auth:api');
 });
