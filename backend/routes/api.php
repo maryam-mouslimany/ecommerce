@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ProductFilterController;
 
 
 // API Version 1
@@ -28,4 +29,8 @@ Route::prefix('v1')->group(function () {
         // Logout
         Route::post('/logout', [AuthController::class, 'logout']);
     });
+    // Product routes
+    Route::get('/products', [ProductFilterController::class, 'filter']);
+    Route::get('/products/filter-options', [ProductFilterController::class, 'getFilterOptions']);
+    Route::get('/products/{id}', [ProductFilterController::class, 'show']);
 });
