@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable, SoftDeletes;
 
@@ -19,6 +20,18 @@ class User extends Authenticatable
         return ['password' => 'hashed'];
     }
 
+    // JWTSubject interface methods
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    // Relationships
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'user_roles');
@@ -34,6 +47,7 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    // Helper methods
     public function hasRole($role)
     {
         return $this->roles()->where('name', $role)->exists();
