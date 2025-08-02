@@ -17,6 +17,9 @@ class ProductService
     {
         $query = Product::with(['brand', 'category', 'variants', 'images', 'accords']);
 
+        if (!empty($filters['name'])) {
+            $query->where('name', 'LIKE', '%' . $filters['name'] . '%');
+        }
         if (!empty($filters['brand_id'])) {
             $query->where('brand_id', $filters['brand_id']);
         }
@@ -41,7 +44,7 @@ class ProductService
 
         if ($products->isEmpty()) {
             return [
-                'success' => false,
+                'success' => true,
                 'message' => 'No products found with the given filters.',
                 'data' => null,
                 'status' => 404
