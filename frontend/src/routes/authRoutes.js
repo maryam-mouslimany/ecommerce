@@ -3,6 +3,7 @@ import { RegisterPage } from "../features/Auth/pages/RegisterPage";
 import HomePage from "../features/Home/pages/HomePage";
 import { ProductListingPage } from "../features/Products/pages/ProductListingPage";
 import { OrderConfirmation } from "../features/OrderConfirmation/pages";
+import { OrderHistoryPage } from "../features/OrderHistory/pages/OrderHistory";
 
 import TheyPage from "../features/Home/pages/TheyPage";
 
@@ -12,6 +13,7 @@ export const authRoutes = [
   { path: "/Home", element: <HomePage /> },
   { path: "/product-list", element: <ProductListingPage /> },
   { path: "/order-confrimation", element: <OrderConfirmation /> },
+  { path: "/order-history", element: <OrderHistoryPage /> },
 
   { path: "/They", element: <TheyPage /> },
 ];
