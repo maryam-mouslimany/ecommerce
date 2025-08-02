@@ -17,8 +17,8 @@ FROM nginx:alpine
 # Copy built React files from previous stage
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Copy custom nginx config if you want (optional)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy custom nginx config to handle React Router routing
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
