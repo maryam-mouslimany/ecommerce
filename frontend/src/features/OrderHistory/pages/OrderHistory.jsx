@@ -1,5 +1,5 @@
 import { Table } from "../components/OrderHistoryTable";
-import { StatusLabel } from "../components/StatusLabel";
+import { StatusLabel } from "../../../components/StatusLabel";
 import styles from "./index.module.css";
 
 const columns = [
