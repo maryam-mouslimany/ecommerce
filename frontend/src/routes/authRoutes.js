@@ -5,6 +5,7 @@ import { ProductListingPage } from "../features/Products/pages/ProductListingPag
 import { OrderConfirmation } from "../features/OrderConfirmation/pages";
 import CreateProduct from "../features/AdminProductManagement/pages/CreateProduct";
 import ViewProducts from "../features/AdminProductManagement/pages/ViewProducts";
+import { OrderHistoryPage } from "../features/OrderHistory/pages/OrderHistory";
 
 import TheyPage from "../features/Home/pages/TheyPage";
 
@@ -16,6 +17,7 @@ export const authRoutes = [
   { path: "/order-confrimation", element: <OrderConfirmation /> },
   { path: "/admin-view-products", element: <ViewProducts /> },
   { path: "/admin-create-products", element: <CreateProduct /> },
+  { path: "/order-history", element: <OrderHistoryPage /> },
 
   { path: "/They", element: <TheyPage /> },
 ];
