@@ -1,0 +1,23 @@
+{
+  "brands": [
+    { "id": 1, "name": "Sweet Aroma" },
+    { "id": 2, "name": "Fresh Breeze" },
+    { "id": 3, "name": "Ocean Mist" },
+    { "id": 4, "name": "Golden Essence" }
+  ],
+  "categories": [
+    { "id": 1, "name": "Perfume" },
+    { "id": 2, "name": "Body Spray" },
+    { "id": 3, "name": "Deodorant" },
+    { "id": 4, "name": "Gift Set" }
+  ],
+  "accordsList": [
+    { "id": 1, "name": "Vanilla" },
+    { "id": 2, "name": "Citrus" },
+    { "id": 3, "name": "Woody" },
+    { "id": 4, "name": "Floral" },
+    { "id": 5, "name": "Musk" },
+    { "id": 6, "name": "Coconut" },
+    { "id": 7, "name": "Sweet" }
+  ]
+}
