@@ -20,7 +20,10 @@ class User extends Authenticatable implements JWTSubject
         return ['password' => 'hashed'];
     }
 
+<<<<<<< HEAD
     // JWTSubject interface methods
+=======
+>>>>>>> invoice-mail
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -31,7 +34,10 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+<<<<<<< HEAD
     // Relationships
+=======
+>>>>>>> invoice-mail
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'user_roles');

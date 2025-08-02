@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
      function getOrder(){
-        $admin=AdminService::getUserCapsule();
+        $admin=AdminService::getOrder();
 
         if($admin)return $this->responseJSON($admin);
         return $this->responseJSON(null,"notfound",404);

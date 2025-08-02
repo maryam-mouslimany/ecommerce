@@ -3,11 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\AdminController;
 
 
 // API Version 1
 Route::group(["prefix" => "admin"], function(){
-        Route::get("/getOrders", [AdminController::class, "getOrders"]);
+        Route::get("/getOrder", [AdminController::class, "getOrder"]);
      });
 Route::prefix('v1')->group(function () {
     // Guest routes (no authentication required)
