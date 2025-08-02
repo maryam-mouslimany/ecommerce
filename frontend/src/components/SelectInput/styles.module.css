@@ -1,0 +1,58 @@
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.inputLabel {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: #000000;
+  font-size: 0.95rem;
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.primaryInput {
+  padding: 14px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  margin-top: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+  color: #000000;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.primaryInput:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.primaryInput:hover {
+  border-color: #cbd5e0;
+}
+
+.primaryInput[multiple] {
+  background-image: none;
+  padding-right: 16px;
+  cursor: default;
+  min-height: 140px; 
+  height: auto;
+}
+
+.primaryInput option {
+  padding: 8px 12px;
+  color: #000000;
+  background: #ffffff;
+}

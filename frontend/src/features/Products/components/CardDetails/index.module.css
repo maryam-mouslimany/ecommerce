@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  gap: 24px;
+}
+.left {
+  display: contents;
+}
+.right {
+}
+.image {
+  height: max-content;
+  object-fit: fill;
+}
