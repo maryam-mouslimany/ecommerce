@@ -3,19 +3,38 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ProductFilterController;
+
 use App\Http\Controllers\Admin\ProductsController;
 
 
-// Protected route to get authenticated user
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// API Version 1
+Route::prefix('v1')->group(function () {
 
-// Authentication Routes
-Route::prefix('auth')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
+    // Guest routes (no authentication required)
+    Route::prefix('guest')->group(function () {
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/login', [AuthController::class, 'login']);
+    });
+
+    // Protected routes (authentication required)
+    Route::middleware('auth:sanctum')->prefix('user')->group(function () {
+        // Get authenticated user profile
+        Route::get('/profile', function (Request $request) {
+            return response()->json([
+                'success' => true,
+                'data' => $request->user(),
+                'message' => 'User profile retrieved successfully'
+            ]);
+        });
+
+        // Logout
+        Route::post('/logout', [AuthController::class, 'logout']);
+    });
+    // Product routes
+    Route::get('/products', [ProductFilterController::class, 'filter']);
+    Route::get('/products/filter-options', [ProductFilterController::class, 'getFilterOptions']);
+    Route::get('/products/{id}', [ProductFilterController::class, 'show']);
 });
 
 Route::prefix('admin')->group(function () {
