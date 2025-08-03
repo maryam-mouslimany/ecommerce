@@ -30,8 +30,6 @@
   flex-wrap: wrap;
 }
 
-
-
 .ordersTable {
   background: white;
   border-radius: 12px;
@@ -42,7 +40,6 @@
   max-height: 600px;
   overflow-y: auto;
 }
-
 
 .tableHeader {
   background-color: var(--primary-color);
@@ -84,11 +81,101 @@
   font-weight: 600;
 }
 
+/* Status Edit Modal */
+.statusEditModal {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90vw;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
 
+.statusEditModal h3 {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+}
 
+.modalContent {
+  margin-bottom: 2rem;
+}
 
+.modalContent p {
+  margin: 0.75rem 0;
+  color: var(--primary-color);
+}
 
+.statusSelectContainer {
+  margin-top: 1.5rem;
+}
 
+.statusSelectContainer label {
+  display: block;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.statusSelect {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: white;
+  width: 100%;
+  cursor: pointer;
+}
+
+.statusSelect:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.statusSelect:hover {
+  border-color: var(--primary-color);
+}
+
+.modalActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.cancelButton {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  color: #374151;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.saveButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.saveButton:hover {
+  background-color: #1e3a8a;
+  transform: translateY(-1px);
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -101,7 +188,7 @@
     align-items: stretch;
   }
 
-  .filterButtons {
+  .filterBar {
     justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
@@ -131,18 +218,16 @@
     color: var(--text-secondary-color);
     margin-right: 0.5rem;
   }
-
-
 }
 
 @media (max-width: 480px) {
-  .filterButtons {
+  .filterBar {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
   }
 
-  .filterButtons button {
+  .filterBar button {
     min-width: 60px;
     font-size: 0.875rem;
   }
