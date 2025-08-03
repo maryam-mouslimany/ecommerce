@@ -5,7 +5,7 @@ import { Button } from "../../../../components/Button";
 import SelectInput from "../../../../components/SelectInput";
 import data from "../../../../data/productsAttachments.json";
 import styles from "./styles.module.css";
-import { fetchData } from "../../../../services/api.js";
+import { fetchData } from "../../../../services/api";
 
 function ProductForm() {
   const { id } = useParams();
