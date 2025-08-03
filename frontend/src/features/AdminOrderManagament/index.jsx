@@ -7,79 +7,15 @@ import ActionButtons from "../../components/ActionButtons";
 import Pagination from "../../components/Pagination";
 import OrderDetailsModal from "../../components/OrderDetailsModal";
 import { Modal } from "../../components/Modal";
+import Table from "../AdminProductManagement/components/Table";
 
-// Mock data for orders
+// Minimal mock data
 const mockOrders = [
-  {
-    id: 1,
-    customerName: "John Kahn",
-    address: "147 Birch St, San Antonio",
-    status: "Shipped",
-    total: "$250.00"
-  },
-  {
-    id: 2,
-    customerName: "John Kahn",
-    address: "147 Birch St, San Antonio",
-    status: "Pending",
-    total: "$250.00"
-  },
-  {
-    id: 3,
-    customerName: "John Kahn",
-    address: "147 Birch St, San Antonio",
-    status: "Shipped",
-    total: "$250.00"
-  },
-  {
-    id: 4,
-    customerName: "John Kahn",
-    address: "147 Birch St, San Antonio",
-    status: "Shipped",
-    total: "$250.00"
-  },
-  {
-    id: 5,
-    customerName: "John Kahn",
-    address: "147 Birch St, San Antonio",
-    status: "Packed",
-    total: "$250.00"
-  },
-  {
-    id: 6,
-    customerName: "John Kahn",
-    address: "147 Birch St, San Antonio",
-    status: "Paid",
-    total: "$250.00"
-  },
-  {
-    id: 7,
-    customerName: "John Kahn",
-    address: "147 Birch St, San Antonio",
-    status: "Shipped",
-    total: "$250.00"
-  },
-  {
-    id: 8,
-    customerName: "John Kahn",
-    address: "147 Birch St, San Antonio",
-    status: "Shipped",
-    total: "$250.00"
-  },
-  {
-    id: 9,
-    customerName: "John Kahn",
-    address: "147 Birch St, San Antonio",
-    status: "Shipped",
-    total: "$250.00"
-  },
-  {
-    id: 10,
-    customerName: "John Kahn",
-    address: "147 Birch St, San Antonio",
-    status: "Paid",
-    total: "$250.00"
-  }
+  { id: 1, customerName: "John Kahn", address: "147 Birch St, San Antonio", status: "Shipped", total: "$250.00" },
+  { id: 2, customerName: "Sarah Johnson", address: "89 Oak Ave, Austin", status: "Pending", total: "$180.50" },
+  { id: 3, customerName: "Mike Davis", address: "234 Pine Rd, Houston", status: "Shipped", total: "$320.75" },
+  { id: 4, customerName: "Emily Wilson", address: "567 Maple Dr, Dallas", status: "Packed", total: "$195.25" },
+  { id: 5, customerName: "David Brown", address: "789 Elm St, Fort Worth", status: "Paid", total: "$275.00" }
 ];
 
 const AdminOrderManagement = () => {
@@ -90,17 +26,11 @@ const AdminOrderManagement = () => {
   const [statusEditModal, setStatusEditModal] = useState({ isOpen: false, order: null, newStatus: "" });
 
   const filters = ["All", "Pending", "Paid", "Packed", "Shipped"];
-  
-  const statusOptions = [
-    { value: "Pending", label: "Pending" },
-    { value: "Paid", label: "Paid" },
-    { value: "Packed", label: "Packed" },
-    { value: "Shipped", label: "Shipped" }
-  ];
+  const statusOptions = ["Pending", "Paid", "Packed", "Shipped"];
 
-  const filteredOrders = orders.filter(order => {
-    return activeFilter === "All" || order.status === activeFilter;
-  });
+  const filteredOrders = orders.filter(order => 
+    activeFilter === "All" || order.status === activeFilter
+  );
 
   const handleViewOrder = (orderId) => {
     const order = orders.find(order => order.id === orderId);
@@ -128,9 +58,22 @@ const AdminOrderManagement = () => {
     }
   };
 
-  const handleCloseStatusModal = () => {
-    setStatusEditModal({ isOpen: false, order: null, newStatus: "" });
-  };
+  const columns = [
+    { header: 'Order Id', key: 'id' },
+    { header: 'Customer Name', key: 'customerName' },
+    { header: 'Address', key: 'address' },
+    { header: 'Total', key: 'total' },
+    { header: 'Status', render: (order) => <StatusLabel status={order.status} /> },
+    {
+      header: 'Actions',
+      render: (order) => (
+        <ActionButtons 
+          onView={() => handleViewOrder(order.id)}
+          onEditStatus={() => handleEditStatus(order)}
+        />
+      )
+    }
+  ];
 
   return (
     <>
@@ -149,37 +92,8 @@ const AdminOrderManagement = () => {
             />
           </div>
 
-          <div className={styles.ordersTable}>
-            <div className={styles.tableHeader}>
-              <div className={styles.tableRow}>
-                <div className={styles.tableCell}>Order Id</div>
-                <div className={styles.tableCell}>Customer Name</div>
-                <div className={styles.tableCell}>Address</div>
-                <div className={styles.tableCell}>Total</div>
-                <div className={styles.tableCell}>Status</div>
-                <div className={styles.tableCell}>Action</div>
-              </div>
-            </div>
-
-            <div className={styles.tableBody}>
-              {filteredOrders.map((order) => (
-                <div key={order.id} className={styles.tableRow}>
-                  <div className={styles.tableCell}>{order.id}</div>
-                  <div className={styles.tableCell}>{order.customerName}</div>
-                  <div className={styles.tableCell}>{order.address}</div>
-                  <div className={styles.tableCell}>{order.total}</div>
-                  <div className={styles.tableCell}>
-                    <StatusLabel status={order.status} />
-                  </div>
-                  <div className={styles.tableCell}>
-                    <ActionButtons 
-                      onView={() => handleViewOrder(order.id)}
-                      onEditStatus={() => handleEditStatus(order)}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className={styles.tableWrapper}>
+            <Table columns={columns} data={filteredOrders} />
           </div>
 
           <Pagination 
@@ -195,8 +109,7 @@ const AdminOrderManagement = () => {
         order={selectedOrder}
       />
 
-      {/* Status Edit Modal */}
-      <Modal isOpen={statusEditModal.isOpen} onClose={handleCloseStatusModal}>
+      <Modal isOpen={statusEditModal.isOpen} onClose={() => setStatusEditModal({ isOpen: false, order: null, newStatus: "" })}>
         <div className={styles.statusEditModal}>
           <h3>Edit Order Status</h3>
           <div className={styles.modalContent}>
@@ -213,25 +126,17 @@ const AdminOrderManagement = () => {
                 className={styles.statusSelect}
               >
                 {statusOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
+                  <option key={option} value={option}>{option}</option>
                 ))}
               </select>
             </div>
           </div>
           
           <div className={styles.modalActions}>
-            <button 
-              className={styles.cancelButton}
-              onClick={handleCloseStatusModal}
-            >
+            <button className={styles.cancelButton} onClick={() => setStatusEditModal({ isOpen: false, order: null, newStatus: "" })}>
               Cancel
             </button>
-            <button 
-              className={styles.saveButton}
-              onClick={handleSaveStatus}
-            >
+            <button className={styles.saveButton} onClick={handleSaveStatus}>
               Save Changes
             </button>
           </div>
