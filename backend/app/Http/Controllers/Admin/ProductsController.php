@@ -23,6 +23,19 @@ class ProductsController extends Controller
         }
     }
 
+    function getProduct($id)
+    {
+        try {
+            $result = ProductService::getProduct($id);
+
+            return $result['success']
+                ? $this->responseJSON($result['data'], $result['message'], $result['status'])
+                : $this->responseError($result['message'], $result['status']);
+        } catch (\Exception $e) {
+            return $this->responseError('Server error: ' . $e->getMessage(), 500);
+        }
+    }
+
     public function addOrUpdate(StoreProductRequest $request, $id = null)
     {
         $result = ProductService::addOrUpdate($id, $request->validated());

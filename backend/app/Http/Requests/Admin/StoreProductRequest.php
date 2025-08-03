@@ -32,10 +32,10 @@ class StoreProductRequest extends FormRequest
             'variants.*.price' => 'required|numeric|min:0',
             'variants.*.stock' => 'required|integer|min:0',
 
-            'images' => $action === 'create' ? 'required|array|min:1' : 'sometimes|array',
+            /*'images' => $action === 'create' ? 'required|array|min:1' : 'sometimes|array',
             'images.*.url' => 'required|url',
             'images.*.thumbnail' => 'required|url',
-            'images.*.sort_order' => 'sometimes|integer|min:0',
+            'images.*.sort_order' => 'sometimes|integer|min:0',*/
 
             'accords' => 'sometimes|array',
             'accords.*' => 'exists:accords,id',

@@ -38,6 +38,7 @@ Route::prefix('v1')->group(function () {
 });
 
 Route::prefix('admin')->group(function () {
-    Route::get('/view-products', [ProductsController::class, 'getProducts'])->middleware('auth:api');
-    Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate'])->middleware('auth:api');
+    Route::get('/view-products', [ProductsController::class, 'getProducts']);
+    Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
+    Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
 });

@@ -15,11 +15,11 @@
 }
 
 .primaryInput {
-  padding: 14px 16px;
+  padding: 10px 14px;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
   margin-top: 8px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   transition: all 0.3s ease;
   background: #f8f9fa;
   color: #000000;

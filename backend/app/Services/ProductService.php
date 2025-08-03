@@ -58,6 +58,26 @@ class ProductService
             'status' => 200
         ];
     }
+    static function getProduct($id)
+    {
+        $product = Product::with(['brand', 'category', 'variants', 'accords', 'images'])
+            ->find($id);
+
+        if (!$product) {
+            return [
+                'success' => false,
+                'message' => 'Product not found',
+                'status' => 404,
+            ];
+        }
+
+        return [
+            'success' => true,
+            'data' => $product,
+            'message' => 'Product retrieved successfully',
+            'status' => 200,
+        ];
+    }
 
     static function addOrUpdate(?int $id, array $data): array
     {
