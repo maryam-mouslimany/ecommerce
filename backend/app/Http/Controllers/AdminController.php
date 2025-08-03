@@ -7,11 +7,15 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-     function getOrder(){
-        $admin=AdminService::getOrder();
+    public function getOrder(Request $request)
+    {
+        $status = $request->query('status'); 
+        $orders = AdminService::getOrder($status);
 
-        if($admin)return $this->responseJSON($admin);
-        return $this->responseJSON(null,"notfound",404);
-        
+        if ($orders) {
+            return $this->responseJSON($orders);
+        }
+
+        return $this->responseJSON(null, "not found", 404);
     }
 }

@@ -21,6 +21,6 @@ class OrderInvoiceMail extends Mailable
     public function build()
     {
         return $this->subject('Your Order Invoice')
-                    ->html($this->buildInvoiceHtml($this->order));
+                    ->html($this->buildInvoiceHtml($this->order,"kifak hasson"));
     }
 }

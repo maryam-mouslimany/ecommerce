@@ -12,15 +12,12 @@ use App\Events\OrderPlaced;
 
 Route::get('/test-invoice', function () {
     // Create a fake user with Mailtrap email
-    $user = User::factory()->create([
-        'email' => '7eb73a5387-d1197f+ahma12ad@inbox.mailtrap.io
-' // use your Mailtrap inbox email here
-    ]);
+    $user = User::find(399);
 
     // Create a fake order linked to that user
     $order = Order::factory()->create([
         'user_id' => $user->id,
-        'total_amount' => 99.99
+        'total_amount' => 199.99
     ]);
 
     // Fire the event

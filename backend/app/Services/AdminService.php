@@ -8,13 +8,17 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class AdminService
 {
-    public static function getOrder(): ?LengthAwarePaginator
+   public static function getOrder(?string $status = null): ?LengthAwarePaginator
     {
-        $orders = Order::paginate(20);
-          foreach ($orders as $order) {
-            event(new OrderPlaced($order));
+
+
+        // Filter by order status if provided
+        if (isset($status)) {
+            Order::where('status', $status);
         }
 
+        $orders = Order::paginate(20);
+
         return $orders->isNotEmpty() ? $orders : null;
-    }
+}
 }

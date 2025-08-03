@@ -8,11 +8,15 @@ use App\Listeners\SendInvoiceEmailListener;
 
 class EventServiceProvider extends ServiceProvider
 {
-    protected $listen = [
-        OrderPlaced::class => [
-            SendInvoiceEmailListener::class,
-        ],
-    ];
+  protected $listen = [
+    OrderPlaced::class => [
+        SendInvoiceEmailListener::class,
+        UpdateStockListener::class,
+        LogOrderAnalyticsListener::class,
+        MockWebhookListener::class,
+    ],
+];
+
 
     public function boot(): void
     {
