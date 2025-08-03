@@ -5,6 +5,7 @@ import FilterBar from "../../components/FilterBar";
 import { StatusLabel } from "../../components/StatusLabel";
 import ActionButtons from "../../components/ActionButtons";
 import Pagination from "../../components/Pagination";
+import OrderDetailsModal from "../../components/OrderDetailsModal";
 
 // Mock data for orders
 const mockOrders = [
@@ -90,6 +91,7 @@ const statusColors = {
 const AdminOrderManagement = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const filters = ["All", "Pending", "Paid", "Packed", "Shipped"];
 
@@ -98,8 +100,8 @@ const AdminOrderManagement = () => {
   });
 
   const handleViewOrder = (orderId) => {
-    console.log("View order:", orderId);
-    // TODO: Implement order details modal
+    const order = mockOrders.find(order => order.id === orderId);
+    setSelectedOrder(order);
   };
 
   const handleEditOrder = (orderId) => {
@@ -108,7 +110,8 @@ const AdminOrderManagement = () => {
   };
 
   return (
-    <div className={styles.adminContainer}>
+    <>
+      <div className={styles.adminContainer}>
       <Header />
       <main className={styles.mainContent}>
           <div className={styles.pageTitle}>
@@ -159,13 +162,20 @@ const AdminOrderManagement = () => {
             </div>
           </div>
 
-                     <Pagination 
-             currentPage={currentPage}
-             onPageChange={setCurrentPage}
-           />
-         </main>
-       </div>
-     );
-   };
+                                           <Pagination 
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+            />
+          </main>
+        </div>
+
+        <OrderDetailsModal
+          isOpen={!!selectedOrder}
+          onClose={() => setSelectedOrder(null)}
+          order={selectedOrder}
+        />
+      </>
+    );
+  };
 
 export default AdminOrderManagement;
