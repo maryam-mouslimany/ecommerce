@@ -1,9 +1,20 @@
-import Table from "../../components/Table";
-import products from '../../../../data/products.json';
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
 import styles from "./styles.module.css";
+import Table from "../../components/Table";
+import React, { useEffect, useState } from "react";
+import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
+import { fetchData } from "../../../../services/api.js";
 
 const ViewProducts = () => {
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        fetchData("/admin/view-products", "GET")
+            .then((res) => {
+                setProducts(res.data.data.data); 
+            })
+            .catch((err) => console.error("Error fetching products:", err));
+    }, []);
+
     const columns = [
         { header: 'ID', key: 'id' },
         { header: 'Name', key: 'name' },

@@ -1,4 +1,19 @@
-.container {
+.buttonWrapper {
+  padding: 1.5rem 2rem;
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Tablet styles */
+@media (max-width: 1024px) {
+  .formWrapper {
+    max-width: 800px;
+  }
+  
+  .form {
+    gap: 1.25rem 1.5rem;
+  }
+}.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,7 +24,7 @@
 
 .formWrapper {
   width: 100%;
-  max-width: 600px;
+  max-width: 1000px; /* Increased width for grid layout */
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -18,9 +33,9 @@
 
 .form {
   padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* Three columns by default */
+  gap: 1.5rem 2rem; /* row gap, column gap */
 }
 
 .title {
@@ -31,14 +46,18 @@
   margin-bottom: 1rem;
   border-bottom: 2px solid #e5e7eb;
   padding-bottom: 1rem;
+  grid-column: 1 / -1; /* Span full width */
 }
 
-.buttonWrapper {
-  padding: 1.5rem 2rem;
-  background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
+/* Variant fields in a sub-grid */
+.variantRow {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
 }
 
+/* Mobile styles */
 @media (max-width: 768px) {
   .container {
     padding: 1rem 0.75rem;
@@ -52,6 +71,7 @@
   
   .form {
     padding: 1.5rem;
+    grid-template-columns: 1fr; /* Single column on mobile */
     gap: 1.25rem;
   }
   
@@ -61,5 +81,20 @@
   
   .buttonWrapper {
     padding: 1.25rem 1.5rem;
+  }
+  
+  .variantRow {
+    grid-template-columns: 1fr; /* Stack variant fields on mobile */
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .form {
+    padding: 1rem;
+  }
+  
+  .buttonWrapper {
+    padding: 1rem;
   }
 }

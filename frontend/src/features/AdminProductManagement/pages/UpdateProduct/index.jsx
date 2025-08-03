@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 import { InputField } from "../../../../components/InputField";
 import { Button } from "../../../../components/Button";
 import SelectInput from "../../../../components/SelectInput";
 import data from "../../../../data/productsAttachments.json";
 import styles from "./styles.module.css";
-import { fetchData } from "../../../../services/api";
+import { fetchData } from "../../../../services/api.js";
 
-function ProductForm() {
-  const { id } = useParams();
-  console.log(id);
-  const isEditMode = Boolean(id);
-
+function UpdateProduct() {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [brandId, setBrandId] = useState("");
@@ -20,79 +15,38 @@ function ProductForm() {
   const [imageUrl, setImageUrl] = useState("");
   const [variant, setVariant] = useState({ size_ml: "", price: "", stock: "" });
 
-  useEffect(() => {
-    if (isEditMode) {
-      fetchData(`/admin/view-product/${id}`, "GET")
-        .then((res) => {
-          const product = res.data.data;
-          setName(product.name);
-          setGender(product.gender);
-          setBrandId(product.brand.id);
-          setCategoryId(product.category.id);
-          setVariant({
-            size_ml: product.variants[0].size_ml,
-            price: product.variants[0].price,
-            stock: product.variants[0].stock,
-          });
-          setSelectedAccords(product.accords.map((a) => a.id));
-          setImageUrl(product.images[0]?.url || "");
-        })
-        .catch((err) => console.error("Error fetching product:", err));
-    }
-  }, [isEditMode, id]);
-
   const handleSubmit = (e) => {
   e.preventDefault();
 
-  const payload = {
-    action: isEditMode ? "update" : "create",
+  const newProduct = {
+    action: "create",
     name,
     gender,
-    brand_id: parseInt(brandId),
-    category_id: parseInt(categoryId),
+    brand_id: brandId,
+    category_id: categoryId,
     accords: selectedAccords,
     variants: [variant],
-    images: [{ url: imageUrl }],
+    images: [{ url: imageUrl }], 
   };
 
-  const url = isEditMode
-    ? `/admin/add-update-products/${id}`
-    : "/admin/add-update-products";
-
-  fetchData(url, "POST", payload)
+  fetchData("/admin/add-update-products", "POST", newProduct)
     .then((res) => {
-      console.log(
-        isEditMode
-          ? "Product updated successfully:"
-          : "Product created successfully:",
-        res.data
-      );
-
-      if (!isEditMode) {
-        setName("");
-        setGender("");
-        setBrandId("");
-        setCategoryId("");
-        setVariant({ size_ml: "", price: "", stock: "" });
-        setSelectedAccords([]);
-        setImageUrl("");
-      }
+      console.log("Product created successfully:", res.data);
+      setName("");
+      setGender("");
+      setBrandId("");
+      setCategoryId("");
+      setVariant({ size_ml: "", price: "", stock: "" });
+      setSelectedAccords([]);
     })
-    .catch((err) =>
-      console.error(
-        isEditMode ? "Error updating product:" : "Error creating product:",
-        err
-      )
-    );
+    .catch((err) => console.error("Error creating product:", err));
 };
 
   return (
     <div className={styles.container}>
       <div className={styles.formWrapper}>
         <form className={styles.form}>
-          <h2 className={styles.title}>
-            {isEditMode ? "Update Product" : "Create Product"}
-          </h2>
+          <h2 className={styles.title}>Create Product</h2>
 
           <InputField
             label="Product Name"
@@ -186,7 +140,7 @@ function ProductForm() {
 
         <div className={styles.buttonWrapper}>
           <Button
-            label={isEditMode ? "Update Product" : "Create Product"}
+            label="Create Product"
             onClick={handleSubmit}
             variant="primary"
             size="large"
@@ -197,4 +151,4 @@ function ProductForm() {
   );
 }
 
-export default ProductForm;
+export default UpdateProduct;

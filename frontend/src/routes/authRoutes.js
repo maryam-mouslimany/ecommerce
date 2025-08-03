@@ -17,6 +17,7 @@ export const authRoutes = [
   { path: "/order-confrimation", element: <OrderConfirmation /> },
   { path: "/admin-view-products", element: <ViewProducts /> },
   { path: "/admin-create-products", element: <CreateProduct /> },
+  { path: "/admin-update-product/:id", element: <CreateProduct /> },
   { path: "/order-history", element: <OrderHistoryPage /> },
 
   { path: "/They", element: <TheyPage /> },
