@@ -4,6 +4,8 @@
   padding: 2rem;
   max-width: 900px;
   width: 95vw;
+  max-height: 85vh;
+  overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
