@@ -27,7 +27,7 @@ Route::get('/test-invoice', function () {
 });
 // API Version 1
 Route::group(["prefix" => "admin"], function(){
-        Route::get("/getOrder", [AdminController::class, "getOrder"]);
+        Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);
      });
 Route::prefix('v1')->group(function () {
     // Guest routes (no authentication required)
