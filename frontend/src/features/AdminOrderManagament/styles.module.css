@@ -1,0 +1,149 @@
+.adminContainer {
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.mainContent {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pageTitle {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.pageTitle h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+
+
+.ordersTable {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  border: 2px solid var(--tertiary-color);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+
+.tableHeader {
+  background-color: var(--primary-color);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tableBody {
+  /* Container for table body rows */
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 100px 120px 120px;
+  gap: 1rem;
+  padding: 1rem;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tableHeader .tableRow {
+  font-weight: 600;
+  border-bottom: none;
+}
+
+.tableBody .tableRow:hover {
+  background-color: #f9fafb;
+}
+
+.tableCell {
+  font-size: 0.875rem;
+  color: var(--primary-color);
+}
+
+.tableHeader .tableCell {
+  color: white;
+  font-weight: 600;
+}
+
+
+
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 1rem;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filterButtons {
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .tableRow {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .tableHeader {
+    display: none;
+  }
+
+  .tableCell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+  }
+
+  .tableCell::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--text-secondary-color);
+    margin-right: 0.5rem;
+  }
+
+
+}
+
+@media (max-width: 480px) {
+  .filterButtons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filterButtons button {
+    min-width: 60px;
+    font-size: 0.875rem;
+  }
+}
