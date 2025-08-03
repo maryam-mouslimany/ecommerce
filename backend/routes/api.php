@@ -5,8 +5,29 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductFilterController;
+use App\Models\User;
+use App\Models\Order;
+use App\Events\OrderPlaced;
 
 
+Route::get('/test-invoice', function () {
+    // Create a fake user with Mailtrap email
+    $user = User::factory()->create([
+        'email' => '7eb73a5387-d1197f+ahma12ad@inbox.mailtrap.io
+' // use your Mailtrap inbox email here
+    ]);
+
+    // Create a fake order linked to that user
+    $order = Order::factory()->create([
+        'user_id' => $user->id,
+        'total_amount' => 99.99
+    ]);
+
+    // Fire the event
+    event(new OrderPlaced($order));
+
+    return 'Invoice event dispatched!';
+});
 // API Version 1
 Route::group(["prefix" => "admin"], function(){
         Route::get("/getOrder", [AdminController::class, "getOrder"]);
