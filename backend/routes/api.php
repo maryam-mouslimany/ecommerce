@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Order;
 use App\Events\OrderPlaced;
 
+use App\Http\Controllers\Admin\ProductsController;
+
 
 Route::get('/test-invoice', function () {
     // Create a fake user with Mailtrap email
@@ -54,4 +56,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/products', [ProductFilterController::class, 'filter']);
     Route::get('/products/filter-options', [ProductFilterController::class, 'getFilterOptions']);
     Route::get('/products/{id}', [ProductFilterController::class, 'show']);
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('/view-products', [ProductsController::class, 'getProducts']);
+    Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
+    Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
 });
