@@ -7,36 +7,35 @@ use App\Models\OrderItem;
 use App\Models\Address;
 use App\Models\ProductVariant;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CheckoutService
 {
-    public function processCheckout(array $data, User $user): array
+    public static function processCheckout(array $data, User $user): array
     {
         try {
             DB::beginTransaction();
 
             // Validate stock availability
-            $stockValidation = $this->validateStock($data['cart_items']);
+            $stockValidation = self::validateStock($data['cart_items']);
             if (!$stockValidation['success']) {
                 return $stockValidation;
             }
 
-            // Create or get addresses
-            $shippingAddress = $this->createOrGetAddress($data['shipping_address'], $user, 'shipping');
-            $billingAddress = isset($data['billing_address'])
-                ? $this->createOrGetAddress($data['billing_address'], $user, 'billing')
-                : $shippingAddress;
+            // Create addresses (simplified)
+            $shippingAddress = self::createAddress($data['shipping_address'], $user, 'shipping');
+            $billingAddress = self::createAddress($data['billing_address'] ?? $data['shipping_address'], $user, 'billing');
 
             // Calculate total
-            $summary = $this->calculateSummary($data['cart_items']);
+            $total = self::calculateTotal($data['cart_items']);
 
             // Create order
             $order = Order::create([
                 'user_id' => $user->id,
                 'shipping_address_id' => $shippingAddress->id,
                 'billing_address_id' => $billingAddress->id,
-                'total_amount' => $summary['total'],
+                'total_amount' => $total,
                 'status' => 'pending'
             ]);
 
@@ -62,8 +61,7 @@ class CheckoutService
                 'message' => 'Order placed successfully',
                 'data' => [
                     'order_id' => $order->id,
-                    'total_amount' => $order->total_amount,
-                    'status' => $order->status
+                    'total_amount' => $order->total_amount
                 ],
                 'status' => 201
             ];
@@ -77,38 +75,59 @@ class CheckoutService
         }
     }
 
-    public function calculateSummary(array $cartItems): array
+    public static function calculateSummary(Request $request): array
     {
-        $items = [];
+        try {
+            $cartItems = $request->input('cart_items', []);
+
+            // Handle cart items passed as JSON string in query parameter
+            if (is_string($cartItems)) {
+                $cartItems = json_decode($cartItems, true);
+            }
+
+            if (empty($cartItems)) {
+                return [
+                    'success' => false,
+                    'message' => 'Cart items are required',
+                    'status' => 422
+                ];
+            }
+
+            $total = self::calculateTotal($cartItems);
+
+            return [
+                'success' => true,
+                'data' => [
+                    'total' => $total,
+                    'item_count' => count($cartItems)
+                ],
+                'message' => 'Checkout summary calculated successfully',
+                'status' => 200
+            ];
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to calculate summary: ' . $e->getMessage(),
+                'status' => 500
+            ];
+        }
+    }
+
+    private static function calculateTotal(array $cartItems): float
+    {
         $total = 0;
 
         foreach ($cartItems as $item) {
-            $variant = ProductVariant::with('product')->find($item['product_variant_id']);
-
-            if (!$variant) {
-                continue;
+            $variant = ProductVariant::find($item['product_variant_id']);
+            if ($variant) {
+                $total += $variant->price * $item['quantity'];
             }
-
-            $itemTotal = $variant->price * $item['quantity'];
-            $total += $itemTotal;
-
-            $items[] = [
-                'product_variant_id' => $variant->id,
-                'product_name' => $variant->product->name,
-                'quantity' => $item['quantity'],
-                'unit_price' => $variant->price,
-                'total' => $itemTotal
-            ];
         }
 
-        return [
-            'items' => $items,
-            'total' => $total,
-            'item_count' => count($items)
-        ];
+        return $total;
     }
 
-    private function validateStock(array $cartItems): array
+    private static function validateStock(array $cartItems): array
     {
         foreach ($cartItems as $item) {
             $variant = ProductVariant::find($item['product_variant_id']);
@@ -124,7 +143,7 @@ class CheckoutService
             if ($variant->stock < $item['quantity']) {
                 return [
                     'success' => false,
-                    'message' => "Insufficient stock for {$variant->product->name}. Available: {$variant->stock}",
+                    'message' => 'Insufficient stock',
                     'status' => 422
                 ];
             }
@@ -133,7 +152,7 @@ class CheckoutService
         return ['success' => true];
     }
 
-    private function createOrGetAddress(array $addressData, User $user, string $type): Address
+    private static function createAddress(array $addressData, User $user, string $type): Address
     {
         return Address::create([
             'user_id' => $user->id,

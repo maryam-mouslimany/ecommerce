@@ -19,15 +19,6 @@ Route::prefix('v1')->group(function () {
 
     // Protected routes (authentication required)
     Route::middleware('auth:api')->prefix('user')->group(function () {
-        // Get authenticated user profile
-        Route::get('/profile', function (Request $request) {
-            return response()->json([
-                'success' => true,
-                'data' => $request->user(),
-                'message' => 'User profile retrieved successfully'
-            ]);
-        });
-
         // Logout
         Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -36,8 +27,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/checkout/summary', [CheckoutController::class, 'getCheckoutSummary']);
     });
     // Product routes
-    Route::get('/products', [ProductFilterController::class, 'filter']);
     Route::get('/products/filter-options', [ProductFilterController::class, 'getFilterOptions']);
+    Route::get('/products/filter', [ProductFilterController::class, 'filter']);
+    Route::get('/products', [ProductFilterController::class, 'filter']);
     Route::get('/products/{id}', [ProductFilterController::class, 'show']);
 });
 
