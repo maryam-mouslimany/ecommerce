@@ -30,65 +30,105 @@
   flex-wrap: wrap;
 }
 
-
-
-.ordersTable {
+.tableWrapper {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   margin-bottom: 2rem;
   border: 2px solid var(--tertiary-color);
-  max-height: 600px;
-  overflow-y: auto;
 }
 
-
-.tableHeader {
-  background-color: var(--primary-color);
-  color: white;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+/* Status Edit Modal */
+.statusEditModal {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90vw;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.tableBody {
-  /* Container for table body rows */
-}
-
-.tableRow {
-  display: grid;
-  grid-template-columns: 80px 1fr 1fr 100px 120px 120px;
-  gap: 1rem;
-  padding: 1rem;
-  align-items: center;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.tableHeader .tableRow {
+.statusEditModal h3 {
+  color: var(--primary-color);
+  font-size: 1.25rem;
   font-weight: 600;
-  border-bottom: none;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
 }
 
-.tableBody .tableRow:hover {
-  background-color: #f9fafb;
+.modalContent {
+  margin-bottom: 2rem;
 }
 
-.tableCell {
-  font-size: 0.875rem;
+.modalContent p {
+  margin: 0.75rem 0;
   color: var(--primary-color);
 }
 
-.tableHeader .tableCell {
-  color: white;
-  font-weight: 600;
+.statusSelectContainer {
+  margin-top: 1.5rem;
 }
 
+.statusSelectContainer label {
+  display: block;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
 
+.statusSelect {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: white;
+  width: 100%;
+  cursor: pointer;
+}
 
+.statusSelect:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
 
+.modalActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
 
+.cancelButton {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  color: #374151;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
 
+.cancelButton:hover {
+  background-color: #f9fafb;
+}
+
+.saveButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.saveButton:hover {
+  background-color: #1e3a8a;
+  transform: translateY(-1px);
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -99,51 +139,5 @@
   .controls {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .filterButtons {
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .tableRow {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-    padding: 0.75rem;
-  }
-
-  .tableHeader {
-    display: none;
-  }
-
-  .tableCell {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.25rem 0;
-  }
-
-  .tableCell::before {
-    content: attr(data-label);
-    font-weight: 600;
-    color: var(--text-secondary-color);
-    margin-right: 0.5rem;
-  }
-
-
-}
-
-@media (max-width: 480px) {
-  .filterButtons {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .filterButtons button {
-    min-width: 60px;
-    font-size: 0.875rem;
   }
 }
