@@ -4,8 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ProductFilterController;
-
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Checkout\CheckoutController;
 
 
 // API Version 1
@@ -18,7 +18,7 @@ Route::prefix('v1')->group(function () {
     });
 
     // Protected routes (authentication required)
-    Route::middleware('auth:sanctum')->prefix('user')->group(function () {
+    Route::middleware('auth:api')->prefix('user')->group(function () {
         // Get authenticated user profile
         Route::get('/profile', function (Request $request) {
             return response()->json([
@@ -30,6 +30,10 @@ Route::prefix('v1')->group(function () {
 
         // Logout
         Route::post('/logout', [AuthController::class, 'logout']);
+
+        // Checkout routes
+        Route::post('/checkout', [CheckoutController::class, 'processCheckout']);
+        Route::get('/checkout/summary', [CheckoutController::class, 'getCheckoutSummary']);
     });
     // Product routes
     Route::get('/products', [ProductFilterController::class, 'filter']);
