@@ -83,7 +83,7 @@ const mockOrders = [
 
 const statusColors = {
   Pending: "#f59e0b",
-  Paid: "#10b981", 
+  Paid: "#10b981",
   Packed: "#3b82f6",
   Shipped: "#6b7280"
 };
@@ -112,14 +112,14 @@ const AdminOrderManagement = () => {
   return (
     <>
       <div className={styles.adminContainer}>
-      <Header />
-      <main className={styles.mainContent}>
+        <Header />
+        <main className={styles.mainContent}>
           <div className={styles.pageTitle}>
             <h1>Admin Orders Dashboard</h1>
           </div>
 
           <div className={styles.controls}>
-            <FilterBar 
+            <FilterBar
               filters={filters}
               activeFilter={activeFilter}
               onFilterChange={setActiveFilter}
@@ -146,13 +146,13 @@ const AdminOrderManagement = () => {
                   <div className={styles.tableCell}>{order.address}</div>
                   <div className={styles.tableCell}>{order.total}</div>
                   <div className={styles.tableCell}>
-                    <StatusLabel 
+                    <StatusLabel
                       status={order.status}
                       customColor={statusColors[order.status]}
                     />
                   </div>
                   <div className={styles.tableCell}>
-                    <ActionButtons 
+                    <ActionButtons
                       onView={() => handleViewOrder(order.id)}
                       onEdit={() => handleEditOrder(order.id)}
                     />
@@ -162,20 +162,20 @@ const AdminOrderManagement = () => {
             </div>
           </div>
 
-                                           <Pagination 
-              currentPage={currentPage}
-              onPageChange={setCurrentPage}
-            />
-          </main>
-        </div>
+          <Pagination
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
+        </main>
+      </div>
 
-        <OrderDetailsModal
-          isOpen={!!selectedOrder}
-          onClose={() => setSelectedOrder(null)}
-          order={selectedOrder}
-        />
-      </>
-    );
-  };
+      <OrderDetailsModal
+        isOpen={!!selectedOrder}
+        onClose={() => setSelectedOrder(null)}
+        order={selectedOrder}
+      />
+    </>
+  );
+};
 
 export default AdminOrderManagement;
