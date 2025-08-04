@@ -2,26 +2,27 @@
 
 namespace App\Jobs;
 
+use App\Mail\OrderInvoiceMail;
+use App\Models\Order;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class SendInvoiceEmail implements ShouldQueue
 {
-    use Queueable;
+    use  InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
-    public function __construct()
+    protected $order;
+
+    public function __construct(Order $order)
     {
-        //
+        $this->order = $order;
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
-        //
+        Mail::to($this->order->user->email)->send(new OrderInvoiceMail($this->order));
     }
 }
