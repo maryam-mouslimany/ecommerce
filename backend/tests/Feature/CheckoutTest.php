@@ -41,7 +41,9 @@ class CheckoutTest extends TestCase
             ],
             'shipping_address' => [
                 'line1' => '123 Test Street',
+                'line2' => 'Apt 4B',
                 'city' => 'Test City',
+                'region' => 'Test State',
                 'country' => 'Test Country',
                 'postal_code' => '12345'
             ]

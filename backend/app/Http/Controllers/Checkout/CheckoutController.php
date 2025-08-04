@@ -12,33 +12,25 @@ class CheckoutController extends Controller
 {
     use ResponseTrait;
 
-    protected $checkoutService;
-
-    public function __construct(CheckoutService $checkoutService)
-    {
-        $this->checkoutService = $checkoutService;
-    }
-
     public function processCheckout(CheckoutRequest $request)
     {
-        try {
-            $result = $this->checkoutService->processCheckout($request->validated(), $request->user());
+        $result = CheckoutService::processCheckout($request->validated(), $request->user());
 
+        if ($result['success']) {
             return $this->responseJSON($result['data'], $result['message'], $result['status']);
-        } catch (\Exception $e) {
-            return $this->responseError($e->getMessage(), 500);
         }
+
+        return $this->responseError($result['message'], $result['status']);
     }
 
     public function getCheckoutSummary(Request $request)
     {
-        try {
-            $cartItems = $request->input('cart_items', []);
-            $summary = $this->checkoutService->calculateSummary($cartItems);
+        $result = CheckoutService::calculateSummary($request);
 
-            return $this->responseJSON($summary, 'Checkout summary calculated successfully');
-        } catch (\Exception $e) {
-            return $this->responseError($e->getMessage(), 500);
+        if ($result['success']) {
+            return $this->responseJSON($result['data'], $result['message'], $result['status']);
         }
+
+        return $this->responseError($result['message'], $result['status']);
     }
 }
