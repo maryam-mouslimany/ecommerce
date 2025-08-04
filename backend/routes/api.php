@@ -28,16 +28,13 @@ Route::get('/test-invoice', function () {
     return 'Invoice event dispatched!';
 });
 // API Version 1
-Route::group(["prefix" => "admin"], function(){
-        Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);
-     });
 Route::prefix('v1')->group(function () {
     // Guest routes (no authentication required)
     Route::prefix('guest')->group(function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login', [AuthController::class, 'login']);
     });
-
+    
     // Protected routes (authentication required)
     Route::middleware('auth:sanctum')->prefix('user')->group(function () {
         // Get authenticated user profile
@@ -48,7 +45,7 @@ Route::prefix('v1')->group(function () {
                 'message' => 'User profile retrieved successfully'
             ]);
         });
-
+        
         // Logout
         Route::post('/logout', [AuthController::class, 'logout']);
     });
@@ -60,6 +57,7 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/view-products', [ProductsController::class, 'getProducts']);
+    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);//this one
     Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
     Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
 });
