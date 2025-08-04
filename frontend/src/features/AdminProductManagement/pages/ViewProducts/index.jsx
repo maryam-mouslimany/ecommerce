@@ -1,8 +1,8 @@
 import styles from "./styles.module.css";
-import Table from "../../components/Table";
+import Table from "../../components/TableExpandableRows";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaTrash, FaEye,FaPlus, FaTimes } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEye, FaPlus, FaTimes } from 'react-icons/fa';
 import { fetchData } from "../../../../services/api.js";
 import Header from "../../../../components/Header/index.jsx";
 import SelectFilter from "../../components/SelectFilter/index.jsx";
@@ -62,25 +62,24 @@ const ViewProducts = () => {
     };
 
     const columns = [
-        { header: 'ID', key: 'id' },
-        { header: 'Name', key: 'name' },
-        { header: 'Brand', render: (product) => product.brand?.name || "No Brand" },
-        { header: 'Category', render: (product) => product.category?.name || "No Category" },
-        { header: 'Gender', key: 'gender' },
-        { header: 'Price', render: (product) => product.variants?.[0]?.price ?? "N/A" },
-        { header: 'Stock', render: (product) => product.variants?.[0]?.stock ?? "N/A" },
-        { header: 'Accords', render: (product) => product.accords?.map(a => a.name).join(', ') || "" },
-        {
-            header: 'Actions',
-            render: (product) => (
-                <div style={{ display: 'flex', gap: '8px' }}>
-                    <FaEye style={{ cursor: 'pointer' }} title="View" onClick={() => navigate(`/admin-view-product/${product.id}`)} />
-                    <FaEdit style={{ cursor: 'pointer' }} onClick={() => navigate(`/admin-update-product/${product.id}`)} />
-                    <FaTrash style={{ cursor: 'pointer' }} title="Delete" />
-                </div>
-            )
-        }
-    ];
+  { header: 'ID', key: 'id' },
+  { header: 'Name', key: 'name' },
+  { header: 'Brand', render: (product) => product.brand?.name || "No Brand" },
+  { header: 'Category', render: (product) => product.category?.name || "No Category" },
+  { header: 'Gender', key: 'gender' },
+  { header: 'Accords', render: (product) => product.accords?.map(a => a.name).join(', ') || "" },
+  {
+    header: 'Actions',
+    render: (product) => (
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <FaEye style={{ cursor: 'pointer' }} title="View" onClick={() => navigate(`/admin-view-product/${product.id}`)} />
+        <FaEdit style={{ cursor: 'pointer' }} onClick={() => navigate(`/admin-update-product/${product.id}`)} />
+        <FaTrash style={{ cursor: 'pointer' }} title="Delete" />
+      </div>
+    )
+  }
+];
+
 
     return (
         <><Header />
@@ -124,7 +123,7 @@ const ViewProducts = () => {
                 <Pagination
                     currentPage={currentPage}
                     onPageChange={(page) => setCurrentPage(page)}
-                    totalPages={lastPage}  
+                    totalPages={lastPage}
                 />
 
             </div>
