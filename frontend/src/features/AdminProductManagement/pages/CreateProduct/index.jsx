@@ -1,25 +1,51 @@
-import React, { useState, useEffect } from "react";
+import styles from "./styles.module.css";
 import { useParams } from "react-router-dom";
-import { InputField } from "../../../../components/InputField";
+import React, { useState, useEffect } from "react";
+import { fetchData } from "../../../../services/api";
 import { Button } from "../../../../components/Button";
 import SelectInput from "../../../../components/SelectInput";
-import data from "../../../../data/productsAttachments.json";
-import styles from "./styles.module.css";
-import { fetchData } from "../../../../services/api";
+import { InputField } from "../../../../components/InputField";
 
-function ProductForm() {
+const ProductForm = () => {
   const { id } = useParams();
-  console.log(id);
   const isEditMode = Boolean(id);
 
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
+  const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [accords, setAccords] = useState([]);
   const [brandId, setBrandId] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [selectedAccords, setSelectedAccords] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
-  const [variant, setVariant] = useState({ size_ml: "", price: "", stock: "" });
+  const [variants, setVariants] = useState([{ size_ml: "", price: "", stock: "" }]);
 
+  const genders = [
+    { value: "female", label: "Female" },
+    { value: "male", label: "Male" },
+    { value: "unisex", label: "Unisex" },
+  ];
+
+  // 1. Fetch Brands, Categories, and Accords first
+  useEffect(() => {
+    fetchData("/brands", "GET")
+      .then(res => setBrands(Array.isArray(res.data.data) ? res.data.data : []))
+      .catch(err => console.error("Error fetching brands:", err));
+
+    fetchData("/categories", "GET")
+      .then(res => setCategories(Array.isArray(res.data.data) ? res.data.data : []))
+      .catch(err => console.error("Error fetching categories:", err));
+
+    fetchData("/accords", "GET")
+      .then(res => {
+        const accordsData = Array.isArray(res.data.data) ? res.data.data : [];
+        setAccords(accordsData);
+      })
+      .catch(err => console.error("Error fetching accords:", err));
+  }, []);
+
+  // 2. Fetch Product Data when in Edit Mode
   useEffect(() => {
     if (isEditMode) {
       fetchData(`/admin/view-product/${id}`, "GET")
@@ -27,65 +53,69 @@ function ProductForm() {
           const product = res.data.data;
           setName(product.name);
           setGender(product.gender);
-          setBrandId(product.brand.id);
-          setCategoryId(product.category.id);
-          setVariant({
-            size_ml: product.variants[0].size_ml,
-            price: product.variants[0].price,
-            stock: product.variants[0].stock,
-          });
-          setSelectedAccords(product.accords.map((a) => a.id));
+          setBrandId(product.brand.id.toString());
+          setCategoryId(product.category.id.toString());
+          setVariants(product.variants.map(v => ({
+            size_ml: v.size_ml,
+            price: v.price,
+            stock: v.stock
+          })))
           setImageUrl(product.images[0]?.url || "");
+
+          // Store accord IDs as strings for <select multiple>
+          const accordIds = product.accords.map((a) => a.id.toString());
+          setSelectedAccords(accordIds);
+          console.log("Preselected accord IDs:", accordIds);
         })
         .catch((err) => console.error("Error fetching product:", err));
     }
   }, [isEditMode, id]);
 
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const payload = {
-    action: isEditMode ? "update" : "create",
-    name,
-    gender,
-    brand_id: parseInt(brandId),
-    category_id: parseInt(categoryId),
-    accords: selectedAccords,
-    variants: [variant],
-    images: [{ url: imageUrl }],
-  };
+    const payload = {
+      action: isEditMode ? "update" : "create",
+      name,
+      gender,
+      brand_id: parseInt(brandId),
+      category_id: parseInt(categoryId),
+      accords: selectedAccords.map(Number), // Convert back to numbers for API
+      variants,
+      images: [{ url: imageUrl }],
+    };
 
-  const url = isEditMode
-    ? `/admin/add-update-products/${id}`
-    : "/admin/add-update-products";
+    const url = isEditMode
+      ? `/admin/add-update-products/${id}`
+      : "/admin/add-update-products";
 
-  fetchData(url, "POST", payload)
-    .then((res) => {
-      console.log(
-        isEditMode
-          ? "Product updated successfully:"
-          : "Product created successfully:",
-        res.data
+    fetchData(url, "POST", payload)
+      .then((res) => {
+        console.log(
+          isEditMode
+            ? "Product updated successfully:"
+            : "Product created successfully:",
+          res.data
+        );
+
+        if (!isEditMode) {
+          setName("");
+          setGender("");
+          setBrandId("");
+          setCategoryId("");
+          setSelectedAccords([]);
+          setImageUrl("");
+        }
+      })
+      .catch((err) =>
+        console.error(
+          isEditMode ? "Error updating product:" : "Error creating product:",
+          err
+        )
       );
-
-      if (!isEditMode) {
-        setName("");
-        setGender("");
-        setBrandId("");
-        setCategoryId("");
-        setVariant({ size_ml: "", price: "", stock: "" });
-        setSelectedAccords([]);
-        setImageUrl("");
-      }
-    })
-    .catch((err) =>
-      console.error(
-        isEditMode ? "Error updating product:" : "Error creating product:",
-        err
-      )
-    );
-};
-
+  };
+  console.log("Accords options:", accords.map((a) => a.id.toString()));
+  console.log("Selected accords:", selectedAccords);
   return (
     <div className={styles.container}>
       <div className={styles.formWrapper}>
@@ -108,11 +138,7 @@ function ProductForm() {
             label="Gender"
             value={gender}
             onChange={(e) => setGender(e.target.value)}
-            options={[
-              { value: "female", label: "Female" },
-              { value: "male", label: "Male" },
-              { value: "unisex", label: "Unisex" },
-            ]}
+            options={genders}
             required
           />
 
@@ -121,7 +147,7 @@ function ProductForm() {
             label="Brand"
             value={brandId}
             onChange={(e) => setBrandId(e.target.value)}
-            options={data.brands.map((b) => ({ value: b.id, label: b.name }))}
+            options={brands.map((b) => ({ value: b.id.toString(), label: b.name }))}
             required
           />
 
@@ -130,36 +156,10 @@ function ProductForm() {
             label="Category"
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            options={data.categories.map((c) => ({ value: c.id, label: c.name }))}
+            options={categories.map((c) => ({ value: c.id.toString(), label: c.name }))}
             required
           />
 
-          <InputField
-            label="Size (ml)"
-            type="number"
-            name="size_ml"
-            placeholder="50"
-            value={variant.size_ml}
-            onChange={(e) => setVariant({ ...variant, size_ml: e.target.value })}
-          />
-
-          <InputField
-            label="Price ($)"
-            type="number"
-            name="price"
-            placeholder="55.00"
-            value={variant.price}
-            onChange={(e) => setVariant({ ...variant, price: e.target.value })}
-          />
-
-          <InputField
-            label="Stock"
-            type="number"
-            name="stock"
-            placeholder="22"
-            value={variant.stock}
-            onChange={(e) => setVariant({ ...variant, stock: e.target.value })}
-          />
 
           <SelectInput
             name="accords"
@@ -167,10 +167,10 @@ function ProductForm() {
             value={selectedAccords}
             onChange={(e) =>
               setSelectedAccords(
-                Array.from(e.target.selectedOptions, (opt) => parseInt(opt.value))
+                Array.from(e.target.selectedOptions, (opt) => opt.value)
               )
             }
-            options={data.accordsList.map((a) => ({ value: a.id, label: a.name }))}
+            options={accords.map((a) => ({ value: a.id.toString(), label: a.name }))}
             multiple={true}
           />
 
@@ -181,6 +181,63 @@ function ProductForm() {
             placeholder="https://example.com/image.jpg"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
+          />
+
+          <h3 className={styles.subtitle}>Variants</h3>
+          {variants.map((v, index) => (
+            <div key={index} className={styles.variantRow}>
+              <InputField
+                label="Size (ml)"
+                type="number"
+                name={`size_${index}`}
+                placeholder="50"
+                value={v.size_ml}
+                onChange={(e) => {
+                  const updated = [...variants];
+                  updated[index].size_ml = e.target.value;
+                  setVariants(updated);
+                }}
+              />
+              <InputField
+                label="Price ($)"
+                type="number"
+                name={`price_${index}`}
+                placeholder="55.00"
+                value={v.price}
+                onChange={(e) => {
+                  const updated = [...variants];
+                  updated[index].price = e.target.value;
+                  setVariants(updated);
+                }}
+              />
+              <InputField
+                label="Stock"
+                type="number"
+                name={`stock_${index}`}
+                placeholder="22"
+                value={v.stock}
+                onChange={(e) => {
+                  const updated = [...variants];
+                  updated[index].stock = e.target.value;
+                  setVariants(updated);
+                }}
+              />
+              {variants.length > 1 && (
+                <Button
+                  label="Remove"
+                  onClick={() => setVariants(variants.filter((_, i) => i !== index))}
+                  variant="secondary"
+                  size="small"
+                />
+              )}
+            </div>
+          ))}
+
+          <Button
+            label="Add Variant"
+            onClick={() => setVariants([...variants, { size_ml: "", price: "", stock: "" }])}
+            variant="secondary"
+            size="small"
           />
         </form>
 
@@ -195,6 +252,6 @@ function ProductForm() {
       </div>
     </div>
   );
-}
+};
 
 export default ProductForm;
