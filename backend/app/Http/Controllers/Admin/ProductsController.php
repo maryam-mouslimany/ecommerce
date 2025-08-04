@@ -13,7 +13,7 @@ class ProductsController extends Controller
     function getProducts(Request $request)
     {
         try {
-            $result = ProductService::getProducts($request->query());
+            $result = ProductService::getProducts($request);
 
             return $result['success']
                 ? $this->responseJSON($result['data'], $result['message'], $result['status'])

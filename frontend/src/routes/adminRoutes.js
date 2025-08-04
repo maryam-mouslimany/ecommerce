@@ -1,13 +1,8 @@
-// import { AdminDashboard } from "../features/Admin/pages/AdminDashboard";
-// import ProtectedRoute from "./ProtectedRoute";
+import AdminOrderManagement from "../features/AdminOrderManagament";
 
-// export const adminRoutes = [
-//   {
-//     path: "/admin",
-//     element: (
-//       <ProtectedRoute role="admin">
-//         <AdminDashboard />
-//       </ProtectedRoute>
-//     ),
-//   },
-// ];
+export const adminRoutes = [
+  {
+    path: "/admin/orders",
+    element: <AdminOrderManagement />,
+  },
+];

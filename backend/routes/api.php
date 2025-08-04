@@ -10,6 +10,12 @@ use App\Models\Order;
 use App\Events\OrderPlaced;
 
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\AccordController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GenderController;
+
+
 
 
 Route::get('/test-invoice', function () {
@@ -61,3 +67,9 @@ Route::prefix('admin')->group(function () {
     Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
     Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
 });
+
+Route::get('/brands', [BrandController::class, 'getBrands']);
+Route::get('/categories', [CategoryController::class, 'getCategories']);
+Route::get('/accords', [AccordController::class, 'getAccords']);
+
+
