@@ -8,10 +8,9 @@
         "framework"
     ],
     "license": "MIT",
-<<<<<<< HEAD
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^12.21",
+        "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "php-open-source-saver/jwt-auth": "^2.8",
@@ -19,19 +18,6 @@
         "symfony/http-client": "^7.3",
         "symfony/mailgun-mailer": "^7.3"
     },
-=======
-"require": {
-    "php": "^8.2",
-    "laravel/framework": "^12.0",
-    "laravel/sanctum": "^4.0",
-    "laravel/tinker": "^2.10.1",
-    "php-open-source-saver/jwt-auth": "^2.8",
-    "predis/predis": "^3.1",
-    "symfony/http-client": "^7.3",
-    "symfony/mailgun-mailer": "^7.3"
-},
-
->>>>>>> e466974444f81a8d95f486cace7e4b06a96f8de9
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
