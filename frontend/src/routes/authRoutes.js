@@ -7,6 +7,7 @@ import CreateProduct from "../features/AdminProductManagement/pages/CreateProduc
 import ViewProducts from "../features/AdminProductManagement/pages/ViewProducts";
 import { OrderHistoryPage } from "../features/OrderHistory/pages/OrderHistory";
 import ProductDetails from "../features/AdminProductManagement/pages/ProductDetails";
+import CheckoutPage from "../features/Checkout";
 import TheyPage from "../features/Home/pages/TheyPage";
 
 export const authRoutes = [
@@ -22,4 +23,5 @@ export const authRoutes = [
   { path: "/order-history", element: <OrderHistoryPage /> },
 
   { path: "/They", element: <TheyPage /> },
+  { path: "/checkout", element: <CheckoutPage /> },
 ];

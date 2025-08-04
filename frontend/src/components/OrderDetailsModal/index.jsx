@@ -21,11 +21,15 @@ const OrderDetailsModal = ({ isOpen, onClose, order }) => {
           </div>
           <div className={styles.detailRow}>
             <span className={styles.detailLabel}>Phone Number:</span>
-            <span className={styles.detailValue}>81 273 376</span>
+            <span className={styles.detailValue}>{order.phone || "N/A"}</span>
           </div>
           <div className={styles.detailRow}>
             <span className={styles.detailLabel}>Date:</span>
-            <span className={styles.detailValue}>11/09/2025</span>
+            <span className={styles.detailValue}>{order.date || "N/A"}</span>
+          </div>
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Status:</span>
+            <span className={styles.detailValue}>{order.status}</span>
           </div>
         </div>
 

@@ -18,13 +18,13 @@ const Header = () => {
         <div className={styles.main_menu}>
           <ul>
             <li>
-              <Link to="#">Home</Link>
+              <Link to="/Home">Home</Link>
             </li>
             <li>
-              <Link to="#">Products</Link>
+              <Link to="/product-list">Products</Link>
             </li>
             <li>
-              <Link to="#">Menu</Link>
+              <Link to="#">Contact</Link>
             </li>
           </ul>
         </div>
@@ -32,17 +32,17 @@ const Header = () => {
         <div className={styles.second_menu}>
           <ul>
             <li>
-              <Link to="#">
+              <Link to="/login">
                 <CgProfile />
               </Link>
             </li>
             <li>
-              <Link to="#">
+              <Link to="/checkout">
                 <FaShoppingCart />
               </Link>
             </li>
             <li>
-              <Link to="#">
+              <Link to="/order-history">
                 <LuBellRing />
               </Link>
             </li>
