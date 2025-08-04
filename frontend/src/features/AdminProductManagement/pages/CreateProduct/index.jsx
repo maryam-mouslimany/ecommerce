@@ -5,6 +5,7 @@ import { fetchData } from "../../../../services/api";
 import { Button } from "../../../../components/Button";
 import SelectInput from "../../../../components/SelectInput";
 import { InputField } from "../../../../components/InputField";
+import { FaPlus, FaTimes } from 'react-icons/fa';
 
 const ProductForm = () => {
   const { id } = useParams();
@@ -105,6 +106,7 @@ const ProductForm = () => {
           setCategoryId("");
           setSelectedAccords([]);
           setImageUrl("");
+          setVariants([{ size_ml: "", price: "", stock: "" }]);
         }
       })
       .catch((err) =>
@@ -114,8 +116,18 @@ const ProductForm = () => {
         )
       );
   };
+
+  const addVariant = () => {
+    setVariants([...variants, { size_ml: "", price: "", stock: "" }]);
+  };
+
+  const removeVariant = (index) => {
+    setVariants(variants.filter((_, i) => i !== index));
+  };
+
   console.log("Accords options:", accords.map((a) => a.id.toString()));
   console.log("Selected accords:", selectedAccords);
+
   return (
     <div className={styles.container}>
       <div className={styles.formWrapper}>
@@ -160,7 +172,6 @@ const ProductForm = () => {
             required
           />
 
-
           <SelectInput
             name="accords"
             label="Accords"
@@ -183,62 +194,70 @@ const ProductForm = () => {
             onChange={(e) => setImageUrl(e.target.value)}
           />
 
-          <h3 className={styles.subtitle}>Variants</h3>
-          {variants.map((v, index) => (
-            <div key={index} className={styles.variantRow}>
-              <InputField
-                label="Size (ml)"
-                type="number"
-                name={`size_${index}`}
-                placeholder="50"
-                value={v.size_ml}
-                onChange={(e) => {
-                  const updated = [...variants];
-                  updated[index].size_ml = e.target.value;
-                  setVariants(updated);
-                }}
-              />
-              <InputField
-                label="Price ($)"
-                type="number"
-                name={`price_${index}`}
-                placeholder="55.00"
-                value={v.price}
-                onChange={(e) => {
-                  const updated = [...variants];
-                  updated[index].price = e.target.value;
-                  setVariants(updated);
-                }}
-              />
-              <InputField
-                label="Stock"
-                type="number"
-                name={`stock_${index}`}
-                placeholder="22"
-                value={v.stock}
-                onChange={(e) => {
-                  const updated = [...variants];
-                  updated[index].stock = e.target.value;
-                  setVariants(updated);
-                }}
-              />
-              {variants.length > 1 && (
-                <Button
-                  label="Remove"
-                  onClick={() => setVariants(variants.filter((_, i) => i !== index))}
-                  variant="secondary"
-                  size="small"
-                />
-              )}
+          <div className={styles.variantsSection}>
+            <div className={styles.variantsHeader}>
+              <h3 className={styles.subtitle}>Variants</h3>
+              <button
+                type="button"
+                onClick={addVariant}
+                className={styles.addVariantBtn}
+                title="Add Variant"
+              >
+                <FaPlus size={18} />
+              </button>
             </div>
-          ))}
-
-          <Button
-            label="Add Variant"
-            onClick={() => setVariants([...variants, { size_ml: "", price: "", stock: "" }])}
-            variant="secondary"
-            size="small"
-          />
+            
+            {variants.map((v, index) => (
+              <div key={index} className={styles.variantRow}>
+                <InputField
+                  label="Size (ml)"
+                  type="number"
+                  name={`size_${index}`}
+                  placeholder="50"
+                  value={v.size_ml}
+                  onChange={(e) => {
+                    const updated = [...variants];
+                    updated[index].size_ml = e.target.value;
+                    setVariants(updated);
+                  }}
+                />
+                <InputField
+                  label="Price ($)"
+                  type="number"
+                  name={`price_${index}`}
+                  placeholder="55.00"
+                  value={v.price}
+                  onChange={(e) => {
+                    const updated = [...variants];
+                    updated[index].price = e.target.value;
+                    setVariants(updated);
+                  }}
+                />
+                <InputField
+                  label="Stock"
+                  type="number"
+                  name={`stock_${index}`}
+                  placeholder="22"
+                  value={v.stock}
+                  onChange={(e) => {
+                    const updated = [...variants];
+                    updated[index].stock = e.target.value;
+                    setVariants(updated);
+                  }}
+                />
+                {variants.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeVariant(index)}
+                    className={styles.removeVariantBtn}
+                    title="Remove Variant"
+                  >
+                    <FaTimes size={16} />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
         </form>
 
         <div className={styles.buttonWrapper}>

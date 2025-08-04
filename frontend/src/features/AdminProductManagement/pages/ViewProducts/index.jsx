@@ -2,14 +2,14 @@ import styles from "./styles.module.css";
 import Table from "../../components/Table";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEye,FaPlus, FaTimes } from 'react-icons/fa';
 import { fetchData } from "../../../../services/api.js";
-import SearchBar from "../../../../components/SearchBar";
 import Header from "../../../../components/Header/index.jsx";
 import SelectFilter from "../../components/SelectFilter/index.jsx";
 import FilterBar from "../../../../components/FilterBar/index.jsx";
 import Pagination from "../../../../components/Pagination/index.jsx";
 import { Button } from "../../../../components/Button/index.jsx";
+import SearchBar from "../../../../components/SearchBar/index.jsx";
 
 const ViewProducts = () => {
     const [products, setProducts] = useState([]);
@@ -124,7 +124,7 @@ const ViewProducts = () => {
                 <Pagination
                     currentPage={currentPage}
                     onPageChange={(page) => setCurrentPage(page)}
-                    lastPage={lastPage}
+                    totalPages={lastPage}  
                 />
 
             </div>
