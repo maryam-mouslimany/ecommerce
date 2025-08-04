@@ -91,6 +91,19 @@ public function test_soft_deleted_orders_are_included()
 
     $this->assertEquals(7, $response->json('data.total'));
 }
+public function test_get_order_filters_by_status()
+{
+    Order::factory()->create(['status' => 'paid']);
+    Order::factory()->create(['status' => 'pending']);
+
+    $response = $this->getJson('/api/admin/getOrder?status=paid');
+
+    $response->assertStatus(200);
+
+    $this->assertCount(1, $response->json('data.data'));
+
+    $this->assertEquals('paid', $response->json('data.data.0.status'));
+}
 
 }
 
