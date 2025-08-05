@@ -1,20 +1,27 @@
 import React from "react";
 import styles from "./styles.module.css"
-const SelectInput = ({ name, label, value, onChange, options, required = false, multiple = false }) => {
+const SelectInput = ({
+  name,
+  label,
+  value,
+  onChange,
+  options,
+  multiple = false,
+  required = false
+}) => {
   return (
     <div className={styles.inputWrapper}>
-      {label && <label htmlFor={name} className={styles.inputLabel}>{label}</label>}
+      <label htmlFor={name}>{label}</label>
       <select
+        className={styles.primaryInput}
         id={name}
         name={name}
-        className={styles.primaryInput}
         value={value}
         onChange={onChange}
-        required={required}
         multiple={multiple}
-        size={multiple ? 6 : 1}  
+        required={required}
       >
-        {!multiple && <option value="">Select {label}</option>}
+        {!multiple && <option value="" className={styles.inputLabel}>Select {label}</option>}
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -24,5 +31,4 @@ const SelectInput = ({ name, label, value, onChange, options, required = false, 
     </div>
   );
 };
-
 export default SelectInput;

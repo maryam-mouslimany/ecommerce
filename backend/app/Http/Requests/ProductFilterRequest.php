@@ -24,8 +24,6 @@ class ProductFilterRequest extends FormRequest
         return [
             'gender' => 'nullable|string|in:male,female,unisex',
             'brand_id' => 'nullable|integer|exists:brands,id',
-            'min_price' => 'nullable|numeric|min:0',
-            'max_price' => 'nullable|numeric|min:0|gte:min_price',
             'per_page' => 'nullable|integer|min:1|max:100',
             'page' => 'nullable|integer|min:1'
         ];
@@ -41,9 +39,6 @@ class ProductFilterRequest extends FormRequest
         return [
             'gender.in' => 'Gender must be one of: male, female, unisex',
             'brand_id.exists' => 'The selected brand does not exist',
-            'min_price.numeric' => 'Minimum price must be a valid number',
-            'max_price.numeric' => 'Maximum price must be a valid number',
-            'max_price.gte' => 'Maximum price must be greater than or equal to minimum price',
             'per_page.max' => 'Per page cannot exceed 100 items'
         ];
     }
