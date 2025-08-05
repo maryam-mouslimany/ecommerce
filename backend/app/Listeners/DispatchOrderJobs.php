@@ -7,6 +7,7 @@ use App\Jobs\SendInvoiceEmail;
 use App\Jobs\UpdateStockJob;
 use App\Jobs\MockWebhookJob;
 use App\Jobs\LogOrderAnalyticsJob;
+use App\Jobs\LogSMSJob;
 
 class DispatchOrderJobs
 {
@@ -16,6 +17,7 @@ class DispatchOrderJobs
         dispatch(new UpdateStockJob($event->order));
         dispatch(new MockWebhookJob($event->order));
         dispatch(new LogOrderAnalyticsJob($event->order));
+        dispatch(new LogSMSJob($event->order));
     }
 
 }
