@@ -12,18 +12,15 @@
 }
 
 .modal {
-  background: white;
+  background: transparent;
   border-radius: 8px;
-  /* padding: 2rem; */
-  max-width: 500px;
-  width: 100%;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  max-width: none;
+  width: auto;
+  box-shadow: none;
   position: relative;
-  max-height: 80vh;
-  overflow: scroll;
-  padding-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
+  max-height: none;
+  overflow: visible;
+  padding: 0;
 }
 
 .closeButton {
