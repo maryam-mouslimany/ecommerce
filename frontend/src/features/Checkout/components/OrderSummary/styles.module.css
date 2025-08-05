@@ -1,0 +1,45 @@
+.orderSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.75rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.totalSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 1rem;
+}
+
+.totalLabel {
+  font-size: 1.1rem;
+  color: #666;
+  text-transform: lowercase;
+}
+
+.totalAmount {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.checkoutButton {
+  margin-top: 1rem;
+} 
