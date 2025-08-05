@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function () {
 
     // Protected routes JWT
     Route::middleware('auth:api')->prefix('user')->group(function () {
+
         // Get authenticated user profile
         Route::get('/profile', function (Request $request) {
             return response()->json([
@@ -65,9 +66,12 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/view-products', [ProductsController::class, 'getProducts']);
-    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);
+
+    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]); 
     Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
     Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
+    Route::delete('/delete-product/{id}', [ProductsController::class, 'softDelete']);
+    Route::patch('/restore-product/{id}', [ProductsController::class, 'restore']);
 });
 
 Route::get('/brands', [BrandController::class, 'getBrands']);
