@@ -27,7 +27,7 @@ class LogSMSJob implements ShouldQueue
      */
     public function handle(): void
     {
-              Log::info('SMS sent to customer', [
+            Log::info('SMS sent to customer', [
             'order_id' => $this->order->id,
             'user_id' => $this->order->user_id,
             'user_email' => $this->order->user->email ,
