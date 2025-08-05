@@ -5,16 +5,22 @@
   align-items: center;
   min-height: 100vh;
   width: 100vw;
+  background-color: var(--primary-color);
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .heading {
   font-family: inherit;
-  font-size: 24px;
+  font-size: 1.5rem;
+  font-weight: 600;
   white-space: nowrap;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.25em;
+  margin-bottom: 1rem;
+  color: white;
 }
 
 .his {
@@ -23,37 +29,151 @@
 
 .ampersand,
 .hers {
-  color: #a68b6b;
+  color: var(--secondary-color);
 }
 
 .authBox {
-  background-color: #153057;
-  padding: 24px 46px;
-  max-width: 619px;
+  background-color: white;
+  padding: 1.5rem 2rem;
+  max-width: 450px;
   width: 100%;
-  min-height: 50vh;
-  margin-top: 32px;
-  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: var(--primary-color);
+  text-align: center;
+  transition: transform 0.2s ease;
 }
+
+.authBox:hover {
+  transform: translateY(-2px);
+}
+
+.authBox h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: var(--primary-color);
+}
+
+.authBox > div:not(.form):not(.link) {
+  color: var(--text-secondary-color);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
 .form {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 24px;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
 }
+
 .form label {
-  color: #f5f6fa;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: left;
 }
+
+.submit {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+  width: fit-content;
+  align-self: center;
+}
+
+.submit:hover:not(:disabled) {
+  background-color: #b08a5a;
+  transform: translateY(-2px);
+}
+
+.submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .link {
-  margin-top: 24px;
+  margin-top: 1rem;
+  color: var(--text-secondary-color);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
+
 .linkButton {
   background: none;
   border: none;
   padding: 0;
   font: inherit;
-  color: #007bff;
-  text-decoration: underline;
+  color: var(--secondary-color);
+  text-decoration: none;
   cursor: pointer;
-  display: inline;
+  font-weight: 600;
+  transition: color 0.2s ease-in-out;
+}
+
+.linkButton:hover {
+  color: #b08a5a;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 0.75rem;
+  border-radius: 12px;
+  border: 1px solid #f5c6cb;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.error::before {
+  content: '⚠️';
+  font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 5px;
+  }
+  
+  .authBox {
+    padding: 1rem 1.5rem;
+    margin: 0.5rem;
+  }
+  
+  .heading {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .authBox h2 {
+    font-size: 1.25rem;
+  }
+  
+  .form {
+    gap: 0.75rem;
+  }
 }

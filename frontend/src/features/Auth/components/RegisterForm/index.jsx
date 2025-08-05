@@ -73,7 +73,7 @@ export const RegisterForm = () => {
               onChange={handleChange}
               required
             />
-            <Button variant="primary" label="Sign in" />
+            <Button variant="secondary" label="Sign up" />
           </form>
           <div className={styles.link}>
             Don't have an account ?
