@@ -35,6 +35,9 @@ jobs:
           docker compose -f docker-compose.yml up -d
           docker ps
           sleep 15
+          
+      - name: Install Composer Dependencies
+        run: docker exec laravel_app composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Run Migrations
         run: docker exec laravel_app php artisan migrate --force
