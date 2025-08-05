@@ -45,7 +45,8 @@ jobs:
         run: docker exec laravel_app php artisan db:seed --force
 
       - name: Run Laravel Tests
-        run: docker exec laravel_app ./vendor/bin/phpunit --colors=always --debug
+        run: docker exec laravel_app ./vendor/bin/phpunit --colors=always --debug --display-warnings
+        
 
       - name: Stop Containers
         run: docker compose -f docker-compose.yml down
