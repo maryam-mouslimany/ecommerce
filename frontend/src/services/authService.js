@@ -126,7 +126,7 @@ export const authService = {
         if (error.response?.status === 401) {
           // Token expired or invalid
           this.logout();
-          window.location.href = "/login";
+          window.location.href = "/";
         }
         return Promise.reject(error);
       }

@@ -4,18 +4,14 @@ import { Card } from "../../../components/Card";
 import { Modal } from "../../../components/Modal";
 import { CardDetails } from "../components/CardDetails";
 import { FilterComponent } from "../components/ProductFilter";
-<<<<<<< HEAD
 import { productService } from "../../../services/productService";
 import Pagination from "../../../components/Pagination";
+import Header from "../../../components/Header";
 
 export const ProductListingPage = () => {
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState({});
   const [page, setPage] = useState(1);
-=======
-import Header from "../../../components/Header";
-export const ProductListingPage = ({ title, price }) => {
->>>>>>> ff6661fae8748fd9832753d8a251d64f6dafe5fc
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
   const [filterOptions, setFilterOptions] = useState({});
