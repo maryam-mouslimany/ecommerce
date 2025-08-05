@@ -15,7 +15,7 @@ class ProductService
 
     static function getProducts($request)
     {
-        $query = Product::with(['brand', 'category', 'variants', 'images', 'accords']);
+        $query = Product::withTrashed()->with(['brand', 'category', 'variants', 'images', 'accords']);
         if ($request->filled('brand')) {
             $query->where('brand_id', $request->brand);
         }
@@ -39,7 +39,7 @@ class ProductService
             return [
                 'success' => true,
                 'message' => 'No products found with the given filters.',
-                'data' => $products,  
+                'data' => $products,
                 'status' => 200
             ];
         }
@@ -116,6 +116,52 @@ class ProductService
             'success' => true,
             'message' => $message,
             'data' => $product->load(['brand', 'category', 'variants', 'images', 'accords']),
+            'status' => 200
+        ];
+    }
+
+    public static function softDelete($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return [
+                'success' => false,
+                'message' => 'Product not found',
+                'data' => null,
+                'status' => 404
+            ];
+        }
+
+        $product->delete();
+
+        return [
+            'success' => true,
+            'message' => 'Product soft deleted successfully',
+            'data' => $product,
+            'status' => 200
+        ];
+    }
+
+    public static function restore($id): array
+    {
+        $product = Product::withTrashed()->find($id);
+
+        if (!$product) {
+            return [
+                'success' => false,
+                'message' => 'Product not found',
+                'data' => null,
+                'status' => 404
+            ];
+        }
+
+        $product->restore();
+
+        return [
+            'success' => true,
+            'message' => 'Product restored successfully',
+            'data' => $product,
             'status' => 200
         ];
     }

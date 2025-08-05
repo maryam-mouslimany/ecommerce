@@ -16,8 +16,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GenderController;
 
 
-
-
 Route::get('/test-invoice', function () {
     // Create a fake user with Mailtrap email
     $user = User::find(399);
@@ -40,7 +38,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login', [AuthController::class, 'login']);
     });
-    
+
     // Protected routes (authentication required)
     Route::middleware('auth:sanctum')->prefix('user')->group(function () {
         // Get authenticated user profile
@@ -51,7 +49,7 @@ Route::prefix('v1')->group(function () {
                 'message' => 'User profile retrieved successfully'
             ]);
         });
-        
+
         // Logout
         Route::post('/logout', [AuthController::class, 'logout']);
     });
@@ -63,13 +61,13 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/view-products', [ProductsController::class, 'getProducts']);
-    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);//this one
+    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]); 
     Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
     Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
+    Route::delete('/delete-product/{id}', [ProductsController::class, 'softDelete']);
+    Route::patch('/restore-product/{id}', [ProductsController::class, 'restore']);
 });
 
 Route::get('/brands', [BrandController::class, 'getBrands']);
 Route::get('/categories', [CategoryController::class, 'getCategories']);
 Route::get('/accords', [AccordController::class, 'getAccords']);
-
-
