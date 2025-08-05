@@ -17,18 +17,18 @@ use App\Http\Controllers\AccordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GenderController;
 
-Route::get('/test-invoice', function () {
-    $user = User::find(399);
+// Route::get('/test-invoice', function () {
+//     $user = User::find(399);
 
-    $order = Order::factory()->create([
-        'user_id' => $user->id,
-        'total_amount' => 199.99
-    ]);
+//     $order = Order::factory()->create([
+//         'user_id' => $user->id,
+//         'total_amount' => 199.99
+//     ]);
 
-    event(new OrderPlaced($order));
+//     event(new OrderPlaced($order));
 
-    return 'Invoice event dispatched!';
-});
+//     return 'Invoice event dispatched!';
+// });
 
 Route::prefix('v1')->group(function () {
     // Guest routes (no authentication required)
@@ -65,13 +65,8 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/view-products', [ProductsController::class, 'getProducts']);
-<<<<<<< HEAD
-    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);
-    Route::post("/postProduct", [AdminController::class, "postProduct"]);
-=======
 
     Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]); 
->>>>>>> 82725401dd0b3940352cd125f811d44f0d1806fa
     Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
     Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
     Route::delete('/delete-product/{id}', [ProductsController::class, 'softDelete']);

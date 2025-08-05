@@ -52,8 +52,6 @@ trait ResponseTrait
             <p><strong>Order ID:</strong> {$order->id}</p>
             <p><strong>Status:</strong> {$order->status}</p>
             <p><strong>Total Amount:</strong> \${$order->total_amount}</p>
-            <p><strong>Shipping Address:</strong> {$shippingAddress}</p>
-            <p><strong>Billing Address:</strong> {$billingAddress}</p>
             <p>Thank you for your purchase!</p>
         ";
     }
