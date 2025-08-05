@@ -66,6 +66,7 @@ Route::prefix('v1')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('/view-products', [ProductsController::class, 'getProducts']);
     Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);
+    Route::post("/postProduct", [AdminController::class, "postProduct"]);
     Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
     Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
 });

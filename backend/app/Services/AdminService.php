@@ -21,4 +21,14 @@ class AdminService
 
         return $orders->isNotEmpty() ? $orders : null;
 }
+public static function postProduct( Request $request){
+       $product = Product::create([
+                'name' => $request->name,
+                'brand_id' => $request->brand_id,
+                'category_id' => $request->category_id,
+                'gender' => $request->gender,
+                
+            ]);
+        return $product;
+}
 }
