@@ -43,7 +43,7 @@ jobs:
         run: docker exec laravel_app php artisan migrate --force
 
       - name: Run Laravel Tests
-        run: docker exec laravel_app ./vendor/bin/phpunit --verbose
+        run: docker exec laravel_app ./vendor/bin/phpunit --colors=always --debug
 
       - name: Stop Containers
         run: docker compose -f docker-compose.yml down
