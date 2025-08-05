@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 import Table from "../../components/TableExpandableRows";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaTrash, FaEye, FaPlus, FaTimes } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEye, FaTimes } from 'react-icons/fa';
 import { fetchData } from "../../../../services/api.js";
 import Header from "../../../../components/Header/index.jsx";
 import SelectFilter from "../../components/SelectFilter/index.jsx";
@@ -30,6 +30,10 @@ const ViewProducts = () => {
     }, []);
 
     useEffect(() => {
+        fetchProducts();
+    }, [stock, brand, name, currentPage]);
+
+    const fetchProducts = () => {
         const params = new URLSearchParams();
         if (brand) params.append("brand", brand);
         if (stock) {
@@ -37,6 +41,7 @@ const ViewProducts = () => {
             params.append("stock", firstWord.toLowerCase());
         }
         if (name) params.append("name", name);
+
         params.append("page", currentPage);
 
         const query = `?${params.toString()}`;
@@ -49,7 +54,21 @@ const ViewProducts = () => {
                 setLastPage(responseData.last_page || 1);
             })
             .catch(err => console.error("Error fetching products:", err));
-    }, [stock, brand, name, currentPage]);
+    };
+
+    const handleToggleDeleteRestore = async (product) => {
+        try {
+            if (product.deleted_at) {
+                await fetchData(`/admin/restore-product/${product.id}`, 'Patch');
+                setProducts(products.map(p => p.id === product.id ? { ...p, deleted_at: null } : p));
+            } else {
+                await fetchData(`/admin/delete-product/${product.id}`, 'DELETE');
+                setProducts(products.map(p => p.id === product.id ? { ...p, deleted_at: new Date().toISOString() } : p));
+            }
+        } catch (error) {
+            console.error("Toggle delete/restore failed", error);
+        }
+    };
 
     const handleStockFilterChange = (filter) => {
         setStock(filter);
@@ -62,27 +81,47 @@ const ViewProducts = () => {
     };
 
     const columns = [
-  { header: 'ID', key: 'id' },
-  { header: 'Name', key: 'name' },
-  { header: 'Brand', render: (product) => product.brand?.name || "No Brand" },
-  { header: 'Category', render: (product) => product.category?.name || "No Category" },
-  { header: 'Gender', key: 'gender' },
-  { header: 'Accords', render: (product) => product.accords?.map(a => a.name).join(', ') || "" },
-  {
-    header: 'Actions',
-    render: (product) => (
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <FaEye style={{ cursor: 'pointer' }} title="View" onClick={() => navigate(`/admin-view-product/${product.id}`)} />
-        <FaEdit style={{ cursor: 'pointer' }} onClick={() => navigate(`/admin-update-product/${product.id}`)} />
-        <FaTrash style={{ cursor: 'pointer' }} title="Delete" />
-      </div>
-    )
-  }
-];
-
+        { header: 'ID', key: 'id' },
+        { header: 'Name', key: 'name' },
+        { header: 'Brand', render: (product) => product.brand?.name || "No Brand" },
+        { header: 'Category', render: (product) => product.category?.name || "No Category" },
+        { header: 'Gender', key: 'gender' },
+        { header: 'Accords', render: (product) => product.accords?.map(a => a.name).join(', ') || "" },
+        {
+            header: 'Actions',
+            render: (product) => (
+                <div style={{ display: 'flex', gap: '8px' }}>
+                    <FaEye
+                        style={{ cursor: 'pointer' }}
+                        title="View"
+                        onClick={() => navigate(`/admin-view-product/${product.id}`)}
+                    />
+                    <FaEdit
+                        style={{ cursor: 'pointer' }}
+                        title="Edit"
+                        onClick={() => navigate(`/admin-update-product/${product.id}`)}
+                    />
+                    {product.deleted_at ? (
+                        <FaTimes
+                            style={{ cursor: 'pointer', color: 'green' }}
+                            title="Restore"
+                            onClick={() => handleToggleDeleteRestore(product)}
+                        />
+                    ) : (
+                        <FaTrash
+                            style={{ cursor: 'pointer', color: 'red' }}
+                            title="Delete"
+                            onClick={() => handleToggleDeleteRestore(product)}
+                        />
+                    )}
+                </div>
+            )
+        }
+    ];
 
     return (
-        <><Header />
+        <>
+            <Header />
 
             <div className={styles.pageContainer}>
                 <div className={styles.pageTitle}>
@@ -113,7 +152,12 @@ const ViewProducts = () => {
                         />
                     </div>
 
-                    <Button variant="primary" size="medium" label="Add Product" onClick={() => navigate(`/admin-create-products`)} />
+                    <Button
+                        variant="primary"
+                        size="medium"
+                        label="Add Product"
+                        onClick={() => navigate(`/admin-create-products`)}
+                    />
                 </div>
 
                 <div className={styles.tableWrapper}>
@@ -125,7 +169,6 @@ const ViewProducts = () => {
                     onPageChange={(page) => setCurrentPage(page)}
                     totalPages={lastPage}
                 />
-
             </div>
         </>
     );
