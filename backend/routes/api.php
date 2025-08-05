@@ -3,20 +3,38 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductFilterController;
+use App\Models\User;
+use App\Models\Order;
+use App\Events\OrderPlaced;
 
 use App\Http\Controllers\Admin\ProductsController;
 
 
+Route::get('/test-invoice', function () {
+    // Create a fake user with Mailtrap email
+    $user = User::find(399);
+
+    // Create a fake order linked to that user
+    $order = Order::factory()->create([
+        'user_id' => $user->id,
+        'total_amount' => 199.99
+    ]);
+
+    // Fire the event
+    event(new OrderPlaced($order));
+
+    return 'Invoice event dispatched!';
+});
 // API Version 1
 Route::prefix('v1')->group(function () {
-
     // Guest routes (no authentication required)
     Route::prefix('guest')->group(function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login', [AuthController::class, 'login']);
     });
-
+    
     // Protected routes (authentication required)
     Route::middleware('auth:sanctum')->prefix('user')->group(function () {
         // Get authenticated user profile
@@ -27,7 +45,7 @@ Route::prefix('v1')->group(function () {
                 'message' => 'User profile retrieved successfully'
             ]);
         });
-
+        
         // Logout
         Route::post('/logout', [AuthController::class, 'logout']);
     });
@@ -39,6 +57,7 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/view-products', [ProductsController::class, 'getProducts']);
+    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);//this one
     Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
     Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
 });

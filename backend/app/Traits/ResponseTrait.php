@@ -41,4 +41,19 @@ trait ResponseTrait
             'errors' => $errors
         ], 422);
     }
+
+// app/Traits/BuildsOrderInvoice.php
+
+
+
+    public function buildInvoiceHtml($order)
+    {
+        return "
+            <h1>Order Invoice</h1>
+            <p>Order ID: {$order->id}</p>
+            <p>Total: {$order->total}</p>
+            <p>Thank you for your purchase!</p>
+        ";
+    }
+
 }
