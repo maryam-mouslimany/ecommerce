@@ -17,18 +17,18 @@ use App\Http\Controllers\AccordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GenderController;
 
-Route::get('/test-invoice', function () {
-    $user = User::find(399);
+// Route::get('/test-invoice', function () {
+//     $user = User::find(399);
 
-    $order = Order::factory()->create([
-        'user_id' => $user->id,
-        'total_amount' => 199.99
-    ]);
+//     $order = Order::factory()->create([
+//         'user_id' => $user->id,
+//         'total_amount' => 199.99
+//     ]);
 
-    event(new OrderPlaced($order));
+//     event(new OrderPlaced($order));
 
-    return 'Invoice event dispatched!';
-});
+//     return 'Invoice event dispatched!';
+// });
 
 Route::prefix('v1')->group(function () {
     // Guest routes (no authentication required)
