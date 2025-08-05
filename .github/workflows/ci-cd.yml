@@ -49,13 +49,11 @@ jobs:
           docker exec laravel_app ./vendor/bin/phpunit \
             --colors=always \
             --testdox \
-            --display-warnings \
-            --display-risky \
-            --display-skipped \
             --stop-on-failure \
             --stop-on-error \
-            --stop-on-risky \
-            --stop-on-warning        
+            --stop-on-warning \
+            --stop-on-risky
+      
             
       - name: Stop Containers
         run: docker compose -f docker-compose.yml down
