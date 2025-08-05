@@ -29,7 +29,13 @@ jobs:
 
       - name: Prepare CI Environment
         run: |
-          cp backend/.env.example backend/.env
+          echo "APP_ENV=testing" > backend/.env
+          echo "DB_CONNECTION=mysql" >> backend/.env
+          echo "DB_HOST=db" >> backend/.env          # usually 'db' in docker network
+          echo "DB_PORT=3306" >> backend/.env        # usually 3306 default port
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> backend/.env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> backend/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> backend/.env
 
       - name: Run Migrations
         run: docker exec laravel_app php artisan migrate --force
