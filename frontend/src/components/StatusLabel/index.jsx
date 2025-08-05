@@ -3,11 +3,11 @@ import styles from "./index.module.css";
 export const StatusLabel = ({ status, customColor }) => {
   const statusClass = {
     Pending: styles.pending,
+    Paid: styles.paid,
+    Packed: styles.packed,
+    Shipped: styles.shipped,
     Delivered: styles.delivered,
     Cancelled: styles.cancelled,
-    Paid: styles.delivered,
-    Packed: styles.pending,
-    Shipped: styles.delivered,
   }[status] || styles.default;
 
   const customStyle = customColor ? { 

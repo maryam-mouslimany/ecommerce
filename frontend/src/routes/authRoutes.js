@@ -6,6 +6,7 @@ import { OrderConfirmation } from "../features/OrderConfirmation/pages";
 import CreateProduct from "../features/AdminProductManagement/pages/CreateProduct";
 import ViewProducts from "../features/AdminProductManagement/pages/ViewProducts";
 import { OrderHistoryPage } from "../features/OrderHistory/pages/OrderHistory";
+import CheckoutPage from "../features/Checkout";
 
 import TheyPage from "../features/Home/pages/TheyPage";
 
@@ -21,4 +22,5 @@ export const authRoutes = [
   { path: "/order-history", element: <OrderHistoryPage /> },
 
   { path: "/They", element: <TheyPage /> },
+  { path: "/checkout", element: <CheckoutPage /> },
 ];
