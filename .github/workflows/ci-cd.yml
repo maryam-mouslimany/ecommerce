@@ -42,6 +42,9 @@ jobs:
       - name: Run Migrations
         run: docker exec laravel_app php artisan migrate --force
 
+      - name: Run Seeders
+        run: docker exec laravel_app php artisan db:seed --force
+
       - name: Run Laravel Tests
         run: docker exec laravel_app ./vendor/bin/phpunit --colors=always --debug
 
