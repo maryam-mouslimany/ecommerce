@@ -51,8 +51,7 @@
   height: auto;
 }
 
-.primaryInput option {
-  padding: 8px 12px;
-  color: #000000;
-  background: #ffffff;
+.primaryInput option:checked {
+  background-color: #d0ebff; /* Light blue background */
+  color: #000;               /* Black text */
 }
