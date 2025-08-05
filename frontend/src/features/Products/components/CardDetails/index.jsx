@@ -1,5 +1,4 @@
 import styles from "./index.module.css";
-import rectangle from "../../../../assets/images/Rectangle.png";
 import { useState } from "react";
 
 export const CardDetails = ({ product }) => {
@@ -14,22 +13,32 @@ export const CardDetails = ({ product }) => {
   const selectedVariant = product.variants.find(
     (v) => v.id === selectedVariantId
   );
+  const mainImage = product.images && product.images.length > 0 ? product.images[0].url : null;
+
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        <img src={rectangle} alt="Perfume" className={styles.image} />
+        {mainImage ? (
+          <img src={mainImage} alt={product.name} className={styles.image} />
+        ) : (
+          <div className={styles.placeholderImage}>No Image Available</div>
+        )}
       </div>
 
       <div className={styles.right}>
         <h2 className={styles.name}>{product.name}</h2>
+        {product.brand && (
+          <p>
+            <strong>Brand:</strong> {product.brand.name}
+          </p>
+        )}
+        {product.category && (
+          <p>
+            <strong>Category:</strong> {product.category.name}
+          </p>
+        )}
         <p>
-          <strong>Brand:</strong> {product.brand.name}
-        </p>
-        <p>
-          <strong>Category:</strong> {product.category.name}
-        </p>
-        <p>
-          <strong>Gender:</strong> {product.gender}
+          <strong>Gender:</strong> {product.gender || 'Not specified'}
         </p>
 
         <div className={styles.variants}>
@@ -49,7 +58,7 @@ export const CardDetails = ({ product }) => {
           ))}
         </div>
 
-        {product.accords.length > 0 && (
+        {product.accords && product.accords.length > 0 && (
           <div className={styles.accords}>
             <h3>Accords:</h3>
             <p>{product.accords.map((a) => a.name).join(", ")}</p>

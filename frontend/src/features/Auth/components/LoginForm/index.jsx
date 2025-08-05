@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import { InputField } from "../../../../components/InputField";
 import { Button } from "../../../../components/Button";
+import authService from "../../../../services/authService";
 import styles from "./index.module.css";
 
 export const LoginForm = () => {
@@ -11,6 +12,8 @@ export const LoginForm = () => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -20,6 +23,27 @@ export const LoginForm = () => {
   const handleSignUpClick = (e) => {
     e.preventDefault(); // Prevent default link behavior
     navigate("/register"); // Navigate to the /register route
+  };
+
+  const handleSubmit = async (e) => {
+    console.log('LoginForm: HandleSubmit called:', e);
+    e.preventDefault();
+    e.stopPropagation();
+    setLoading(true);
+    setError("");
+
+    try {
+      console.log('LoginForm: Attempting login with:', formData);
+      const result = await authService.login(formData);
+      console.log('LoginForm: Login successful:', result);
+      // Redirect to dashboard or home page after successful login
+      navigate("/");
+    } catch (err) {
+      console.error('LoginForm: Login error:', err);
+      setError(err.message || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -33,10 +57,16 @@ export const LoginForm = () => {
           <h2>Welcome Back</h2>
           <div>Login to continue</div>
           <form className={styles.form}>
+            {error && (
+              <div className={styles.error}>
+                {error}
+              </div>
+            )}
             <InputField
               label="Email"
               type="email"
               name="email"
+              autoComplete="off"
               placeholder="example@gmail.com"
               value={formData.email}
               onChange={handleChange}
@@ -46,12 +76,20 @@ export const LoginForm = () => {
               label="Password"
               type="password"
               name="password"
+              autoComplete="new-password"
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
               required
             />
-            <Button variant="secondary" label="Login" />
+            <button 
+              type="button" 
+              className={styles.submit}
+              disabled={loading}
+              onClick={handleSubmit}
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
           </form>
           <div className={styles.link}>
             Dont have an account ?

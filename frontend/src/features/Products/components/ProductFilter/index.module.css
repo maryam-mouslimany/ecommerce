@@ -1,5 +1,94 @@
 .container {
   padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+}
+
+.section {
+  margin-bottom: 15px;
+}
+
+.section label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.section select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.priceInputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.priceInputs input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.priceInputs span {
+  color: #666;
+  font-weight: bold;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  padding: 20px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination button:hover {
+  background-color: #f5f5f5;
+  border-color: #999;
+}
+
+.pagination button.activePage {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.container {
+  padding: 20px;
   width: 100%;
   display: flex;
   justify-content: space-between;

@@ -11,7 +11,7 @@ use Exception;
 class ProductFilterService
 {
     /**
-     * Filter products by gender, price range, and brand
+     * Filter products by gender and brand
      *
      * @param Request $request
      * @return array
@@ -31,17 +31,6 @@ class ProductFilterService
                 $query->where('brand_id', $request->brand_id);
             }
 
-            // Filter by price range (using product variants)
-            if ($request->has('min_price') || $request->has('max_price')) {
-                $query->whereHas('variants', function ($variantQuery) use ($request) {
-                    if ($request->has('min_price') && !empty($request->min_price)) {
-                        $variantQuery->where('price', '>=', $request->min_price);
-                    }
-                    if ($request->has('max_price') && !empty($request->max_price)) {
-                        $variantQuery->where('price', '<=', $request->max_price);
-                    }
-                });
-            }
 
             // Get filtered products with pagination
             $perPage = $request->get('per_page', 15);
@@ -106,16 +95,9 @@ class ProductFilterService
                 ->whereNotNull('gender')
                 ->pluck('gender');
 
-            $priceRange = ProductVariant::selectRaw('MIN(price) as min_price, MAX(price) as max_price')
-                ->first();
-
             $filterOptions = [
                 'brands' => $brands,
-                'genders' => $genders,
-                'price_range' => [
-                    'min' => $priceRange->min_price ?? 0,
-                    'max' => $priceRange->max_price ?? 0
-                ]
+                'genders' => $genders
             ];
 
             return [

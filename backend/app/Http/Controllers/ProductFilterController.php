@@ -12,7 +12,7 @@ class ProductFilterController extends Controller
 {
     use ResponseTrait;
 
-    public function filter(ProductFilterRequest $request)
+    public function filter(Request $request)
     {
         $result = ProductFilterService::filter($request);
 
