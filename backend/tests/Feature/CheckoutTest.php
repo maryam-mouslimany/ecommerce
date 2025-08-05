@@ -9,6 +9,8 @@ use App\Models\ProductVariant;
 use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
+
 
 class CheckoutTest extends TestCase
 {
@@ -16,6 +18,11 @@ class CheckoutTest extends TestCase
 
     public function test_checkout_process()
     {
+        // Fake HTTP calls to prevent real external requests during tests
+        Http::fake([
+            'localhost/api/mock-webhook' => Http::response(['success' => true], 200),
+        ]);
+
         // Create test data
         $user = User::factory()->create();
         $brand = Brand::factory()->create();
