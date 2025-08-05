@@ -47,7 +47,6 @@ Route::prefix('v1')->group(function () {
                 'message' => 'User profile retrieved successfully'
             ]);
         });
-
         // Logout
         Route::post('/logout', [AuthController::class, 'logout']);
 
