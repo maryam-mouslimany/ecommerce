@@ -57,11 +57,26 @@ class ForeignKeyTest extends TestCase
      */
     private function assertForeignKeyExists(string $table, string $column, string $referencedTable, string $referencedColumn): void
     {
-        $foreignKeys = DB::select("PRAGMA foreign_key_list({$table})");
+        $database = env('DB_DATABASE');
+
+        $foreignKeys = DB::select("
+            SELECT 
+                COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
+            FROM 
+                information_schema.KEY_COLUMN_USAGE
+            WHERE 
+                TABLE_SCHEMA = ? AND
+                TABLE_NAME = ? AND
+                REFERENCED_TABLE_NAME IS NOT NULL
+        ", [$database, $table]);
 
         $foreignKeyExists = false;
         foreach ($foreignKeys as $foreignKey) {
-            if ($foreignKey->from === $column && $foreignKey->table === $referencedTable) {
+            if (
+                $foreignKey->COLUMN_NAME === $column &&
+                $foreignKey->REFERENCED_TABLE_NAME === $referencedTable &&
+                $foreignKey->REFERENCED_COLUMN_NAME === $referencedColumn
+            ) {
                 $foreignKeyExists = true;
                 break;
             }
@@ -105,18 +120,20 @@ class ForeignKeyTest extends TestCase
      */
     private function assertIndexExists(string $table, string $column): void
     {
-        $indexes = DB::select("PRAGMA index_list({$table})");
+        $database = env('DB_DATABASE');
 
-        $indexExists = false;
-        foreach ($indexes as $index) {
-            $indexInfo = DB::select("PRAGMA index_info({$index->name})");
-            foreach ($indexInfo as $info) {
-                if ($info->name === $column) {
-                    $indexExists = true;
-                    break 2;
-                }
-            }
-        }
+        $indexes = DB::select("
+            SELECT 
+                COLUMN_NAME
+            FROM 
+                information_schema.STATISTICS
+            WHERE 
+                TABLE_SCHEMA = ? AND
+                TABLE_NAME = ? AND
+                COLUMN_NAME = ?
+        ", [$database, $table, $column]);
+
+        $indexExists = count($indexes) > 0;
 
         $this->assertTrue($indexExists, "Index on {$table}.{$column} should exist");
     }
