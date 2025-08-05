@@ -16,6 +16,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\AccordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GenderController;
+use App\Http\Controllers\AIAgent\ChatbotController;
 
 Route::get('/test-invoice', function () {
     $user = User::find(399);
@@ -66,7 +67,7 @@ Route::prefix('v1')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('/view-products', [ProductsController::class, 'getProducts']);
 
-    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]); 
+    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);
     Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
     Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
     Route::delete('/delete-product/{id}', [ProductsController::class, 'softDelete']);
@@ -76,3 +77,6 @@ Route::prefix('admin')->group(function () {
 Route::get('/brands', [BrandController::class, 'getBrands']);
 Route::get('/categories', [CategoryController::class, 'getCategories']);
 Route::get('/accords', [AccordController::class, 'getAccords']);
+
+// AI Agent routes
+Route::post('/v1/ai/chat', [ChatbotController::class, 'chat']);
