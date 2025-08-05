@@ -13,31 +13,24 @@ class ProductService
         SendInvoiceEmail::dispatch($order);
     }
 
-    static function getProducts(array $filters = [])
+    static function getProducts($request)
     {
-        $query = Product::with(['brand', 'category', 'variants', 'images', 'accords']);
+        $query = Product::withTrashed()->with(['brand', 'category', 'variants', 'images', 'accords']);
+        if ($request->filled('brand')) {
+            $query->where('brand_id', $request->brand);
+        }
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
 
-        if (!empty($filters['name'])) {
-            $query->where('name', 'LIKE', '%' . $filters['name'] . '%');
-        }
-        if (!empty($filters['brand_id'])) {
-            $query->where('brand_id', $filters['brand_id']);
-        }
-        if (!empty($filters['category_id'])) {
-            $query->where('category_id', $filters['category_id']);
-        }
-        if (!empty($filters['gender'])) {
-            $query->where('gender', $filters['gender']);
-        }
-        if (!empty($filters['stock_min']) || !empty($filters['stock_max'])) {
-            $query->whereHas('variants', function ($q) use ($filters) {
-                if (!empty($filters['stock_min'])) {
-                    $q->where('stock', '>=', $filters['stock_min']);
-                }
-                if (!empty($filters['stock_max'])) {
-                    $q->where('stock', '<=', $filters['stock_max']);
-                }
-            });
+        if ($request->filled('stock')) {
+            if ($request->stock === 'low') {
+                $query->whereHas('variants', fn($q) => $q->where('stock', '<', 10));
+            } elseif ($request->stock === 'in') {
+                $query->whereHas('variants', fn($q) => $q->where('stock', '>', 0));
+            } elseif ($request->stock === 'high') {
+                $query->whereHas('variants', fn($q) => $q->where('stock', '>', 50));
+            }
         }
 
         $products = $query->paginate(10);
@@ -46,8 +39,8 @@ class ProductService
             return [
                 'success' => true,
                 'message' => 'No products found with the given filters.',
-                'data' => null,
-                'status' => 404
+                'data' => $products,
+                'status' => 200
             ];
         }
 
@@ -123,6 +116,52 @@ class ProductService
             'success' => true,
             'message' => $message,
             'data' => $product->load(['brand', 'category', 'variants', 'images', 'accords']),
+            'status' => 200
+        ];
+    }
+
+    public static function softDelete($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return [
+                'success' => false,
+                'message' => 'Product not found',
+                'data' => null,
+                'status' => 404
+            ];
+        }
+
+        $product->delete();
+
+        return [
+            'success' => true,
+            'message' => 'Product soft deleted successfully',
+            'data' => $product,
+            'status' => 200
+        ];
+    }
+
+    public static function restore($id): array
+    {
+        $product = Product::withTrashed()->find($id);
+
+        if (!$product) {
+            return [
+                'success' => false,
+                'message' => 'Product not found',
+                'data' => null,
+                'status' => 404
+            ];
+        }
+
+        $product->restore();
+
+        return [
+            'success' => true,
+            'message' => 'Product restored successfully',
+            'data' => $product,
             'status' => 200
         ];
     }

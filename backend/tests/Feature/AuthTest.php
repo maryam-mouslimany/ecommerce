@@ -20,7 +20,7 @@ class AuthTest extends TestCase
             'phone' => '1234567890',
         ];
 
-        $response = $this->postJson('/api/auth/register', $userData);
+        $response = $this->postJson('/api/v1/guest/register', $userData);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('users', ['email' => 'test@example.com']);
@@ -37,7 +37,7 @@ class AuthTest extends TestCase
             'password' => 'password123'
         ];
 
-        $response = $this->postJson('/api/auth/login', $loginData);
+        $response = $this->postJson('/api/v1/guest/login', $loginData);
 
         $response->assertStatus(200);
     }
@@ -51,7 +51,7 @@ class AuthTest extends TestCase
             'password' => 'wrongpassword'
         ];
 
-        $response = $this->postJson('/api/auth/login', $loginData);
+        $response = $this->postJson('/api/v1/guest/login', $loginData);
 
         $response->assertStatus(401);
     }
@@ -63,7 +63,7 @@ class AuthTest extends TestCase
         ]);
 
         // First login to get token
-        $loginResponse = $this->postJson('/api/auth/login', [
+        $loginResponse = $this->postJson('/api/v1/guest/login', [
             'email' => $user->email,
             'password' => 'password123'
         ]);
@@ -73,28 +73,28 @@ class AuthTest extends TestCase
         // Then logout
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
-        ])->postJson('/api/auth/logout');
+        ])->postJson('/api/v1/user/logout');
 
         $response->assertStatus(200);
     }
 
     public function test_logout_requires_authentication()
     {
-        $response = $this->postJson('/api/auth/logout');
+        $response = $this->postJson('/api/v1/user/logout');
 
         $response->assertStatus(401);
     }
 
     public function test_registration_requires_all_fields()
     {
-        $response = $this->postJson('/api/auth/register', []);
+        $response = $this->postJson('/api/v1/guest/register', []);
 
         $response->assertStatus(422);
     }
 
     public function test_login_requires_email_and_password()
     {
-        $response = $this->postJson('/api/auth/login', []);
+        $response = $this->postJson('/api/v1/guest/login', []);
 
         $response->assertStatus(422);
     }

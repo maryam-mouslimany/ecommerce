@@ -14,25 +14,27 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
   return (
     <div className={styles.pagination}>
-      <button 
+      <button
         className={styles.paginationButton}
         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
         disabled={currentPage === 1}
       >
         ‹ Previous
       </button>
-      
+
       {getPageNumbers().map((page) => (
         <button
           key={page}
-          className={`${styles.paginationButton} ${currentPage === page ? styles.active : ''}`}
+          className={`${styles.paginationButton} ${
+            currentPage === page ? styles.active : ""
+          }`}
           onClick={() => onPageChange(page)}
         >
           {page}
         </button>
       ))}
-      
-      <button 
+
+      <button
         className={styles.paginationButton}
         onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
         disabled={currentPage === totalPages}
@@ -43,4 +45,4 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-export default Pagination; 
+export default Pagination;

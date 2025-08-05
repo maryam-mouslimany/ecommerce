@@ -11,6 +11,21 @@
   color: #f7b90f;
 }
 
+.paid {
+  border: 1px solid #10b981;
+  color: #10b981;
+}
+
+.packed {
+  border: 1px solid #3b82f6;
+  color: #3b82f6;
+}
+
+.shipped {
+  border: 1px solid #6b7280;
+  color: #6b7280;
+}
+
 .delivered {
   border: 1px solid #59af59;
   color: #59af59;

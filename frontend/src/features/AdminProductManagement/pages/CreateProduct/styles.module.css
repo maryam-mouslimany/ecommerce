@@ -1,19 +1,4 @@
-.buttonWrapper {
-  padding: 1.5rem 2rem;
-  background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
-}
-
-/* Tablet styles */
-@media (max-width: 1024px) {
-  .formWrapper {
-    max-width: 800px;
-  }
-  
-  .form {
-    gap: 1.25rem 1.5rem;
-  }
-}.container {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,7 +19,7 @@
 .form {
   padding: 2rem;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; /* Three columns by default */
+  grid-template-columns: 1fr 1fr; /* Two columns by default */
   gap: 1.5rem 2rem; /* row gap, column gap */
 }
 
@@ -49,52 +34,232 @@
   grid-column: 1 / -1; /* Span full width */
 }
 
-/* Variant fields in a sub-grid */
+.buttonWrapper {
+  padding: 1.5rem 2rem;
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+  /* Add these styles to your styles.module.css */
+
+/* Variants Section */
+.variantsSection {
+  grid-column: 1 / -1;
+  margin-top: 1rem;
+}
+
+.variantsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Add Variant Button */
+.addVariantBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1.5px solid #d1d5db;
+  background-color: #ffffff;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.addVariantBtn:hover {
+  background-color: #f8fafc;
+  border-color: #3b82f6;
+  color: #3b82f6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.addVariantBtn:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #3b82f6;
+  ring-opacity: 0.5;
+  border-color: #3b82f6;
+}
+
+.addVariantBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Icon sizing for add button */
+.addVariantBtn svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+}
+
+/* Variant Row */
 .variantRow {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  position: relative;
 }
 
-/* Mobile styles */
-@media (max-width: 768px) {
-  .container {
-    padding: 1rem 0.75rem;
-  }
-  
-  .formWrapper {
-    max-width: 100%;
-    margin: 0;
-    border-radius: 8px;
-  }
-  
-  .form {
-    padding: 1.5rem;
-    grid-template-columns: 1fr; /* Single column on mobile */
-    gap: 1.25rem;
-  }
-  
-  .title {
-    font-size: 1.5rem;
-  }
-  
-  .buttonWrapper {
-    padding: 1.25rem 1.5rem;
+/* Remove Variant Button */
+.removeVariantBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1.5px solid #fca5a5;
+  background-color: #ffffff;
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.removeVariantBtn:hover {
+  background-color: #fef2f2;
+  border-color: #dc2626;
+  color: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.1);
+}
+
+.removeVariantBtn:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #ef4444;
+  ring-opacity: 0.5;
+  border-color: #dc2626;
+}
+
+.removeVariantBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  background-color: #fee2e2;
+}
+
+/* Icon sizing for remove button */
+.removeVariantBtn svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2.5;
+}
+
+/* Hover effect for variant row */
+.variantRow:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* Focus states for better accessibility */
+.addVariantBtn:focus-visible,
+.removeVariantBtn:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Tablet styles */
+@media (max-width: 1024px) {
+  .variantsHeader {
+    margin-bottom: 1.25rem;
   }
   
   .variantRow {
-    grid-template-columns: 1fr; /* Stack variant fields on mobile */
+    gap: 1.25rem;
+    padding: 0.875rem;
+    margin-bottom: 1.25rem;
   }
 }
 
-/* Small mobile */
-@media (max-width: 480px) {
-  .form {
-    padding: 1rem;
+
+/* Animation for adding/removing variants */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  .buttonWrapper {
-    padding: 1rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+.variantRow {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Tooltip-like behavior for buttons */
+.addVariantBtn::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1f2937;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+
+.addVariantBtn:hover::after {
+  opacity: 1;
+}
+
+.removeVariantBtn::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1f2937;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+
+.removeVariantBtn:hover::after {
+  opacity: 1;
+}
+

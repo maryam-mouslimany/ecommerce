@@ -1,0 +1,134 @@
+/* styles.module.css */
+
+/* Main container */
+.detailsContainer {
+  max-width: 800px;
+  margin:  auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.headerRow {
+  display: flex;
+  align-items: center; /* vertically center */
+  justify-content: space-between; /* push title left, button right */
+  margin-bottom: 24px; /* space below */
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 12px;
+}
+
+/* Product info section - flexbox layout */
+.info {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 40px;
+  align-items: flex-start;
+}
+
+/* Product details text container */
+.infoText {
+  flex: 1;
+  min-width: 300px;
+}
+
+/* Individual info items */
+.infoItem {
+  margin-bottom: 12px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #374151;
+}
+
+.infoItem strong {
+  color: #111827;
+  font-weight: 600;
+  display: inline-block;
+  min-width: 100px;
+}
+
+/* Product image styling */
+.productImage {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+/* Variants section */
+.variantsSection {
+  margin-top: 40px;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Loading and error states */
+.loadingText,
+.errorText {
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 40px;
+  color: #6b7280;
+}
+
+.errorText {
+  color: #dc2626;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .detailsContainer {
+    padding: 16px;
+    margin: 16px;
+  }
+  
+  .info {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .productImage {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    align-self: center;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .detailsContainer {
+    padding: 12px;
+    margin: 8px;
+  }
+  
+  .infoItem strong {
+    min-width: 80px;
+    font-size: 0.95rem;
+  }
+}
