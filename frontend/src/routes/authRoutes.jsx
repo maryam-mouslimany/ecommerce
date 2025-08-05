@@ -4,6 +4,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import CreateProduct from "../features/AdminProductManagement/pages/CreateProduct";
 import ViewProducts from "../features/AdminProductManagement/pages/ViewProducts";
 import CheckoutPage from "../features/Checkout";
+import ProductDetails from "../features/AdminProductManagement/pages/ProductDetails";
 
 // Public routes (for unauthenticated users)
 export const authRoutes = [
@@ -25,5 +26,7 @@ export const authRoutes = [
   },
   { path: "/admin-view-products", element: <ViewProducts /> },
   { path: "/admin-create-products", element: <CreateProduct /> },
+  { path: "/admin-update-product/:id", element: <CreateProduct /> },
+  { path: "/admin-view-product/:id", element: <ProductDetails /> },
   { path: "/checkout", element: <CheckoutPage /> },
 ];
