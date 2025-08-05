@@ -38,12 +38,10 @@ jobs:
       - name: Install Composer Dependencies
         run: docker exec laravel_app composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Run Migrations
-        run: docker exec laravel_app php artisan migrate --force
-
-      - name: Run Seeders
-        run: docker exec laravel_app php artisan db:seed --force
-
+      - name: Run Migrations & Seed
+        run: |
+          docker exec laravel_app php artisan migrate:fresh --seed --force
+      
       - name: Run Laravel Tests
         run: |
           docker exec laravel_app ./vendor/bin/phpunit \
