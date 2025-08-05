@@ -23,7 +23,7 @@ class CheckoutService
                 return $stockValidation;
             }
 
-            // Create addresses (simplified)
+            // Create addresses 
             $shippingAddress = self::createAddress($data['shipping_address'], $user, 'shipping');
             $billingAddress = self::createAddress($data['billing_address'] ?? $data['shipping_address'], $user, 'billing');
 
