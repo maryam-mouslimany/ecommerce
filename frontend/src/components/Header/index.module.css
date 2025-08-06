@@ -5,6 +5,10 @@
   padding: 1vh 2vw;
   background-color: var(--primary-color);
   flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(21, 48, 87, 0.1);
 }
 
 .heading {

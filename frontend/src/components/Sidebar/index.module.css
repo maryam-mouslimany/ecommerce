@@ -1,0 +1,92 @@
+.sidebar {
+  width: 250px;
+  min-height: 100vh;
+  background-color: var(--primary-color);
+  color: #fff;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-main);
+}
+
+.sidebarHeader {
+  padding: 2rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.navigation {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+.menuList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menuItem {
+  margin-bottom: 0.25rem;
+}
+
+.menuLink {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.menuLink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-left-color: var(--secondary-color);
+}
+
+.menuLink.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-left-color: var(--secondary-color);
+}
+
+.menuIcon {
+  margin-right: 0.75rem;
+  font-size: 1rem;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.menuLabel {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+    min-height: auto;
+  }
+  
+  .menuLink {
+    padding: 0.75rem 1rem;
+  }
+  
+  .sidebarHeader {
+    padding: 1rem;
+  }
+}
