@@ -3,13 +3,12 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 5% 5%;
+  padding: 2% 5% 5% 5%;
   gap: 3rem;
   min-height: 90vh;
   box-sizing: border-box;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(21, 48, 87, 0.08);
 }
 
 .img_section {
