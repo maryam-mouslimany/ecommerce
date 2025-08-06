@@ -28,13 +28,13 @@ const Header = () => {
     return unsubscribe;
   }, []);
 
-  // Update cart item count
+  // Update cart item count (optimized - no polling)
   useEffect(() => {
     const updateCartCount = () => {
       setCartItemCount(getLocalCartItemCount());
     };
 
-    // Initial count
+    // Initial count on component mount
     updateCartCount();
 
     // Listen for storage changes (when other tabs modify cart)
@@ -46,12 +46,16 @@ const Header = () => {
 
     window.addEventListener("storage", handleStorageChange);
 
-    // Also update count periodically in case of same-tab changes
-    const interval = setInterval(updateCartCount, 1000);
+    // Listen for custom cart update events (same-tab changes)
+    const handleCartUpdate = () => {
+      updateCartCount();
+    };
+    
+    window.addEventListener("cartUpdated", handleCartUpdate);
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
-      clearInterval(interval);
+      window.removeEventListener("cartUpdated", handleCartUpdate);
     };
   }, []);
 

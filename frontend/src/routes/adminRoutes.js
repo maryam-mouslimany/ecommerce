@@ -3,12 +3,20 @@ import CreateProduct from "../features/AdminProductManagement/pages/CreateProduc
 import ViewProducts from "../features/AdminProductManagement/pages/ViewProducts";
 import ProtectedRoute from "../components/ProtectedRoute";
 
-// Protected admin routes (require authentication)
+// Protected admin routes (require authentication and admin role)
 export const adminRoutes = [
+  {
+    path: "/admin-view-products",
+    element: (
+      <ProtectedRoute requireAuth={true} requireAdmin={true}>
+        <ViewProducts />
+      </ProtectedRoute>
+    ),
+  },
   {
     path: "/admin/orders",
     element: (
-      <ProtectedRoute requireAuth={true}>
+      <ProtectedRoute requireAuth={true} requireAdmin={true}>
         <AdminOrderManagement />
       </ProtectedRoute>
     ),
@@ -16,7 +24,7 @@ export const adminRoutes = [
   {
     path: "/admin/products",
     element: (
-      <ProtectedRoute requireAuth={true}>
+      <ProtectedRoute requireAuth={true} requireAdmin={true}>
         <ViewProducts />
       </ProtectedRoute>
     ),
@@ -24,7 +32,7 @@ export const adminRoutes = [
   {
     path: "/admin/products/create",
     element: (
-      <ProtectedRoute requireAuth={true}>
+      <ProtectedRoute requireAuth={true} requireAdmin={true}>
         <CreateProduct />
       </ProtectedRoute>
     ),

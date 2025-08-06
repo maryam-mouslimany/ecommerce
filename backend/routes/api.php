@@ -65,7 +65,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/products/{id}', [ProductFilterController::class, 'show']);
 });
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/view-products', [ProductsController::class, 'getProducts']);
 
     Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);

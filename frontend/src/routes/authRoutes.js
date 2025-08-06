@@ -9,6 +9,7 @@ import { OrderHistoryPage } from "../features/OrderHistory/pages/OrderHistory";
 import ProductDetails from "../features/AdminProductManagement/pages/ProductDetails";
 import CheckoutPage from "../features/Checkout";
 import TheyPage from "../features/Home/pages/TheyPage";
+import AdminOrderManagement from "../features/AdminOrderManagament";
 
 export const authRoutes = [
   { path: "/login", element: <LoginPage /> },
@@ -21,6 +22,7 @@ export const authRoutes = [
   { path: "/admin-update-product/:id", element: <CreateProduct /> },
   { path: "/admin-view-product/:id", element: <ProductDetails /> },
   { path: "/order-history", element: <OrderHistoryPage /> },
+  { path: "/admin/orders", element: <AdminOrderManagement /> },
 
   { path: "/They", element: <TheyPage /> },
   { path: "/checkout", element: <CheckoutPage /> },
