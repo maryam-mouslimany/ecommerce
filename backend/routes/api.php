@@ -18,6 +18,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\AccordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GenderController;
+use App\Http\Controllers\AIAgent\ChatbotController;
 
 // Route::get('/test-invoice', function () {
 //     $user = User::find(399);
@@ -83,3 +84,6 @@ Route::prefix('admin')->group(function () {
 Route::get('/brands', [BrandController::class, 'getBrands']);
 Route::get('/categories', [CategoryController::class, 'getCategories']);
 Route::get('/accords', [AccordController::class, 'getAccords']);
+
+// AI Agent routes
+Route::post('/v1/ai/chat', [ChatbotController::class, 'chat']);
