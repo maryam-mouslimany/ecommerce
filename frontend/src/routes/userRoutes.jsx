@@ -4,17 +4,30 @@ import { ProductListingPage } from "../features/Products/pages/ProductListingPag
 import { OrderHistoryPage } from "../features/OrderHistory/pages/OrderHistory";
 import { OrderConfirmation } from "../features/OrderConfirmation/pages";
 import ProtectedRoute from "../components/ProtectedRoute";
+import Layout from "../components/Layout";
 
 // User routes (some public, some protected)
 export const userRoutes = [
   // Public routes
   {
     path: "/",
-    element: <HomePage />,
+    element: <TheyPage />,
+  },
+  {
+    path: "/home",
+    element: (
+      <Layout>
+        <HomePage />
+      </Layout>
+    ),
   },
   {
     path: "/products",
-    element: <ProductListingPage />,
+    element: (
+      <Layout>
+        <ProductListingPage />
+      </Layout>
+    ),
   },
   {
     path: "/about",
@@ -23,19 +36,23 @@ export const userRoutes = [
   
   // Protected user routes (require authentication)
   {
-    path: "/orders",
+    path: "/order-history",
     element: (
-      <ProtectedRoute requireAuth={true}>
-        <OrderHistoryPage />
-      </ProtectedRoute>
+      <Layout>
+        <ProtectedRoute requireAuth={true}>
+          <OrderHistoryPage />
+        </ProtectedRoute>
+      </Layout>
     ),
   },
   {
     path: "/order-confirmation",
     element: (
-      <ProtectedRoute requireAuth={true}>
-        <OrderConfirmation />
-      </ProtectedRoute>
+      <Layout>
+        <ProtectedRoute requireAuth={true}>
+          <OrderConfirmation />
+        </ProtectedRoute>
+      </Layout>
     ),
   },
 ];
