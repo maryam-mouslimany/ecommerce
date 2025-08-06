@@ -5,19 +5,21 @@ namespace App\Services;
 use App\Models\Order; 
 use App\Events\OrderPlaced;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Product;
+use Illuminate\Http\Request;
 
 class AdminService
 {
    public static function getOrder(?string $status = null): ?LengthAwarePaginator
     {
-
+        $query = Order::withTrashed();
 
         // Filter by order status if provided
         if (isset($status)) {
-            Order::where('status', $status);
+            $query->where('status', $status);
         }
 
-        $orders = Order::paginate(20);
+        $orders = $query->paginate(20);
 
         return $orders->isNotEmpty() ? $orders : null;
 }
