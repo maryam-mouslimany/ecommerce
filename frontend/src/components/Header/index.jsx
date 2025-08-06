@@ -24,7 +24,7 @@ const Header = () => {
               <Link to="/product-list">Products</Link>
             </li>
             <li>
-              <Link to="#">Contact</Link>
+              <Link to="/they">His & Hers</Link>
             </li>
           </ul>
         </div>

@@ -12,13 +12,10 @@ const index = () => {
             Introducing a scent made for the man who defines his own path. Rich
             in depth, layered with confidence.
           </p>
-          <Button label={"view Products"} />
+          <Button label={"View Products"} />
         </div>
         <div className={styles.img_section}>
-          <img
-            src="https://stockperfume.com/_next/image?url=%2Fimages%2Fstockperfume%2Fbanner%2Fhome-banner-mobile.png&w=3840&q=75"
-            alt="Perfume"
-          />
+          <img src="/hero-image.jpg" alt="Perfume Hero" />
         </div>
       </div>
     </>

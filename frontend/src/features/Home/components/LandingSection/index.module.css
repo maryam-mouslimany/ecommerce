@@ -7,17 +7,11 @@
   gap: 3rem;
   min-height: 90vh;
   box-sizing: border-box;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(21, 48, 87, 0.08);
 }
-.landing_section button {
-  background-color: var(--secondary-color);
-  color: #ffffff;
-  width: fit-content;
-  height: fit-content;
-  padding: 1rem 3rem;
-  align-items: center;
-  border-radius: 30px;
-  margin-left: 30%;
-}
+
 .img_section {
   flex: 1;
   display: flex;
@@ -30,11 +24,9 @@
   height: auto;
   border-radius: 12px;
   object-fit: cover;
+  box-shadow: 0 2px 12px rgba(21, 48, 87, 0.06);
 }
 
-.welcome_message {
-  color: var(--primary-color);
-}
 .welcome_message {
   flex: 1;
   display: flex;
@@ -43,17 +35,21 @@
   align-items: flex-start;
   gap: 1rem;
   color: var(--primary-color);
+  font-family: var(--font-main);
 }
 
 .welcome_message h1 {
   font-size: 3rem;
+  font-weight: bold;
   margin: 0;
+  color: var(--primary-color);
 }
 
 .welcome_message h4 {
   font-size: 1.5rem;
   margin: 0;
   font-weight: 500;
+  color: var(--secondary-color);
 }
 
 .welcome_message p {
@@ -61,19 +57,9 @@
   font-weight: 500;
   line-height: 1.6;
   margin: 0;
-}
-.welcome_message h1 {
-  font-size: 5rem;
+  color: var(--text-secondary-color);
 }
 
-.welcome_message h4 {
-  font-size: 1.5rem;
-}
-
-.welcome_message p {
-  font-size: 1rem;
-  color: rgb(185, 185, 185);
-}
 @media (max-width: 768px) {
   .landing_section {
     flex-direction: column;
