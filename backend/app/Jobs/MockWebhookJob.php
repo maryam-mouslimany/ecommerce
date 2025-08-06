@@ -20,6 +20,11 @@ class MockWebhookJob implements ShouldQueue
 
     public function handle(): void
     {
+        // Skip HTTP calls during testing
+        if (app()->environment('testing')) {
+            return;
+        }
+
         Http::post('http://localhost/api/mock-webhook', [
             'order_id' => $this->order->id,
             'status'   => $this->order->status,

@@ -23,7 +23,7 @@ class CheckoutService
                 return $stockValidation;
             }
 
-            // Create addresses (simplified)
+            // Create addresses 
             $shippingAddress = self::createAddress($data['shipping_address'], $user, 'shipping');
             $billingAddress = self::createAddress($data['billing_address'] ?? $data['shipping_address'], $user, 'billing');
 
@@ -39,7 +39,7 @@ class CheckoutService
                 'status' => 'pending'
             ]);
 
-            // Create order items and update stock
+            // Create order items
             foreach ($data['cart_items'] as $item) {
                 $variant = ProductVariant::find($item['product_variant_id']);
 
@@ -50,8 +50,7 @@ class CheckoutService
                     'unit_price' => $variant->price
                 ]);
 
-                // Update stock
-                $variant->decrement('stock', $item['quantity']);
+                // Stock update will be handled by UpdateStockJob via OrderPlaced event
             }
 
             DB::commit();
