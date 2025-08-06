@@ -18,4 +18,15 @@ class AdminController extends Controller
 
         return $this->responseJSON(null, "not found", 404);
     }
+    public function postProduct(Request $request)
+    {
+        $orders = AdminService::postProduct($request);
+
+        if ($orders) {
+            return $this->responseJSON($orders);
+        }
+
+        return $this->responseJSON(null, "not found", 404);
+    }
+
 }

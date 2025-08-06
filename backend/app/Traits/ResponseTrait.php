@@ -49,9 +49,9 @@ trait ResponseTrait
     public function buildInvoiceHtml($order)
     {
         return "
-            <h1>Order Invoice</h1>
-            <p>Order ID: {$order->id}</p>
-            <p>Total: {$order->total}</p>
+            <p><strong>Order ID:</strong> {$order->id}</p>
+            <p><strong>Status:</strong> {$order->status}</p>
+            <p><strong>Total Amount:</strong> \${$order->total_amount}</p>
             <p>Thank you for your purchase!</p>
         ";
     }

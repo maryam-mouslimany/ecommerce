@@ -55,4 +55,15 @@ class AdminControllerTest extends TestCase
         $this->assertEquals(2, $response->json('data.current_page'));
         $this->assertCount(10, $response->json('data.data'));
     }
+
+    public function test_soft_deleted_orders_are_included()
+    {
+        Order::factory()->count(5)->create();
+        Order::factory()->count(2)->create()->each(fn($order) => $order->delete());
+
+        $response = $this->getJson('/api/admin/getOrder');
+
+        $response->assertStatus(200);
+        $this->assertEquals(7, $response->json('data.total'));
+    }
 }

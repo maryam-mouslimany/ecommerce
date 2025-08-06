@@ -7,6 +7,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductFilterController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Checkout\CheckoutController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\NotificationController;
 
 use App\Models\User;
 use App\Models\Order;
@@ -17,18 +19,18 @@ use App\Http\Controllers\AccordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GenderController;
 
-Route::get('/test-invoice', function () {
-    $user = User::find(399);
+// Route::get('/test-invoice', function () {
+//     $user = User::find(399);
 
-    $order = Order::factory()->create([
-        'user_id' => $user->id,
-        'total_amount' => 199.99
-    ]);
+//     $order = Order::factory()->create([
+//         'user_id' => $user->id,
+//         'total_amount' => 199.99
+//     ]);
 
-    event(new OrderPlaced($order));
+//     event(new OrderPlaced($order));
 
-    return 'Invoice event dispatched!';
-});
+//     return 'Invoice event dispatched!';
+// });
 
 Route::prefix('v1')->group(function () {
     // Guest routes (no authentication required)
@@ -66,11 +68,16 @@ Route::prefix('v1')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('/view-products', [ProductsController::class, 'getProducts']);
 
-    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]); 
+    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);
     Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
     Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
     Route::delete('/delete-product/{id}', [ProductsController::class, 'softDelete']);
     Route::patch('/restore-product/{id}', [ProductsController::class, 'restore']);
+    Route::post('/edit-order-status/{id}', [OrderController::class, 'editStatus']);
+
+    Route::get('/notifications/{user_id}', [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
 });
 
 Route::get('/brands', [BrandController::class, 'getBrands']);
