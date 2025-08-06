@@ -6,7 +6,6 @@ import { CardDetails } from "../components/CardDetails";
 import { FilterComponent } from "../components/ProductFilter";
 import { productService } from "../../../services/productService";
 import Pagination from "../../../components/Pagination";
-import Header from "../../../components/Header";
 
 export const ProductListingPage = () => {
   const [products, setProducts] = useState([]);
@@ -72,7 +71,6 @@ export const ProductListingPage = () => {
 
   return (
     <div>
-      <Header />
       <div className={styles.parentContainer}>
         <FilterComponent onApply={handleApplyFilters} options={filterOptions} />
       </div>
@@ -85,15 +83,16 @@ export const ProductListingPage = () => {
               <Card
                 key={product.id}
                 title={product.name}
-                price={`$${product.variants[0]?.price || 'N/A'}`}
+                price={`$${product.variants[0]?.price || "N/A"}`}
                 onViewMore={() => handleViewMore(product)}
+                product={product}
               />
             ))}
           </div>
-          <Pagination 
-            currentPage={page} 
-            totalPages={totalPages} 
-            onPageChange={handlePageChange} 
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
           />
         </>
       )}

@@ -1,28 +1,29 @@
 import React from "react";
 import styles from "./index.module.css";
 import { Button } from "../../../../components/Button";
-const index = () => {
+import { useNavigate } from "react-router-dom";
+
+const LandingSection = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className={styles.landing_section}>
         <div className={styles.welcome_message}>
-          <h1>Perfume</h1>
-          <h4>Bold. Distinct. Unforgettable. </h4>
+          <h1>His & Hers Collection</h1>
+          <h4>Distinctive fragrances for every personality</h4>
           <p>
-            Introducing a scent made for the man who defines his own path. Rich
-            in depth, layered with confidence.
+            Discover scents that define who you are. From bold and confident to elegant and refined, 
+            find the perfect fragrance that tells your unique story.
           </p>
-          <Button label={"view Products"} />
+          <Button label={"Explore Collection"} variant="primary" onClick={() => navigate("/products")} />
         </div>
         <div className={styles.img_section}>
-          <img
-            src="https://stockperfume.com/_next/image?url=%2Fimages%2Fstockperfume%2Fbanner%2Fhome-banner-mobile.png&w=3840&q=75"
-            alt="Perfume"
-          />
+          <img src="/hero-image.jpg" alt="Perfume Hero" />
         </div>
       </div>
     </>
   );
 };
 
-export default index;
+export default LandingSection;

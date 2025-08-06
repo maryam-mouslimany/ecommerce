@@ -25,7 +25,56 @@
   background-color: #e0e0e0;
 }
 
-.tabActive {
+.activeTab {
   background-color: #333;
   color: #fff;
+}
+
+/* Loading and Error States */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.error {
+  text-align: center;
+  padding: 3rem;
+  color: #dc2626;
+}
+
+.error p {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.retryButton {
+  padding: 0.5rem 1rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.retryButton:hover {
+  background-color: #444;
+  transform: translateY(-1px);
+}
+
+.errorBanner {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: #dc2626;
+  text-align: center;
+}
+
+.errorBanner p {
+  margin: 0 0 0.5rem 0;
 }

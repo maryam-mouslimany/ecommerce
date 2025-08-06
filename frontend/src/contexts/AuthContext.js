@@ -17,31 +17,36 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in on app start
-    const initializeAuth = () => {
-      try {
-        const currentUser = authService.getCurrentUser();
-        const token = authService.getToken();
-        
-        if (currentUser && token) {
-          setUser(currentUser);
-        }
-      } catch (error) {
-        console.error('Error initializing auth:', error);
-        // Clear any invalid data
-        authService.logout();
-      } finally {
-        setLoading(false);
-      }
+    console.log('AuthContext: useEffect called - initializing auth');
+    
+    const handleUserStateChange = (user) => {
+      console.log('AuthContext: User state changed:', user);
+      setUser(user);
+      setLoading(false);
     };
 
-    initializeAuth();
+    const unsubscribe = authService.onUserStateChange(handleUserStateChange);
+
+    // Initialize auth state
+    const currentUser = authService.getCurrentUser();
+    const token = authService.getToken();
+    console.log('AuthContext: Initial auth check - user:', currentUser, 'token:', !!token);
+    
+    if (currentUser && token) {
+      setUser(currentUser);
+    }
+    setLoading(false);
+
+    return () => {
+      console.log('AuthContext: Unsubscribing from user state changes');
+      unsubscribe();
+    };
   }, []);
 
   const login = async (credentials) => {
     try {
       const response = await authService.login(credentials);
-      setUser(response.user);
+      setUser(response.data.user);
       return response;
     } catch (error) {
       throw error;
@@ -51,7 +56,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const response = await authService.register(userData);
-      setUser(response.user);
+      setUser(response.data.user);
       return response;
     } catch (error) {
       throw error;

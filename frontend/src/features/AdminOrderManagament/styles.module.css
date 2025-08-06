@@ -130,6 +130,74 @@
   transform: translateY(-1px);
 }
 
+/* Loading and Error States */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: var(--primary-color);
+  font-size: 1.1rem;
+}
+
+.error {
+  text-align: center;
+  padding: 3rem;
+  color: #dc2626;
+}
+
+.error p {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.retryButton {
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.retryButton:hover {
+  background-color: #1e3a8a;
+  transform: translateY(-1px);
+}
+
+.errorBanner {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: #dc2626;
+  text-align: center;
+}
+
+.errorBanner p {
+  margin: 0 0 0.5rem 0;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  z-index: 10;
+}
+
+.tableWrapper {
+  position: relative;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .mainContent {
