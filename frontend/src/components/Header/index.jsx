@@ -8,6 +8,7 @@ import { MdLogout, MdHistory } from "react-icons/md";
 import authService from "../../services/authService";
 import { getLocalCartItemCount } from "../../services/cartService";
 import NotificationModal from "../../features/Notification/components/NotificationModal";
+import { getUserNotifications } from "../../services/notificationService";
 
 const Header = () => {
   const [user, setUser] = useState(null);
@@ -18,6 +19,30 @@ const Header = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
+  
+   useEffect(() => {
+    if (!user) {
+      setNotificationCount(0);
+      return;
+    }
+
+    const fetchNotificationCount = async () => {
+      try {
+        const notifications = await getUserNotifications(user.id);
+        setNotificationCount(notifications.length);
+      } catch (error) {
+        console.error("Failed to fetch notifications count:", error);
+        setNotificationCount(0);
+      }
+    };
+
+    fetchNotificationCount();
+
+    // Optional: Poll every 30 seconds to refresh count
+    const interval = setInterval(fetchNotificationCount, 30000);
+
+    return () => clearInterval(interval);
+  }, [user]);
   // Check if user is logged in
   useEffect(() => {
     const currentUser = authService.getCurrentUser();

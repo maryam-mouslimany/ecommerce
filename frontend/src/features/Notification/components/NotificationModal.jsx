@@ -29,7 +29,9 @@ const NotificationModal = ({ isOpen, onClose, userId, onCountChange }) => {
   // Handle marking notification as read
   const handleMarkAsRead = async (id) => {
     try {
+        console.log(id)
       await markNotificationAsRead(id);
+
       const updated = notifications.filter((n) => n.id !== id);
       setNotifications(updated);
       onCountChange?.(updated.length); // Update badge count
@@ -52,7 +54,7 @@ const NotificationModal = ({ isOpen, onClose, userId, onCountChange }) => {
         {notifications.map((notification) => (
           <li key={notification.id} className={styles.notificationItem}>
             <p>{notification.data.message || "You have a new notification"}</p>
-            <button className={styles.markReadButton} onClick={handleMarkAsRead}>
+            <button className={styles.markReadButton} onClick={() => handleMarkAsRead(notification.id)}>
               Mark as Read
             </button>
           </li>

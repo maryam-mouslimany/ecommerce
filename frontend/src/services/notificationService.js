@@ -8,6 +8,6 @@ export const getUserNotifications = async (userId) => {
 
 
 export const markNotificationAsRead = async (notificationId) => {
-  const response = await api.post(`/admin/notifications/${notificationId}/read`);
+  const response = await api.post(`/v1/user/notifications/${notificationId}/read`);
   return response.data;
 };
