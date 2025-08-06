@@ -10,14 +10,14 @@ class AdminService
 {
    public static function getOrder(?string $status = null): ?LengthAwarePaginator
     {
-
+        $query = Order::withTrashed(); // Include soft deleted orders
 
         // Filter by order status if provided
         if (isset($status)) {
-            Order::where('status', $status);
+            $query->where('status', $status);
         }
 
-        $orders = Order::paginate(20);
+        $orders = $query->paginate(20);
 
         return $orders->isNotEmpty() ? $orders : null;
 }
