@@ -1,11 +1,10 @@
 import api from './api';
 
 export const chatbotService = {
-  sendMessage: async (message, sessionId = null) => {
+  sendMessage: async (message) => {
     try {
       const response = await api.post('/v1/ai/chat', {
-        message,
-        sessionId
+        message
       });
       return response.data;
     } catch (error) {

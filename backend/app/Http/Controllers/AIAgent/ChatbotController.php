@@ -23,8 +23,7 @@ class ChatbotController extends Controller
 
         try {
             $response = $this->chatbotService->chat(
-                $request->message,
-                $request->sessionId
+                $request->message
             );
 
             return response()->json([
