@@ -1,31 +1,18 @@
 <?php
 
-namespace App\Listeners;
 
-use App\Events\OrderPlaced;
+// namespace App\Listeners;
 
-class UpdateStockListener
-{
-    /**
-     * Handle the event.
-     */
-    public function handle(OrderPlaced $event): void
-    {
-        $order = $event->order;
+// use App\Events\OrderPlaced;
+// use Illuminate\Contracts\Queue\ShouldQueue;
 
-        foreach ($order->items as $item) {
-            $variant = $item->productVariant; 
-            
-            if ($variant) {
-                $variant->stock -= $item->quantity;
-
-                if ($variant->stock < 0) {
-                    $variant->stock = 0; 
-                }
-
-                $variant->save();
-            }
-        }
-    }
-}
+// class UpdateStockListener implements ShouldQueue
+// {
+//     public function handle(OrderPlaced $event): void
+//     {
+//         foreach ($event->order->items as $item) {
+//             $item->product->decrement('stock', $item->quantity);
+//         }
+//     }
+// }
 

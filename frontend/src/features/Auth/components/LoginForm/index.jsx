@@ -36,8 +36,20 @@ export const LoginForm = () => {
       console.log('LoginForm: Attempting login with:', formData);
       const result = await authService.login(formData);
       console.log('LoginForm: Login successful:', result);
-      // Redirect to dashboard or home page after successful login
-      navigate("/");
+      
+      // Check if result has redirect_url from backend
+      if (result.data && result.data.redirect_url) {
+        console.log('LoginForm: Redirecting to:', result.data.redirect_url);
+        navigate(result.data.redirect_url);
+      } else {
+        // Fallback: redirect based on user role or to home
+        const user = result.data?.user;
+        if (user?.role === 'admin') {
+          navigate('/admin-view-products');
+        } else {
+          navigate('/'); // Redirect customers to homepage
+        }
+      }
     } catch (err) {
       console.error('LoginForm: Login error:', err);
       setError(err.message || "Login failed. Please try again.");

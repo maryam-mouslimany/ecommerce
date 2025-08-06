@@ -56,3 +56,90 @@ export const cartService = {
     }
   }
 };
+
+// Dispatch custom event to notify components of cart changes
+const notifyCartUpdated = () => {
+  window.dispatchEvent(new CustomEvent('cartUpdated'));
+};
+
+// LocalStorage cart management functions
+export const addItemToLocalCart = (product) => {
+  try {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const existingItem = cart.find(item => item.id === product.id);
+    
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      const newItem = { ...product, quantity: 1, addedAt: new Date().toISOString() };
+      cart.push(newItem);
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    notifyCartUpdated(); // Notify components
+    
+    // Only log in development mode for important actions
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Cart updated: ${existingItem ? 'Updated quantity' : 'Added new item'} for product ${product.id}`);
+    }
+  } catch (error) {
+    console.error('Error in addItemToLocalCart:', error);
+    throw error;
+  }
+};
+
+// Get cart items from localStorage (optimized)
+export const getLocalCart = () => {
+  try {
+    const cartData = localStorage.getItem('cart');
+    
+    if (!cartData) {
+      return [];
+    }
+    
+    const parsedCart = JSON.parse(cartData);
+    return parsedCart;
+    
+  } catch (error) {
+    console.error('Error parsing cart data from localStorage:', error);
+    // Clear corrupted data
+    localStorage.removeItem('cart');
+    return [];
+  }
+};
+
+// Remove item from localStorage cart
+export const removeItemFromLocalCart = (productId) => {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const updatedCart = cart.filter(item => item.id !== productId);
+  localStorage.setItem('cart', JSON.stringify(updatedCart));
+  notifyCartUpdated(); // Notify components
+  return updatedCart;
+};
+
+// Update item quantity in localStorage cart
+export const updateLocalCartItemQuantity = (productId, quantity) => {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  const item = cart.find(item => item.id === productId);
+  if (item) {
+    if (quantity <= 0) {
+      return removeItemFromLocalCart(productId);
+    }
+    item.quantity = quantity;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    notifyCartUpdated(); // Notify components
+  }
+  return cart;
+};
+
+// Clear localStorage cart
+export const clearLocalCart = () => {
+  localStorage.removeItem('cart');
+  notifyCartUpdated(); // Notify components
+};
+
+// Get cart item count from localStorage
+export const getLocalCartItemCount = () => {
+  const cart = getLocalCart();
+  return cart.reduce((total, item) => total + item.quantity, 0);
+};

@@ -25,12 +25,17 @@ class AuthService
 
         $user = Auth::guard('api')->user();
 
+        // Determine redirect URL based on user role
+        $redirectUrl = $user->role === 'admin' ? '/admin-view-products' : '/';
+
         return [
             'success' => true,
             'message' => 'Login successful',
             'data' => [
                 'user' => $user,
-                'token' => $token
+                'token' => $token,
+                'redirect_url' => $redirectUrl,
+                'role' => $user->role
             ],
             'status' => 200
         ];

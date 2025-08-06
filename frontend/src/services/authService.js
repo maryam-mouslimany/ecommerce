@@ -24,9 +24,16 @@ export const authService = {
       const response = await api.post('/v1/guest/login', credentials);
       console.log('API Response - Login:', response.data);
       
+      // Check if login was successful
+      if (response.data.success === false) {
+        console.error('Login failed:', response.data.message);
+        throw new Error(response.data.message || 'Invalid credentials');
+      }
+      
       if (response.data.data && response.data.data.token) {
         // Store token in localStorage
         localStorage.setItem('token', response.data.data.token);
+        console.log(response.data.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.data.user));
         
         // Set default authorization header
@@ -38,7 +45,14 @@ export const authService = {
       
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: 'Login failed' };
+      console.error('AuthService login error:', error);
+      // If it's already an Error object (from our check above), re-throw it
+      if (error instanceof Error) {
+        throw error;
+      }
+      // Handle axios errors
+      const errorMessage = error.response?.data?.message || error.message || 'Login failed';
+      throw new Error(errorMessage);
     }
   },
 
@@ -123,10 +137,14 @@ export const authService = {
     api.interceptors.response.use(
       (response) => response,
       (error) => {
-        if (error.response?.status === 401) {
-          // Token expired or invalid
+        // Only handle 401 for authenticated requests, not login attempts
+        if (error.response?.status === 401 && 
+            !error.config?.url?.includes('/guest/login') &&
+            this.getToken()) {
+          // Token expired or invalid for authenticated user
+          console.log('Token expired, logging out...');
           this.logout();
-          window.location.href = "/";
+          window.location.href = "/login";
         }
         return Promise.reject(error);
       }

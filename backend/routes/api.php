@@ -7,6 +7,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductFilterController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Checkout\CheckoutController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\OrderController as CustomerOrderController;
+use App\Http\Controllers\NotificationController;
 
 use App\Models\User;
 use App\Models\Order;
@@ -16,19 +19,20 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\AccordController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GenderController;
+use App\Http\Controllers\AIAgent\ChatbotController;
 
-Route::get('/test-invoice', function () {
-    $user = User::find(399);
+// Route::get('/test-invoice', function () {
+//     $user = User::find(399);
 
-    $order = Order::factory()->create([
-        'user_id' => $user->id,
-        'total_amount' => 199.99
-    ]);
+//     $order = Order::factory()->create([
+//         'user_id' => $user->id,
+//         'total_amount' => 199.99
+//     ]);
 
-    event(new OrderPlaced($order));
+//     event(new OrderPlaced($order));
 
-    return 'Invoice event dispatched!';
-});
+//     return 'Invoice event dispatched!';
+// });
 
 Route::prefix('v1')->group(function () {
     // Guest routes (no authentication required)
@@ -54,6 +58,13 @@ Route::prefix('v1')->group(function () {
         // Checkout routes
         Route::post('/checkout', [CheckoutController::class, 'processCheckout']);
         Route::get('/checkout/summary', [CheckoutController::class, 'getCheckoutSummary']);
+
+        // Customer order routes
+        Route::get('/orders', [CustomerOrderController::class, 'getCustomerOrders']);
+        Route::get('/orders/{id}', [CustomerOrderController::class, 'getOrderDetails']);
+        Route::get('/notifications/{user_id}', [NotificationController::class, 'index']);
+        Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+        Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
     });
 
     // Product routes
@@ -63,16 +74,20 @@ Route::prefix('v1')->group(function () {
     Route::get('/products/{id}', [ProductFilterController::class, 'show']);
 });
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/view-products', [ProductsController::class, 'getProducts']);
 
-    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]); 
+    Route::get("/getOrder/{status?}", [AdminController::class, "getOrder"]);
     Route::post('/add-update-products/{id?}', [ProductsController::class, 'addOrUpdate']);
     Route::get('/view-product/{id}', [ProductsController::class, 'getProduct']);
     Route::delete('/delete-product/{id}', [ProductsController::class, 'softDelete']);
     Route::patch('/restore-product/{id}', [ProductsController::class, 'restore']);
+    Route::post('/edit-order-status/{id}', [OrderController::class, 'editStatus']);
 });
 
 Route::get('/brands', [BrandController::class, 'getBrands']);
 Route::get('/categories', [CategoryController::class, 'getCategories']);
 Route::get('/accords', [AccordController::class, 'getAccords']);
+
+// AI Agent routes
+Route::post('/v1/ai/chat', [ChatbotController::class, 'chat']);

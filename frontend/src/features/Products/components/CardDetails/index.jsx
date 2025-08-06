@@ -1,42 +1,50 @@
 import styles from "./index.module.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../../../components/Button";
-import { cartService } from "../../../../services/cartService";
+import { addItemToLocalCart } from "../../../../services/cartService";
+import { useAuth } from "../../../../contexts/AuthContext";
 
 export const CardDetails = ({ product }) => {
+  const { isAuthenticated, user } = useAuth();
+  const navigate = useNavigate();
   const [selectedVariantId, setSelectedVariantId] = useState(
     product.variants[0]?.id
   );
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [cartMessage, setCartMessage] = useState("");
 
   const handleChange = (e) => {
     setSelectedVariantId(parseInt(e.target.value));
   };
 
   const handleAddToCart = async () => {
-    if (!selectedVariantId) {
-      setCartMessage("Please select a size");
+    console.log('CardDetails handleAddToCart called');
+    console.log('isAuthenticated:', isAuthenticated);
+    console.log('user:', user);
+    
+    if (!isAuthenticated) {
+      console.log('User not authenticated, redirecting to login');
+      navigate('/login');
       return;
     }
 
+    if (!selectedVariantId) {
+      console.log('No variant selected');
+      alert('Please select a variant before adding to cart');
+      return;
+    }
+
+    console.log('User is authenticated, proceeding with add to cart');
+    setIsAddingToCart(true);
+
     try {
-      setIsAddingToCart(true);
-      setCartMessage("");
-      
-      const response = await cartService.addToCart({
-        product_variant_id: selectedVariantId,
-        quantity: 1
-      });
-      
-      if (response.success) {
-        setCartMessage("Product added to cart successfully!");
-      } else {
-        setCartMessage("Failed to add product to cart");
-      }
+      console.log('Product to add:', product);
+      addItemToLocalCart(product);
+      console.log('Product successfully added to cart');
+      alert('Product added to cart successfully!');
     } catch (error) {
       console.error("Error adding to cart:", error);
-      setCartMessage("Error adding product to cart");
+      alert('Error adding product to cart!');
     } finally {
       setIsAddingToCart(false);
     }
@@ -117,12 +125,6 @@ export const CardDetails = ({ product }) => {
             variant="primary"
             label={isAddingToCart ? "Adding..." : "Add to Cart"}
           />
-          
-          {cartMessage && (
-            <div className={`${styles.message} ${cartMessage.includes('success') ? styles.success : styles.error}`}>
-              {cartMessage}
-            </div>
-          )}
         </div>
       </div>
     </div>

@@ -4,18 +4,16 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use App\Events\OrderPlaced;
-use App\Listeners\SendInvoiceEmailListener;
+use App\Listeners\DispatchOrderJobs;
 
 class EventServiceProvider extends ServiceProvider
 {
-  protected $listen = [
-    OrderPlaced::class => [
-        SendInvoiceEmailListener::class,
-        UpdateStockListener::class,
-        LogOrderAnalyticsListener::class,
-        MockWebhookListener::class,
+protected $listen = [
+    \App\Events\OrderPlaced::class => [
+        \App\Listeners\DispatchOrderJobs::class,
     ],
 ];
+
 
 
     public function boot(): void
