@@ -165,7 +165,7 @@
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   text-decoration: none;
-  color: #374151;
+  color: #374151 !important;
   font-size: 0.875rem;
   font-weight: 500;
   transition: background-color 0.2s ease;
@@ -198,6 +198,43 @@
 
 .authLink:hover {
   background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Cart icon styling */
+.cartIconContainer {
+  position: relative;
+}
+
+.cartLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease;
+}
+
+.cartLink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.cartBadge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff4757;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.2rem 0.4rem;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Mobile responsiveness for new elements */

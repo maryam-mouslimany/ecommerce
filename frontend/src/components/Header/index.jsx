@@ -4,12 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { FaShoppingCart, FaChevronDown } from "react-icons/fa";
 import { LuBellRing } from "react-icons/lu";
-import { MdLogout } from "react-icons/md";
+import { MdLogout, MdHistory } from "react-icons/md";
 import authService from "../../services/authService";
+import { getLocalCartItemCount } from "../../services/cartService";
 
 const Header = () => {
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [cartItemCount, setCartItemCount] = useState(0);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
@@ -24,6 +26,33 @@ const Header = () => {
     });
 
     return unsubscribe;
+  }, []);
+
+  // Update cart item count
+  useEffect(() => {
+    const updateCartCount = () => {
+      setCartItemCount(getLocalCartItemCount());
+    };
+
+    // Initial count
+    updateCartCount();
+
+    // Listen for storage changes (when other tabs modify cart)
+    const handleStorageChange = (e) => {
+      if (e.key === "cart") {
+        updateCartCount();
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    // Also update count periodically in case of same-tab changes
+    const interval = setInterval(updateCartCount, 1000);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
+    };
   }, []);
 
   // Close dropdown when clicking outside
@@ -69,7 +98,7 @@ const Header = () => {
         <div className={styles.main_menu}>
           <ul>
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </li>
             <li>
               <Link to="/products">Products</Link>
@@ -98,6 +127,13 @@ const Header = () => {
 
                   {showDropdown && (
                     <div className={styles.dropdown}>
+                      <Link
+                        to="/order-history"
+                        className={styles.dropdownItem}
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        <MdHistory /> History
+                      </Link>
                       <button
                         className={styles.dropdownItem}
                         onClick={handleLogout}
@@ -107,9 +143,12 @@ const Header = () => {
                     </div>
                   )}
                 </li>
-                <li>
-                  <Link to="/order">
+                <li className={styles.cartIconContainer}>
+                  <Link to="/checkout" className={styles.cartLink}>
                     <FaShoppingCart />
+                    {cartItemCount > 0 && (
+                      <span className={styles.cartBadge}>{cartItemCount}</span>
+                    )}
                   </Link>
                 </li>
                 <li>

@@ -2,9 +2,13 @@ import { FaCheckCircle } from "react-icons/fa";
 import styles from "./index.module.css";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/Button";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export const OrderConfirmation = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth();
+  
+  console.log('OrderConfirmation page loaded - isAuthenticated:', isAuthenticated, 'user:', user);
 
   const handleContinueShopping = () => {
     navigate("/");

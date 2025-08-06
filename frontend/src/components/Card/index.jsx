@@ -3,8 +3,44 @@ import { Button } from "../Button";
 import { FaShoppingCart } from "react-icons/fa";
 import { Caption } from "../Caption";
 import perfumeImg from "../../assets/images/perfume.jpg";
+import { addItemToLocalCart } from "../../services/cartService";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
-export const Card = ({ title, price, onViewMore }) => {
+export const Card = ({ title, price, onViewMore, product }) => {
+  const { isAuthenticated, user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAddToCart = () => {
+    console.log('handleAddToCart called');
+    console.log('isAuthenticated:', isAuthenticated);
+    console.log('user:', user);
+    
+    if (!isAuthenticated) {
+      console.log('User not authenticated, redirecting to login');
+      navigate('/login');
+      return;
+    }
+
+    console.log('User is authenticated, proceeding with add to cart');
+    const productData = {
+      id: product?.id || Date.now(), // fallback ID if product object not available
+      title,
+      price,
+      image: perfumeImg // using default image for now
+    };
+    
+    console.log('Product data to add:', productData);
+    try {
+      addItemToLocalCart(productData);
+      console.log('Product successfully added to cart:', productData);
+      // Optionally, you could add a toast notification here instead of alert
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+      // Optionally, you could add an error toast notification here instead of alert
+    }
+  };
+
   return (
     <div className={styles.card}>
       <img src={perfumeImg} alt="Perfume" className={styles.image} />
@@ -16,6 +52,7 @@ export const Card = ({ title, price, onViewMore }) => {
             label="Add to cart"
             variant="primary"
             iconLeft={<FaShoppingCart />}
+            onClick={handleAddToCart}
           />
           <button
             type="button"
