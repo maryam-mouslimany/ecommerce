@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductFilterController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Checkout\CheckoutController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\OrderController as CustomerOrderController;
 use App\Http\Controllers\NotificationController;
 
 use App\Models\User;
@@ -56,6 +57,10 @@ Route::prefix('v1')->group(function () {
         // Checkout routes
         Route::post('/checkout', [CheckoutController::class, 'processCheckout']);
         Route::get('/checkout/summary', [CheckoutController::class, 'getCheckoutSummary']);
+        
+        // Customer order routes
+        Route::get('/orders', [CustomerOrderController::class, 'getCustomerOrders']);
+        Route::get('/orders/{id}', [CustomerOrderController::class, 'getOrderDetails']);
     });
 
     // Product routes

@@ -6,12 +6,16 @@ import AdminLayout from "../components/AdminLayout";
 
 // Protected admin routes (require authentication and admin role)
 export const adminRoutes = [
+  // Temporary test route - remove after testing
   {
-    path: "/admin-view-products",
+    path: "/admin-test",
     element: (
-      <ProtectedRoute requireAuth={true} requireAdmin={true}>
-        <ViewProducts />
-      </ProtectedRoute>
+      <AdminLayout>
+        <div style={{padding: '20px'}}>
+          <h1>Admin Test Page</h1>
+          <p>If you can see this page with the sidebar, then the sidebar is working!</p>
+        </div>
+      </AdminLayout>
     ),
   },
   {
