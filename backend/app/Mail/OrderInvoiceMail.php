@@ -1,13 +1,15 @@
 <?php
+
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\ResponseTrait;
 
 class OrderInvoiceMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable, SerializesModels, ResponseTrait;
 
     public $order;
 
@@ -19,6 +21,6 @@ class OrderInvoiceMail extends Mailable
     public function build()
     {
         return $this->subject('Your Order Invoice')
-                    ->view('emails.invoice');
+                    ->html($this->buildInvoiceHtml($this->order));
     }
 }

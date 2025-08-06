@@ -54,6 +54,8 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  justify-content: center;
+  align-items: center;
 }
 
 .main_menu a,
@@ -94,5 +96,122 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;
+  }
+}
+
+/* Logo styling */
+.logo {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Profile section styling */
+.profileSection {
+  position: relative;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  color: #fff;
+}
+
+.userInfo:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.profileIcon {
+  font-size: 1.2rem;
+}
+
+.userName {
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.dropdownArrow {
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.dropdownArrow.rotated {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu styling */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  min-width: 140px;
+  z-index: 1000;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdownItem:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.dropdownItem svg {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+/* Authentication links styling */
+.authLink {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.authLink:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile responsiveness for new elements */
+@media (max-width: 768px) {
+  .userName {
+    display: none;
+  }
+
+  .dropdown {
+    right: -1rem;
+    min-width: 120px;
+  }
+
+  .userInfo {
+    padding: 0.25rem;
   }
 }
