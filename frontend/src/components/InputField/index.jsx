@@ -8,6 +8,7 @@ export const InputField = ({
   value,
   onChange,
   required = true,
+  autoComplete,
 }) => {
   return (
     <>
@@ -21,6 +22,7 @@ export const InputField = ({
           onChange={onChange}
           className={styles.input}
           required={required}
+          autoComplete={autoComplete}
         />
       </label>
     </>

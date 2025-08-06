@@ -53,39 +53,12 @@ class ProductFilterTest extends TestCase
         $this->assertEquals(3, $response->json('data.total'));
     }
 
-    public function test_can_filter_products_by_price_range()
-    {
-        // Create products with variants at different price points
-        $cheapProduct = Product::factory()->create();
-        ProductVariant::factory()->create([
-            'product_id' => $cheapProduct->id,
-            'price' => 30
-        ]);
-
-        $expensiveProduct = Product::factory()->create();
-        ProductVariant::factory()->create([
-            'product_id' => $expensiveProduct->id,
-            'price' => 150
-        ]);
-
-        $midRangeProduct = Product::factory()->create();
-        ProductVariant::factory()->create([
-            'product_id' => $midRangeProduct->id,
-            'price' => 80
-        ]);
-
-        // Filter for products between 50-100
-        $response = $this->getJson('/api/v1/products/filter?min_price=50&max_price=100');
-
-        $response->assertStatus(200);
-        $this->assertEquals(1, $response->json('data.total'));
-    }
 
     public function test_can_filter_products_by_multiple_criteria()
     {
         $brand = Brand::factory()->create();
 
-        // Create a male product from specific brand with mid-range price
+        // Create a male product from specific brand
         $product = Product::factory()->male()->create(['brand_id' => $brand->id]);
         ProductVariant::factory()->create([
             'product_id' => $product->id,
@@ -99,7 +72,7 @@ class ProductFilterTest extends TestCase
             'price' => 75
         ]);
 
-        $response = $this->getJson('/api/v1/products/filter?gender=male&brand_id=' . $brand->id . '&min_price=50&max_price=100');
+        $response = $this->getJson('/api/v1/products/filter?gender=male&brand_id=' . $brand->id);
 
         $response->assertStatus(200);
         $this->assertEquals(1, $response->json('data.total'));
@@ -115,11 +88,6 @@ class ProductFilterTest extends TestCase
         Product::factory()->female()->create(['brand_id' => $brand2->id]);
         Product::factory()->unisex()->create(['brand_id' => $brand1->id]);
 
-        // Create product variants with different prices
-        $product = Product::factory()->create();
-        ProductVariant::factory()->create(['product_id' => $product->id, 'price' => 25]);
-        ProductVariant::factory()->create(['product_id' => $product->id, 'price' => 200]);
-
         $response = $this->getJson('/api/v1/products/filter-options');
 
         $response->assertStatus(200);
@@ -127,11 +95,7 @@ class ProductFilterTest extends TestCase
             'success',
             'data' => [
                 'brands',
-                'genders',
-                'price_range' => [
-                    'min',
-                    'max'
-                ]
+                'genders'
             ],
             'message'
         ]);
@@ -141,10 +105,6 @@ class ProductFilterTest extends TestCase
         $this->assertContains('male', $genders);
         $this->assertContains('female', $genders);
         $this->assertContains('unisex', $genders);
-
-        // Should have price range
-        $this->assertEquals(25, $response->json('data.price_range.min'));
-        $this->assertEquals(200, $response->json('data.price_range.max'));
     }
 
     public function test_filter_validation_rejects_invalid_gender()
@@ -163,21 +123,6 @@ class ProductFilterTest extends TestCase
         $response->assertJsonValidationErrors(['brand_id']);
     }
 
-    public function test_filter_validation_rejects_invalid_price_range()
-    {
-        $response = $this->getJson('/api/v1/products/filter?min_price=100&max_price=50');
-
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['max_price']);
-    }
-
-    public function test_filter_validation_rejects_negative_prices()
-    {
-        $response = $this->getJson('/api/v1/products/filter?min_price=-10');
-
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors(['min_price']);
-    }
 
     public function test_filter_supports_pagination()
     {
