@@ -1,0 +1,118 @@
+.notificationCard {
+  width: 400px;
+  max-height: 500px;
+  overflow-y: auto;
+  background: white;      
+  border-radius: 8px;       
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+  margin: 0 auto;          
+}
+
+.title {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.75rem;
+}
+
+.loading {
+    color: #6b7280;
+    text-align: center;
+    padding: 2rem 0;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.empty {
+    color: #9ca3af;
+    text-align: center;
+    padding: 2rem 0;
+    margin: 0;
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+.notificationList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notificationItem {
+    padding: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: background-color 0.15s ease;
+}
+
+.notificationItem:hover {
+    background-color: #f9fafb;
+}
+
+.notificationItem:last-child {
+    border-bottom: none;
+}
+
+.notificationItem p {
+    margin: 0;
+    color: #374151;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    flex: 1;
+}
+
+.markReadButton {
+    background-color: #f3f4f6;
+    border: 1px solid #d1d5db;
+    color: #6b7280;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.375rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.markReadButton:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+    color: #4b5563;
+}
+
+.markReadButton:active {
+    transform: translateY(1px);
+}
+
+.markReadButton:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #3b82f6;
+}
+
+/* Scrollbar styling for notification list */
+.notificationList::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notificationList::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+.notificationList::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.notificationList::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}

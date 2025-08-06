@@ -33,6 +33,7 @@ export const authService = {
       if (response.data.data && response.data.data.token) {
         // Store token in localStorage
         localStorage.setItem('token', response.data.data.token);
+        console.log(response.data.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.data.user));
         
         // Set default authorization header

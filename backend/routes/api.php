@@ -58,10 +58,13 @@ Route::prefix('v1')->group(function () {
         // Checkout routes
         Route::post('/checkout', [CheckoutController::class, 'processCheckout']);
         Route::get('/checkout/summary', [CheckoutController::class, 'getCheckoutSummary']);
-        
+
         // Customer order routes
         Route::get('/orders', [CustomerOrderController::class, 'getCustomerOrders']);
         Route::get('/orders/{id}', [CustomerOrderController::class, 'getOrderDetails']);
+        Route::get('/notifications/{user_id}', [NotificationController::class, 'index']);
+        Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+        Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
     });
 
     // Product routes
@@ -80,10 +83,6 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::delete('/delete-product/{id}', [ProductsController::class, 'softDelete']);
     Route::patch('/restore-product/{id}', [ProductsController::class, 'restore']);
     Route::post('/edit-order-status/{id}', [OrderController::class, 'editStatus']);
-
-    Route::get('/notifications/{user_id}', [NotificationController::class, 'index']);
-    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
-    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
 });
 
 Route::get('/brands', [BrandController::class, 'getBrands']);
