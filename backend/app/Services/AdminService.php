@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Order; 
 use App\Events\OrderPlaced;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
+use App\Models\Product;
 
 class AdminService
 {

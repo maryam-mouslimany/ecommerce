@@ -38,8 +38,26 @@ export const CardDetails = ({ product }) => {
     setIsAddingToCart(true);
 
     try {
-      console.log('Product to add:', product);
-      addItemToLocalCart(product);
+      const selectedVariant = product.variants.find(
+        (v) => v.id === selectedVariantId
+      );
+      
+      const cartItem = {
+        id: `${product.id}-${selectedVariantId}`, // Unique ID for this product-variant combination
+        productId: product.id,
+        variantId: selectedVariantId,
+        title: product.name,
+        name: product.name,
+        price: selectedVariant.price,
+        brand: product?.brand?.name || 'Unknown',
+        size: selectedVariant?.size_ml ? `${selectedVariant.size_ml}ml` : 'N/A',
+        image: product.images?.[0]?.url || null,
+        product: product, // Keep full product reference
+        selectedVariant: selectedVariant
+      };
+      
+      console.log('Cart item to add:', cartItem);
+      addItemToLocalCart(cartItem);
       console.log('Product successfully added to cart');
       alert('Product added to cart successfully!');
     } catch (error) {

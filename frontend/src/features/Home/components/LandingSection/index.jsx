@@ -13,13 +13,24 @@ const LandingSection = () => {
           <h1>His & Hers Collection</h1>
           <h4>Distinctive fragrances for every personality</h4>
           <p>
-            Discover scents that define who you are. From bold and confident to elegant and refined, 
-            find the perfect fragrance that tells your unique story.
+            Discover scents that define who you are. From bold and confident to
+            elegant and refined, find the perfect fragrance that tells your
+            unique story.
           </p>
-          <Button label={"Explore Collection"} variant="primary" onClick={() => navigate("/products")} />
+          <Button
+            label={"Explore Collection"}
+            variant="primary"
+            onClick={() => navigate("/products")}
+          />
         </div>
         <div className={styles.img_section}>
-          <img src="/hero-image.jpg" alt="Perfume Hero" />
+          <div className={styles.mosaic}>
+            <img src="/hero-image.jpg" alt="Perfume 1" />
+            <img src="/hero-image.jpg" alt="Perfume 2" />
+            <img src="/hero-image.jpg" alt="Perfume 3" />
+            <img src="/hero-image.jpg" alt="Perfume 4" />
+            <img src="/hero-image.jpg" alt="Perfume 5" />
+          </div>
         </div>
       </div>
     </>
