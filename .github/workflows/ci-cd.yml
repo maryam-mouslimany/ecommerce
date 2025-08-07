@@ -44,7 +44,7 @@ jobs:
       
       - name: Run Laravel Tests
         run: |
-          docker exec laravel_app ./vendor/bin/phpunit --colors=always --testdox -v   
+          docker exec laravel_app ./vendor/bin/phpunit --colors=always --testdox --debug   
             
       - name: Stop Containers
         run: docker compose -f docker-compose.yml down
