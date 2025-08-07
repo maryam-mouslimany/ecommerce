@@ -6,7 +6,6 @@ import { OrderConfirmation } from "../features/OrderConfirmation/pages";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Layout from "../components/Layout";
 
-// User routes (some public, some protected)
 export const userRoutes = [
   // Public routes
   {
@@ -33,8 +32,8 @@ export const userRoutes = [
     path: "/about",
     element: <TheyPage />,
   },
-  
-  // Protected user routes (require authentication)
+
+  // Protected user routes
   {
     path: "/order-history",
     element: (

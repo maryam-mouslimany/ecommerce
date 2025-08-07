@@ -10,7 +10,6 @@ import { Modal } from "../../components/Modal";
 import Table from "../AdminProductManagement/components/Table";
 import { orderService } from "../../services/orderService";
 
-
 const AdminOrderManagement = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,27 +17,32 @@ const AdminOrderManagement = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [pagination, setPagination] = useState({ total: 0, lastPage: 1, perPage: 20 });
-  const [statusEditModal, setStatusEditModal] = useState({ isOpen: false, order: null, newStatus: "" });
+  const [pagination, setPagination] = useState({
+    total: 0,
+    lastPage: 1,
+    perPage: 20,
+  });
+  const [statusEditModal, setStatusEditModal] = useState({
+    isOpen: false,
+    order: null,
+    newStatus: "",
+  });
 
   const filters = ["All", "Pending", "Paid", "Packed", "Shipped"];
   const statusOptions = ["Pending", "Paid", "Packed", "Shipped"];
 
-  // Load orders from API
   const loadOrders = async () => {
     try {
       setLoading(true);
       setError(null);
       const response = await orderService.getOrders(activeFilter, currentPage);
-      
+
       if (response.success && response.data) {
-        // Transform the API data to match our component structure
-        const transformedOrders = response.data.data.map(order => {
-          // Format customer name
-          const customerName = order.user?.name || order.user?.email || 'Unknown Customer';
-          
-          // Format address from shipping_address object
-          let address = 'No address';
+        const transformedOrders = response.data.data.map((order) => {
+          const customerName =
+            order.user?.name || order.user?.email || "Unknown Customer";
+
+          let address = "No address";
           if (order.shipping_address) {
             const addr = order.shipping_address;
             const parts = [];
@@ -46,51 +50,51 @@ const AdminOrderManagement = () => {
             if (addr.line2) parts.push(addr.line2);
             if (addr.city) parts.push(addr.city);
             if (addr.region) parts.push(addr.region);
-            address = parts.join(', ') || 'No address';
+            address = parts.join(", ") || "No address";
           }
-          
+
           return {
             id: order.id,
             customerName: customerName,
             address: address,
-            status: order.status.charAt(0).toUpperCase() + order.status.slice(1),
+            status:
+              order.status.charAt(0).toUpperCase() + order.status.slice(1),
             total: `$${parseFloat(order.total_amount).toFixed(2)}`,
             created_at: order.created_at,
             updated_at: order.updated_at,
             user_id: order.user_id,
             shipping_address_id: order.shipping_address_id,
-            billing_address_id: order.billing_address_id
+            billing_address_id: order.billing_address_id,
           };
         });
-        
+
         setOrders(transformedOrders);
         setPagination({
           total: response.data.total,
           lastPage: response.data.last_page,
-          perPage: response.data.per_page
+          perPage: response.data.per_page,
         });
       } else {
         setOrders([]);
-        setError('No orders found');
+        setError("No orders found");
       }
     } catch (err) {
-      console.error('Failed to load orders:', err);
-      setError('Failed to load orders. Please try again.');
+      console.error("Failed to load orders:", err);
+      setError("Failed to load orders. Please try again.");
       setOrders([]);
     } finally {
       setLoading(false);
     }
   };
 
-  // Load orders on component mount and when filters change
   useEffect(() => {
     loadOrders();
   }, [activeFilter, currentPage]);
 
-  const filteredOrders = orders; // Orders are already filtered by the API
+  const filteredOrders = orders;
 
   const handleViewOrder = (orderId) => {
-    const order = orders.find(order => order.id === orderId);
+    const order = orders.find((order) => order.id === orderId);
     setSelectedOrder(order);
   };
 
@@ -98,7 +102,7 @@ const AdminOrderManagement = () => {
     setStatusEditModal({
       isOpen: true,
       order: order,
-      newStatus: order.status
+      newStatus: order.status,
     });
   };
 
@@ -106,24 +110,23 @@ const AdminOrderManagement = () => {
     if (statusEditModal.order && statusEditModal.newStatus) {
       try {
         setLoading(true);
-        await orderService.updateOrderStatus(statusEditModal.order.id, statusEditModal.newStatus);
-        
-        // Update the local state
-        setOrders(prevOrders => 
-          prevOrders.map(order => 
+        await orderService.updateOrderStatus(
+          statusEditModal.order.id,
+          statusEditModal.newStatus
+        );
+
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
             order.id === statusEditModal.order.id
               ? { ...order, status: statusEditModal.newStatus }
               : order
           )
         );
-        
+
         setStatusEditModal({ isOpen: false, order: null, newStatus: "" });
-        
-        // Optionally reload orders to ensure data consistency
-        // loadOrders();
       } catch (err) {
-        console.error('Failed to update order status:', err);
-        setError('Failed to update order status. Please try again.');
+        console.error("Failed to update order status:", err);
+        setError("Failed to update order status. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -131,20 +134,23 @@ const AdminOrderManagement = () => {
   };
 
   const columns = [
-    { header: 'Order Id', key: 'id' },
-    { header: 'Customer Name', key: 'customerName' },
-    { header: 'Address', key: 'address' },
-    { header: 'Total', key: 'total' },
-    { header: 'Status', render: (order) => <StatusLabel status={order.status} /> },
+    { header: "Order Id", key: "id" },
+    { header: "Customer Name", key: "customerName" },
+    { header: "Address", key: "address" },
+    { header: "Total", key: "total" },
     {
-      header: 'Actions',
+      header: "Status",
+      render: (order) => <StatusLabel status={order.status} />,
+    },
+    {
+      header: "Actions",
       render: (order) => (
-        <ActionButtons 
+        <ActionButtons
           onView={() => handleViewOrder(order.id)}
           onEditStatus={() => handleEditStatus(order)}
         />
-      )
-    }
+      ),
+    },
   ];
 
   if (loading && orders.length === 0) {
@@ -171,7 +177,9 @@ const AdminOrderManagement = () => {
           </div>
           <div className={styles.error}>
             <p>{error}</p>
-            <button onClick={loadOrders} className={styles.retryButton}>Retry</button>
+            <button onClick={loadOrders} className={styles.retryButton}>
+              Retry
+            </button>
           </div>
         </main>
       </div>
@@ -188,12 +196,12 @@ const AdminOrderManagement = () => {
           </div>
 
           <div className={styles.controls}>
-            <FilterBar 
+            <FilterBar
               filters={filters}
               activeFilter={activeFilter}
               onFilterChange={(filter) => {
                 setActiveFilter(filter);
-                setCurrentPage(1); // Reset to first page when filter changes
+                setCurrentPage(1);
               }}
             />
           </div>
@@ -201,7 +209,9 @@ const AdminOrderManagement = () => {
           {error && (
             <div className={styles.errorBanner}>
               <p>{error}</p>
-              <button onClick={loadOrders} className={styles.retryButton}>Retry</button>
+              <button onClick={loadOrders} className={styles.retryButton}>
+                Retry
+              </button>
             </div>
           )}
 
@@ -210,7 +220,7 @@ const AdminOrderManagement = () => {
             <Table columns={columns} data={filteredOrders} />
           </div>
 
-          <Pagination 
+          <Pagination
             currentPage={currentPage}
             totalPages={pagination.lastPage}
             onPageChange={setCurrentPage}
@@ -224,31 +234,59 @@ const AdminOrderManagement = () => {
         order={selectedOrder}
       />
 
-      <Modal isOpen={statusEditModal.isOpen} onClose={() => setStatusEditModal({ isOpen: false, order: null, newStatus: "" })}>
+      <Modal
+        isOpen={statusEditModal.isOpen}
+        onClose={() =>
+          setStatusEditModal({ isOpen: false, order: null, newStatus: "" })
+        }
+      >
         <div className={styles.statusEditModal}>
           <h3>Edit Order Status</h3>
           <div className={styles.modalContent}>
-            <p><strong>Order ID:</strong> {statusEditModal.order?.id}</p>
-            <p><strong>Customer:</strong> {statusEditModal.order?.customerName}</p>
-            <p><strong>Current Status:</strong> <StatusLabel status={statusEditModal.order?.status} /></p>
-            
+            <p>
+              <strong>Order ID:</strong> {statusEditModal.order?.id}
+            </p>
+            <p>
+              <strong>Customer:</strong> {statusEditModal.order?.customerName}
+            </p>
+            <p>
+              <strong>Current Status:</strong>{" "}
+              <StatusLabel status={statusEditModal.order?.status} />
+            </p>
+
             <div className={styles.statusSelectContainer}>
               <label htmlFor="statusSelect">New Status:</label>
               <select
                 id="statusSelect"
                 value={statusEditModal.newStatus}
-                onChange={(e) => setStatusEditModal(prev => ({ ...prev, newStatus: e.target.value }))}
+                onChange={(e) =>
+                  setStatusEditModal((prev) => ({
+                    ...prev,
+                    newStatus: e.target.value,
+                  }))
+                }
                 className={styles.statusSelect}
               >
                 {statusOptions.map((option) => (
-                  <option key={option} value={option}>{option}</option>
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
-          
+
           <div className={styles.modalActions}>
-            <button className={styles.cancelButton} onClick={() => setStatusEditModal({ isOpen: false, order: null, newStatus: "" })}>
+            <button
+              className={styles.cancelButton}
+              onClick={() =>
+                setStatusEditModal({
+                  isOpen: false,
+                  order: null,
+                  newStatus: "",
+                })
+              }
+            >
               Cancel
             </button>
             <button className={styles.saveButton} onClick={handleSaveStatus}>

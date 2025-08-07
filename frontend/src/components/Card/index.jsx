@@ -10,6 +10,9 @@ import { useAuth } from "../../contexts/AuthContext";
 export const Card = ({ title, price, onViewMore, product }) => {
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
+  
+  // Debug: Log the product data structure
+  console.log('Card component product data:', product);
 
   const handleAddToCart = () => {
     console.log('handleAddToCart called');
@@ -24,10 +27,14 @@ export const Card = ({ title, price, onViewMore, product }) => {
 
     console.log('User is authenticated, proceeding with add to cart');
     const productData = {
-      id: product?.id || Date.now(), // fallback ID if product object not available
+      id: product?.id || Date.now(),
       title,
       price,
-      image: perfumeImg // using default image for now
+      image: perfumeImg,
+      // Add complete product information for cart
+      brand: product?.brand?.name || 'Unknown',
+      size: product?.variants?.[0]?.size_ml ? `${product.variants[0].size_ml}ml` : 'N/A',
+      product: product // Store full product object for future reference
     };
     
     console.log('Product data to add:', productData);
@@ -46,6 +53,23 @@ export const Card = ({ title, price, onViewMore, product }) => {
       <img src={perfumeImg} alt="Perfume" className={styles.image} />
       <div className={styles.content}>
         <h2 className={styles.title}>{title}</h2>
+        
+        {/* Brand Information */}
+        <div className={styles.info}>
+          <Caption 
+            caption={`Brand: ${product?.brand?.name || 'Unknown'}`} 
+            variant="small"
+          />
+        </div>
+        
+        {/* Size Information */}
+        <div className={styles.info}>
+          <Caption 
+            caption={`Size: ${product?.variants?.[0]?.size_ml ? `${product.variants[0].size_ml}ml` : 'N/A'}`}
+            variant="small"
+          />
+        </div>
+        
         <Caption variant="big" caption={price} />
         <div className={styles.actions}>
           <Button
