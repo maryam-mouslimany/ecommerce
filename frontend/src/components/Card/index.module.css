@@ -36,6 +36,12 @@
   background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
 }
 
+.info {
+  margin: 0.25rem 0;
+  opacity: 0.8;
+  font-size: 0.875rem;
+}
+
 .title {
   font-size: 1.25rem;
   font-weight: 600;

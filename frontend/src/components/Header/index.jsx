@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { FaShoppingCart, FaChevronDown } from "react-icons/fa";
 import { LuBellRing } from "react-icons/lu";
-import { MdLogout, MdHistory } from "react-icons/md";
+import { MdLogout, MdHistory, MdDashboard } from "react-icons/md";
 import authService from "../../services/authService";
 import { getLocalCartItemCount } from "../../services/cartService";
 import NotificationModal from "../../features/Notification/components/NotificationModal";
@@ -19,8 +19,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  
-   useEffect(() => {
+  useEffect(() => {
     if (!user) {
       setNotificationCount(0);
       return;
@@ -140,20 +139,31 @@ const Header = () => {
                     <CgProfile className={styles.profileIcon} />
                     <span className={styles.userName}>Hi, {user.name}</span>
                     <FaChevronDown
-                      className={`${styles.dropdownArrow} ${showDropdown ? styles.rotated : ""
-                        }`}
+                      className={`${styles.dropdownArrow} ${
+                        showDropdown ? styles.rotated : ""
+                      }`}
                     />
                   </div>
 
                   {showDropdown && (
                     <div className={styles.dropdown}>
-                      <Link
-                        to="/order-history"
-                        className={styles.dropdownItem}
-                        onClick={() => setShowDropdown(false)}
-                      >
-                        <MdHistory /> History
-                      </Link>
+                      {user.role === "admin" ? (
+                        <Link
+                          to="/admin/orders"
+                          className={styles.dropdownItem}
+                          onClick={() => setShowDropdown(false)}
+                        >
+                          <MdDashboard /> Dashboard
+                        </Link>
+                      ) : (
+                        <Link
+                          to="/order-history"
+                          className={styles.dropdownItem}
+                          onClick={() => setShowDropdown(false)}
+                        >
+                          <MdHistory /> History
+                        </Link>
+                      )}
                       <button
                         className={styles.dropdownItem}
                         onClick={handleLogout}
@@ -175,14 +185,15 @@ const Header = () => {
                 </li>
 
                 <li className={styles.cartIconContainer}>
-                  <Link  className={styles.cartLink}>
-                    <LuBellRing onClick={() => setIsNotificationOpen(true)}/>
+                  <Link className={styles.cartLink}>
+                    <LuBellRing onClick={() => setIsNotificationOpen(true)} />
                     {notificationCount > 0 && (
-                      <span className={styles.cartBadge}>{notificationCount}</span>
+                      <span className={styles.cartBadge}>
+                        {notificationCount}
+                      </span>
                     )}
                   </Link>
                 </li>
-
               </>
             ) : (
               <>

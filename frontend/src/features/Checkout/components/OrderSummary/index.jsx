@@ -35,8 +35,8 @@ export const OrderSummary = ({ onCheckout, loading: checkoutLoading = false }) =
         return {
           id: item.id,
           name: item.title || item.name || 'Unknown Product',
-          brand: "Unknown", // Default brand since we don't store it in localStorage
-          size: "N/A", // Default size since we don't store it in localStorage
+          brand: item.brand || 'Unknown', // Use stored brand information
+          size: item.size || 'N/A', // Use stored size information
           price: parsedPrice,
           quantity: item.quantity || 1,
           image: item.image,

@@ -78,3 +78,29 @@
     font-size: 1rem;
   }
 }
+
+.mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, 200px); /* 2 columns of 200px */
+  grid-template-rows: repeat(3, 200px); /* 3 rows of 200px */
+  gap: 20px; /* Slightly larger gap for spacing */
+  transform: rotate(-5deg);
+}
+
+.mosaic img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.mosaic img:nth-child(2n) {
+  transform: rotate(5deg);
+}
+
+.mosaic img:hover {
+  transform: scale(1.05);
+  z-index: 1;
+}

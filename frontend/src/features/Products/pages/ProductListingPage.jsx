@@ -48,7 +48,7 @@ export const ProductListingPage = () => {
 
   const handleApplyFilters = (newFilters) => {
     setFilters(newFilters);
-    setPage(1); // Reset to first page when filters change
+    setPage(1);
   };
 
   const handlePageChange = (newPage) => {
@@ -62,7 +62,6 @@ export const ProductListingPage = () => {
       setSelectedProduct(response.data);
     } catch (error) {
       console.error("Failed to fetch product details", error);
-      // Fallback to basic product data
       setSelectedProduct(product);
     } finally {
       setLoadingProduct(false);
@@ -71,24 +70,29 @@ export const ProductListingPage = () => {
 
   return (
     <div>
-      <div className={styles.parentContainer}>
-        <FilterComponent onApply={handleApplyFilters} options={filterOptions} />
-      </div>
       {loading ? (
         <div className={styles.loading}>Loading products...</div>
       ) : (
         <>
-          <div className={styles.container}>
-            {products.map((product) => (
-              <Card
-                key={product.id}
-                title={product.name}
-                price={`$${product.variants[0]?.price || "N/A"}`}
-                onViewMore={() => handleViewMore(product)}
-                product={product}
-              />
-            ))}
+          <div className={styles.parentContainer}>
+            <FilterComponent
+              onApply={handleApplyFilters}
+              options={filterOptions}
+            />
+
+            <div className={styles.container}>
+              {products.map((product) => (
+                <Card
+                  key={product.id}
+                  title={product.name}
+                  price={`$${product.variants[0]?.price || "N/A"}`}
+                  onViewMore={() => handleViewMore(product)}
+                  product={product}
+                />
+              ))}
+            </div>
           </div>
+
           <Pagination
             currentPage={page}
             totalPages={totalPages}
@@ -96,6 +100,7 @@ export const ProductListingPage = () => {
           />
         </>
       )}
+
       <Modal
         isOpen={!!selectedProduct}
         onClose={() => setSelectedProduct(null)}
