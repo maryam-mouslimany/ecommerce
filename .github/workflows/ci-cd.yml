@@ -1,0 +1,50 @@
+name: Docker LaraReact CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Images
+        run: docker compose -f docker-compose.yml build
+
+      - name: Prepare CI Environment (.env)
+        run: |
+          cp backend/.env.example backend/.env
+          sed -i "s|__APP_KEY__|${{ secrets.APP_KEY }}|g" backend/.env
+          sed -i "s|__DB_DATABASE__|${{ secrets.DB_DATABASE }}|g" backend/.env
+          sed -i "s|__DB_USERNAME__|${{ secrets.DB_USERNAME }}|g" backend/.env
+          sed -i "s|__DB_PASSWORD__|${{ secrets.DB_PASSWORD }}|g" backend/.env
+          sed -i "s|__JWT_SECRET__|${{ secrets.JWT_SECRET }}|g" backend/.env
+
+      - name: Start Containers
+        run: |
+          docker compose -f docker-compose.yml up -d
+          docker ps
+          sleep 15
+          
+      - name: Install Composer Dependencies
+        run: docker exec laravel_app composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Run Migrations & Seed
+        run: |
+          docker exec laravel_app php artisan migrate:fresh --seed --force
+      
+      - name: Run Laravel Tests
+        run: |
+          docker exec laravel_app ./vendor/bin/phpunit --colors=always --testdox --debug   
+            
+      - name: Stop Containers
+        run: docker compose -f docker-compose.yml down

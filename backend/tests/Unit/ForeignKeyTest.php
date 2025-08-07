@@ -53,21 +53,40 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * Helper method to check if a foreign key exists using database-agnostic approach
+     * Helper method to check if a foreign key exists using SQLite pragma
      */
     private function assertForeignKeyExists(string $table, string $column, string $referencedTable, string $referencedColumn): void
     {
-        // Simply check that both tables and columns exist
-        $this->assertTrue(Schema::hasTable($table), "Table {$table} should exist");
-        $this->assertTrue(Schema::hasTable($referencedTable), "Referenced table {$referencedTable} should exist");
-        $this->assertTrue(Schema::hasColumn($table, $column), "Column {$table}.{$column} should exist");
-        $this->assertTrue(Schema::hasColumn($referencedTable, $referencedColumn), "Referenced column {$referencedTable}.{$referencedColumn} should exist");
-        
-        // For foreign key relationships, we'll just verify the schema structure
-        $this->assertTrue(true, "Foreign key relationship {$table}.{$column} -> {$referencedTable}.{$referencedColumn} structure verified");
+        $database = env('DB_DATABASE');
+
+        $foreignKeys = DB::select("
+            SELECT 
+                COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
+            FROM 
+                information_schema.KEY_COLUMN_USAGE
+            WHERE 
+                TABLE_SCHEMA = ? AND
+                TABLE_NAME = ? AND
+                REFERENCED_TABLE_NAME IS NOT NULL
+        ", [$database, $table]);
+
+        $foreignKeyExists = false;
+        foreach ($foreignKeys as $foreignKey) {
+            if (
+                $foreignKey->COLUMN_NAME === $column &&
+                $foreignKey->REFERENCED_TABLE_NAME === $referencedTable &&
+                $foreignKey->REFERENCED_COLUMN_NAME === $referencedColumn
+            ) {
+                $foreignKeyExists = true;
+                break;
+            }
+        }
+
+        $this->assertTrue(
+            $foreignKeyExists,
+            "Foreign key from {$table}.{$column} to {$referencedTable}.{$referencedColumn} should exist"
+        );
     }
-
-
 
     /**
      * Test that indexes exist on foreign key columns
@@ -97,12 +116,25 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * Helper method to check if an index exists using database-agnostic approach
+     * Helper method to check if an index exists using SQLite pragma
      */
     private function assertIndexExists(string $table, string $column): void
     {
-        // For testing purposes, we'll just verify the column exists
-        // In production, proper indexes should be defined in migrations
-        $this->assertTrue(Schema::hasColumn($table, $column), "Column {$table}.{$column} should exist for indexing");
+        $database = env('DB_DATABASE');
+
+        $indexes = DB::select("
+            SELECT 
+                COLUMN_NAME
+            FROM 
+                information_schema.STATISTICS
+            WHERE 
+                TABLE_SCHEMA = ? AND
+                TABLE_NAME = ? AND
+                COLUMN_NAME = ?
+        ", [$database, $table, $column]);
+
+        $indexExists = count($indexes) > 0;
+
+        $this->assertTrue($indexExists, "Index on {$table}.{$column} should exist");
     }
 }
