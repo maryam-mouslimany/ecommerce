@@ -7,15 +7,42 @@ import { LuBellRing } from "react-icons/lu";
 import { MdLogout, MdHistory, MdDashboard } from "react-icons/md";
 import authService from "../../services/authService";
 import { getLocalCartItemCount } from "../../services/cartService";
+import NotificationModal from "../../features/Notification/components/NotificationModal";
+import { getUserNotifications } from "../../services/notificationService";
 
 const Header = () => {
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  // Check if user is logged in and listen for changes
+  useEffect(() => {
+    if (!user) {
+      setNotificationCount(0);
+      return;
+    }
+
+    const fetchNotificationCount = async () => {
+      try {
+        const notifications = await getUserNotifications(user.id);
+        setNotificationCount(notifications.length);
+      } catch (error) {
+        console.error("Failed to fetch notifications count:", error);
+        setNotificationCount(0);
+      }
+    };
+
+    fetchNotificationCount();
+
+    // Optional: Poll every 30 seconds to refresh count
+    const interval = setInterval(fetchNotificationCount, 30000);
+
+    return () => clearInterval(interval);
+  }, [user]);
+  // Check if user is logged in
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
     setUser(currentUser);
@@ -28,34 +55,27 @@ const Header = () => {
     return unsubscribe;
   }, []);
 
-  // Update cart item count (optimized - no polling)
+  // Update cart item count
   useEffect(() => {
     const updateCartCount = () => {
       setCartItemCount(getLocalCartItemCount());
     };
 
-    // Initial count on component mount
-    updateCartCount();
+    updateCartCount(); // Initial count
 
-    // Listen for storage changes (when other tabs modify cart)
+    // Listen for storage changes
     const handleStorageChange = (e) => {
-      if (e.key === "cart") {
-        updateCartCount();
-      }
+      if (e.key === "cart") updateCartCount();
     };
 
     window.addEventListener("storage", handleStorageChange);
 
-    // Listen for custom cart update events (same-tab changes)
-    const handleCartUpdate = () => {
-      updateCartCount();
-    };
-    
-    window.addEventListener("cartUpdated", handleCartUpdate);
+    // Periodically check for same-tab changes
+    const interval = setInterval(updateCartCount, 1000);
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("cartUpdated", handleCartUpdate);
+      clearInterval(interval);
     };
   }, []);
 
@@ -68,9 +88,7 @@ const Header = () => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLogout = async () => {
@@ -84,9 +102,7 @@ const Header = () => {
     }
   };
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
+  const toggleDropdown = () => setShowDropdown(!showDropdown);
 
   return (
     <div className={styles.header}>
@@ -116,21 +132,8 @@ const Header = () => {
         <div className={styles.second_menu}>
           <ul>
             {user ? (
-              // Authenticated user menu
               <>
-                <li className={styles.cartIconContainer}>
-                  <Link to="/checkout" className={styles.cartLink}>
-                    <FaShoppingCart />
-                    {cartItemCount > 0 && (
-                      <span className={styles.cartBadge}>{cartItemCount}</span>
-                    )}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/notifications">
-                    <LuBellRing />
-                  </Link>
-                </li>
+                {/* Profile Section */}
                 <li className={styles.profileSection} ref={dropdownRef}>
                   <div className={styles.userInfo} onClick={toggleDropdown}>
                     <CgProfile className={styles.profileIcon} />
@@ -144,7 +147,7 @@ const Header = () => {
 
                   {showDropdown && (
                     <div className={styles.dropdown}>
-                      {user.role === 'admin' ? (
+                      {user.role === "admin" ? (
                         <Link
                           to="/admin/orders"
                           className={styles.dropdownItem}
@@ -170,9 +173,29 @@ const Header = () => {
                     </div>
                   )}
                 </li>
+
+                {/* Cart Icon */}
+                <li className={styles.cartIconContainer}>
+                  <Link to="/checkout" className={styles.cartLink}>
+                    <FaShoppingCart />
+                    {cartItemCount > 0 && (
+                      <span className={styles.cartBadge}>{cartItemCount}</span>
+                    )}
+                  </Link>
+                </li>
+
+                <li className={styles.cartIconContainer}>
+                  <Link className={styles.cartLink}>
+                    <LuBellRing onClick={() => setIsNotificationOpen(true)} />
+                    {notificationCount > 0 && (
+                      <span className={styles.cartBadge}>
+                        {notificationCount}
+                      </span>
+                    )}
+                  </Link>
+                </li>
               </>
             ) : (
-              // Guest user menu
               <>
                 <li>
                   <Link to="/login" className={styles.authLink}>
@@ -189,6 +212,14 @@ const Header = () => {
           </ul>
         </div>
       </div>
+
+      {/* Notification Modal */}
+      <NotificationModal
+        isOpen={isNotificationOpen}
+        onClose={() => setIsNotificationOpen(false)}
+        userId={user?.id}
+        onCountChange={setNotificationCount}
+      />
     </div>
   );
 };
