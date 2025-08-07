@@ -53,9 +53,48 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * Helper method to check if a foreign key exists using SQLite pragma
+     * Helper method to check if a foreign key exists (database agnostic)
      */
     private function assertForeignKeyExists(string $table, string $column, string $referencedTable, string $referencedColumn): void
+    {
+        $driver = DB::connection()->getDriverName();
+        
+        if ($driver === 'sqlite') {
+            $this->assertForeignKeyExistsSQLite($table, $column, $referencedTable, $referencedColumn);
+        } else {
+            $this->assertForeignKeyExistsMySQL($table, $column, $referencedTable, $referencedColumn);
+        }
+    }
+
+    /**
+     * Check foreign key exists in SQLite using pragma
+     */
+    private function assertForeignKeyExistsSQLite(string $table, string $column, string $referencedTable, string $referencedColumn): void
+    {
+        $foreignKeys = DB::select("PRAGMA foreign_key_list({$table})");
+        
+        $foreignKeyExists = false;
+        foreach ($foreignKeys as $foreignKey) {
+            if (
+                $foreignKey->from === $column &&
+                $foreignKey->table === $referencedTable &&
+                $foreignKey->to === $referencedColumn
+            ) {
+                $foreignKeyExists = true;
+                break;
+            }
+        }
+
+        $this->assertTrue(
+            $foreignKeyExists,
+            "Foreign key from {$table}.{$column} to {$referencedTable}.{$referencedColumn} should exist"
+        );
+    }
+
+    /**
+     * Check foreign key exists in MySQL using information_schema
+     */
+    private function assertForeignKeyExistsMySQL(string $table, string $column, string $referencedTable, string $referencedColumn): void
     {
         $database = env('DB_DATABASE');
 
@@ -116,9 +155,44 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * Helper method to check if an index exists using SQLite pragma
+     * Helper method to check if an index exists (database agnostic)
      */
     private function assertIndexExists(string $table, string $column): void
+    {
+        $driver = DB::connection()->getDriverName();
+        
+        if ($driver === 'sqlite') {
+            $this->assertIndexExistsSQLite($table, $column);
+        } else {
+            $this->assertIndexExistsMySQL($table, $column);
+        }
+    }
+
+    /**
+     * Check index exists in SQLite using pragma
+     */
+    private function assertIndexExistsSQLite(string $table, string $column): void
+    {
+        $indexes = DB::select("PRAGMA index_list({$table})");
+        
+        $indexExists = false;
+        foreach ($indexes as $index) {
+            $indexInfo = DB::select("PRAGMA index_info({$index->name})");
+            foreach ($indexInfo as $info) {
+                if ($info->name === $column) {
+                    $indexExists = true;
+                    break 2;
+                }
+            }
+        }
+
+        $this->assertTrue($indexExists, "Index on {$table}.{$column} should exist");
+    }
+
+    /**
+     * Check index exists in MySQL using information_schema
+     */
+    private function assertIndexExistsMySQL(string $table, string $column): void
     {
         $database = env('DB_DATABASE');
 
