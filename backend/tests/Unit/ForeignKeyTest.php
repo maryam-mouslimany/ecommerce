@@ -57,25 +57,15 @@ class ForeignKeyTest extends TestCase
      */
     private function assertForeignKeyExists(string $table, string $column, string $referencedTable, string $referencedColumn): void
     {
-        $database = env('DB_DATABASE');
-
-        $foreignKeys = DB::select("
-            SELECT 
-                COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
-            FROM 
-                information_schema.KEY_COLUMN_USAGE
-            WHERE 
-                TABLE_SCHEMA = ? AND
-                TABLE_NAME = ? AND
-                REFERENCED_TABLE_NAME IS NOT NULL
-        ", [$database, $table]);
+        // Use SQLite's PRAGMA foreign_key_list to get foreign key information
+        $foreignKeys = DB::select("PRAGMA foreign_key_list({$table})");
 
         $foreignKeyExists = false;
         foreach ($foreignKeys as $foreignKey) {
             if (
-                $foreignKey->COLUMN_NAME === $column &&
-                $foreignKey->REFERENCED_TABLE_NAME === $referencedTable &&
-                $foreignKey->REFERENCED_COLUMN_NAME === $referencedColumn
+                $foreignKey->from === $column &&
+                $foreignKey->table === $referencedTable &&
+                $foreignKey->to === $referencedColumn
             ) {
                 $foreignKeyExists = true;
                 break;
@@ -120,20 +110,20 @@ class ForeignKeyTest extends TestCase
      */
     private function assertIndexExists(string $table, string $column): void
     {
-        $database = env('DB_DATABASE');
-
-        $indexes = DB::select("
-            SELECT 
-                COLUMN_NAME
-            FROM 
-                information_schema.STATISTICS
-            WHERE 
-                TABLE_SCHEMA = ? AND
-                TABLE_NAME = ? AND
-                COLUMN_NAME = ?
-        ", [$database, $table, $column]);
-
-        $indexExists = count($indexes) > 0;
+        // Use SQLite's PRAGMA index_list to get index information
+        $indexes = DB::select("PRAGMA index_list({$table})");
+        
+        $indexExists = false;
+        foreach ($indexes as $index) {
+            // Get the columns for each index
+            $indexInfo = DB::select("PRAGMA index_info({$index->name})");
+            foreach ($indexInfo as $columnInfo) {
+                if ($columnInfo->name === $column) {
+                    $indexExists = true;
+                    break 2; // Break out of both loops
+                }
+            }
+        }
 
         $this->assertTrue($indexExists, "Index on {$table}.{$column} should exist");
     }
